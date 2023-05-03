@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter , Routes , Route } from 'react-router-dom';
 
 import Main from './Main';
+//----------------------- 이경석 ---------------------------------//
+import Messenger from './messenger/messenger';
 
 /*
     react-router-dom 다양한 라우터 컴포넌트 제공
@@ -20,6 +22,7 @@ export default function Index( props ){
 
             <Routes>
                 <Route path="/" element={ <Main /> } />
+                <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
             </Routes>
 
          </BrowserRouter>
