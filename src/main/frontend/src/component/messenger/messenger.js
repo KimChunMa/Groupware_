@@ -24,19 +24,56 @@ export default function Messenger(props){
                 <div className="left_header">
                     <div className="order_chat">채팅 ▼</div>
                     <div className="create_chat">
-                        <FontAwesomeIcon icon={faComments} size="xm" />
+                        <FontAwesomeIcon icon={faComments} size="2x" />
                     </div> {/*방만들기 아이콘*/}
                 </div>  {/* header e */}
 
                 <div className="left_content">
-                    <div className="left_content_img"> 채팅방 이미지 </div>
+                    <div className="chat_room">
+                        <div className="chat_room_left">
+                            <div className="left_content_img"> 채팅방 이미지 </div>
 
-                    <div className="msg">
-                        <div className="chat_name"> 채팅이름 </div>
-                        <div className="msg_text"> 최근 메세지 </div>
+                            <div className="msg">
+                                <div className="chat_name"> 채팅이름 </div>
+                                <div className="msg_text"> 최근 메세지 </div>
+                            </div>
+                        </div>
+
+                        <div className="chat_room_right">
+                            <div className="msg_date"> 2023.03.03 </div>
+                        </div>
                     </div>
 
-                    <div className="msg_date"> 2023.03.03 </div>
+                    <div className="chat_room">
+                        <div className="chat_room_left">
+                            <div className="left_content_img"> 채팅방 이미지 </div>
+
+                            <div className="msg">
+                                <div className="chat_name"> 채팅이름 </div>
+                                <div className="msg_text"> 최근 메세지 </div>
+                            </div>
+                        </div>
+
+                        <div className="chat_room_right">
+                            <div className="msg_date"> 2023.03.03 </div>
+                        </div>
+                    </div>
+
+                    <div className="chat_room">
+                        <div className="chat_room_left">
+                            <div className="left_content_img"> 채팅방 이미지 </div>
+
+                            <div className="msg">
+                                <div className="chat_name"> 채팅이름 </div>
+                                <div className="msg_text"> 최근 메세지 </div>
+                            </div>
+                        </div>
+
+                        <div className="chat_room_right">
+                            <div className="msg_date"> 2023.03.03 </div>
+                        </div>
+                    </div>
+
                 </div>  {/* left_content e */}
             </div> {/* left e */}
 
