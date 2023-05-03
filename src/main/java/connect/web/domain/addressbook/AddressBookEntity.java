@@ -1,14 +1,14 @@
 package connect.web.domain.addressbook;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import connect.web.domain.member.MemberEntity;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
+@Builder
 @Table( name = "addressbook")
 public class AddressBookEntity {
 
@@ -19,7 +19,15 @@ public class AddressBookEntity {
     @Column private String addr_name;
     @Column private String addr_phone;
     @Column private String addr_email;
-    @Column private int group_no;
-    @Column private int reg_member_no;
+
+    @ManyToOne
+    @JoinColumn( name = "group_no")
+    @ToString.Exclude
+    private AddressGroupEntity addressGroupEntity;
+
+    @ManyToOne
+    @JoinColumn( name = "member_no")
+    @ToString.Exclude
+    private MemberEntity memberEntity;
 
 }

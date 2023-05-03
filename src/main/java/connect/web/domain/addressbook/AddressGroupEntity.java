@@ -1,13 +1,15 @@
 package connect.web.domain.addressbook;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import connect.web.domain.member.MemberEntity;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
+@Builder
 @Table( name = "address_group")
 public class AddressGroupEntity {
 
@@ -17,8 +19,15 @@ public class AddressGroupEntity {
 
     @Column private String group_name;
     @Column private char group_type;
-    @Column private int reg_member_no;
 
+    @ManyToOne
+    @JoinColumn( name = "member_no")
+    @ToString.Exclude
+    private MemberEntity memberEntity;
+
+    @OneToMany( mappedBy = "addressGroupEntity")
+    @Builder.Default
+    private List<AddressBookEntity> addressBookEntityList = new ArrayList<>();
 
 
 }

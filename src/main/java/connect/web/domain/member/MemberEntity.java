@@ -1,13 +1,16 @@
 package connect.web.domain.member;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import connect.web.domain.addressbook.AddressBookEntity;
+import connect.web.domain.addressbook.AddressGroupEntity;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
+@Builder
 @Table( name = "member")
 public class MemberEntity {
 
@@ -22,7 +25,19 @@ public class MemberEntity {
     @Column private String member_email;
     @Column private String member_profile;
     @Column private char member_rank;
-    @Column private int part_no;
+
+    @ManyToOne
+    @JoinColumn( name = "part_no")
+    @ToString.Exclude
+    private PartEntity partEntity;
+
+    @OneToMany( mappedBy = "memberEntity" )
+    @Builder.Default
+    private List<AddressGroupEntity> addressGroupEntityList = new ArrayList<>();
+
+    @OneToMany( mappedBy = "memberEntity" )
+    @Builder.Default
+    private List<AddressBookEntity> addressBookEntityList = new ArrayList<>();
 
 
 }
