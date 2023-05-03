@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class BoardDto {
-    private int bno;
-    private String btitle;
-    private String bcontent;
-    private String bdate;
-    private int bview;
+    private int board_no;
+    private String board_title;
+    private String board_content;
+    private String board_date;
+    private int board_view;
 
-    private int mno;
+    private int member_no;
     private int part_no;
 }
