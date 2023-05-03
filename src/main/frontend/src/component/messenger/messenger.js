@@ -19,6 +19,7 @@ export default function Messenger(props){
     return(
     <div className="container">
         <div className="wrap">
+
             <div className="left">
                 <div className="left_header">
                     <div className="order_chat">채팅 ▼</div>
@@ -37,8 +38,8 @@ export default function Messenger(props){
 
                     <div className="msg_date"> 2023.03.03 </div>
                 </div>  {/* left_content e */}
-
             </div> {/* left e */}
+
 
             <div className="center">
                 <div className="header">
@@ -48,6 +49,7 @@ export default function Messenger(props){
                  채팅방
                 </div>
             </div> {/* center e */}
+
 
             <div className="right">
                 오른쪽
