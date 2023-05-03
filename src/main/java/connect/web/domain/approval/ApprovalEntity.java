@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder
+@Table( name = "approval")
 public class ApprovalEntity {
 
 
