@@ -5,8 +5,8 @@ import Main from './Main';
 
 import Header from './Header';
 
-
-
+// ---------------------- 김동혁 ---------------------------------//
+import List from './board/List';
 //----------------------- 이경석 ---------------------------------//
 import Messenger from './messenger/messenger';
 
@@ -30,6 +30,7 @@ export default function Index( props ){
             <Routes>
                 <Route path="/" element={ <Main /> } />
                 <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
+                <Route path="/list" element={ <List /> } /> {/*김동혁 */}
             </Routes>
 
          </BrowserRouter>

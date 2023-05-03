@@ -1,8 +1,4 @@
-*{
-    border:1px solid red;
-    padding:0px;
-    margin:0px;
-}
+
 /* 전체를 감싸는 div */
 .container{
     width:100%;
