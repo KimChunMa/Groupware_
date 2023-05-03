@@ -1,14 +1,19 @@
 import React , { useState , useEffect } from 'react';
 import axios from 'axios';
 import '../css/messenger/messenger.css';
-import { comments } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/regular-fontawesome"
 
-/* 폰트 어썸
+
+/* ------------------------폰트 어썸--------------------------
 npm i --save @fortawesome/fontawesome-svg-core
 npm install --save @fortawesome/free-solid-svg-icons
 npm install --save @fortawesome/react-fontawesome
+npm i @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-brands-svg-icons
+npm i @fortawesome/react-fontawesome
 */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+//     {사용할 아이콘(카라멜)} from "@fortawesome/free-(regular, solid)-svg-icons";
+import { faComments } from "@fortawesome/free-regular-svg-icons";
+
 
 export default function Messenger(props){
     return(
@@ -18,7 +23,7 @@ export default function Messenger(props){
                 <div className="left_header">
                     <div className="order_chat">채팅 ▼</div>
                     <div className="create_chat">
-                    <FontAwesomeIcon icon="fa-regular fa-comments" />
+                        <FontAwesomeIcon icon={faComments} size="xm" />
                     </div> {/*방만들기 아이콘*/}
                 </div>  {/* header e */}
 
@@ -45,6 +50,7 @@ export default function Messenger(props){
             </div> {/* center e */}
 
             <div className="right">
+                오른쪽
             </div> {/* right e */}
 
 
