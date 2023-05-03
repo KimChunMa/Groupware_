@@ -1,5 +1,4 @@
 *{
-    border:1px solid red;
     padding:0px;
     margin:0px;
 }
@@ -10,6 +9,9 @@
     display: flex;
     justify-content: center;
     margin-top: 120px;
+}
+.container * {
+    border:1px solid red;
 }
 
 /* 메신저 전체*/
