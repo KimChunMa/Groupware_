@@ -6,8 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
 @Entity@Table(name="reply")
-@Data@NoArgsConstructor@AllArgsConstructor@Builder
+@Data @NoArgsConstructor@AllArgsConstructor@Builder
 public class ReplyEntity extends BaseTime{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reply_no;

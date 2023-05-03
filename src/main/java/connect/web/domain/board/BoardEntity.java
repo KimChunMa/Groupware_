@@ -8,7 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
-/*
+
 @Entity @Table(name="board")
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class BoardEntity extends BaseTime {
@@ -29,4 +29,4 @@ public class BoardEntity extends BaseTime {
     @ToString.Exclude
     private PartEntity partEntity;
 }
-*/
+
