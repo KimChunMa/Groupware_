@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing // 2023-05-03 / domain-messenger / BaseTime 적용하기 위함
+@EnableJpaAuditing
 public class AppStart {
     public static void main(String[] args) {
         SpringApplication.run( AppStart.class );

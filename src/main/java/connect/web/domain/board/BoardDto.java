@@ -15,4 +15,12 @@ public class BoardDto {
 
     private int member_no;
     private int part_no;
+
+    public BoardEntity toBoardEntity(){
+        return BoardEntity.builder()
+                .board_title(this.board_title)
+                .board_content(this.board_content)
+                .build();
+    }
+
 }
