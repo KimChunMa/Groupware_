@@ -2,6 +2,7 @@ package connect.web.domain.member;
 
 import connect.web.domain.addressbook.AddressBookEntity;
 import connect.web.domain.addressbook.AddressGroupEntity;
+import connect.web.domain.board.BoardEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,6 +39,10 @@ public class MemberEntity {
     @OneToMany( mappedBy = "memberEntity" )
     @Builder.Default
     private List<AddressBookEntity> addressBookEntityList = new ArrayList<>();
+
+    @OneToMany( mappedBy = "memberEntity" )
+    @Builder.Default
+    private List<BoardEntity> boardEntityList = new ArrayList<>();
 
 
 }

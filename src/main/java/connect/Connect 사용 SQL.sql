@@ -106,8 +106,8 @@ create table ChatMessages (                                	# 채팅 메세지 �
 	timestamp datetime default now(),                       # 메세지 보낸 시간
     member_no_fk int,                                       # 보낸사람의 ID (fk) 
     chat_room_id int,                                       # 채팅방 ID (fk) 
-    msg_type varchar(5),                              		# 메시지타입 동영상 mv , 파일이면 file, 메시지msg
-    file_path longtext,
+    msg_type varchar(5),                              		# 메시지타입 동영상 mv , 파일이면 file, 메시지msg , img
+    file_path longtext,                                     # 파일 경로
 	foreign key (member_no_fk) references member(member_no),
     foreign key (chat_room_id) references ChatRooms(id)
 );
