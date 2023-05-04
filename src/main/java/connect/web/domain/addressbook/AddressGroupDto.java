@@ -1,4 +1,4 @@
 package connect.web.domain.addressbook;
 
-public class AddressbookDto {
+public class AddressGroupDto {
 }
