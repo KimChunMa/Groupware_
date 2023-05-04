@@ -9,12 +9,12 @@ import java.util.List;
 
 @Data@NoArgsConstructor@AllArgsConstructor@Builder
 public class ReplyDto {
-    private int reply_no;
-    private String reply_content;
-    private String reply_date;
-    private int board_no;
+    private int replyNo;
+    private String replyContent;
+    private String replyDate;
+    private int boardNo;
 
-    private int member_no;
-    private String member_name;
+    private int memberNo;
+    private String memberName;
 
 }
