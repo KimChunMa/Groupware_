@@ -11,7 +11,7 @@ import javax.persistence.*;
 //메세지 테이블
 public class ChatMessagesEntity extends BaseTime {  // 메세지 생성날짜를 전달받기위함
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     private int chatMessages_id; //메세지 고유 번호, 자동증가
 
     @Column

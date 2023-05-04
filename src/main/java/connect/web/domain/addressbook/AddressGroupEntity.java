@@ -10,18 +10,18 @@ import java.util.List;
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder
-@Table( name = "address_group")
+@Table( name = "addressGroup")
 public class AddressGroupEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int group_no;
+    private int groupNo;
 
-    @Column private String group_name;
-    @Column private char group_type;
+    @Column private String groupName;
+    @Column private char groupType;
 
     @ManyToOne
-    @JoinColumn( name = "member_no")
+    @JoinColumn( name = "memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity;
 

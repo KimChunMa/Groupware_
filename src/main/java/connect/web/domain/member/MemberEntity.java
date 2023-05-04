@@ -19,18 +19,18 @@ public class MemberEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int member_no;
+    private int memberNo;
 
-    @Column private String member_id;
-    @Column private String member_pwd;
-    @Column private String member_name;
-    @Column private String member_phone;
-    @Column private String member_email;
-    @Column private String member_profile;
-    @Column private char member_rank;
+    @Column private String memberId;
+    @Column private String memberPwd;
+    @Column private String memberName;
+    @Column private String memberPhone;
+    @Column private String memberEmail;
+    @Column private String memberProfile;
+    @Column private char memberRank;
 
     @ManyToOne
-    @JoinColumn( name = "part_no")
+    @JoinColumn( name = "partNo")
     @ToString.Exclude
     private PartEntity partEntity;
 

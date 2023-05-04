@@ -14,19 +14,19 @@ public class AddressBookEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int addr_no ;
+    private int addrNo ;
 
-    @Column private String addr_name;
-    @Column private String addr_phone;
-    @Column private String addr_email;
+    @Column private String addrName;
+    @Column private String addrPhone;
+    @Column private String addrEmail;
 
     @ManyToOne
-    @JoinColumn( name = "group_no")
+    @JoinColumn( name = "groupNo")
     @ToString.Exclude
     private AddressGroupEntity addressGroupEntity;
 
     @ManyToOne
-    @JoinColumn( name = "member_no")
+    @JoinColumn( name = "memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity;
 

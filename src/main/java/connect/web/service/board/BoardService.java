@@ -29,7 +29,7 @@ public class BoardService {
         log.info("Part boardDto : " + boardDto);
         PartEntity entity = partEntityRepository.save(boardDto.toPartEntity());
         // 2. 만일 생성된 엔티티의 pk값이 1보다 크면 성공
-        if(entity.getPart_no()>=1){return true;}
+        if(entity.getPartNo()>=1){return true;}
         return false;
     }
     
@@ -38,7 +38,7 @@ public class BoardService {
         List<PartEntity> partEntityList = partEntityRepository.findAll();
         List<PartDto> list = new ArrayList<>();
         partEntityList.forEach((e)->{
-            list.add(new PartDto(e.getPart_no() , e.getPart_name()));
+            list.add(new PartDto(e.getPartNo() , e.getPartName()));
         }); return list;
     }
 }
