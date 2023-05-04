@@ -5,6 +5,12 @@ import Main from './Main';
 
 import Header from './Header';
 
+// ---------------------- 김동혁 ---------------------------------//
+import List from './board/List';
+import Write from './board/Write';
+import PartBoard from './board/PartBoard';
+// -------------- 멤버 --------------- //
+import AddMember from './member/AddMember';
 
 
 //----------------------- 이경석 ---------------------------------//
@@ -31,9 +37,14 @@ export default function Index( props ){
             <Header />
 
             <Routes>
+                { /* 멤버 */ }
+                <Route path="/member/addmember" element={ <AddMember /> } />
                 <Route path="/" element={ <Main /> } />
                 <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
                 <Route path="/approval" element={ <Approval /> } /> {/*백한결 */}
+                <Route path="/list" element={ <List /> } /> {/*김동혁 */}
+                <Route path="/write" element={ <Write /> } /> {/*김동혁 */}
+                <Route path="/partboard" element={ <PartBoard /> } /> {/*김동혁 */}
             </Routes>
 
          </BrowserRouter>
