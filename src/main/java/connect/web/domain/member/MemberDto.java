@@ -10,14 +10,14 @@ import java.util.UUID;
 @AllArgsConstructor @NoArgsConstructor @Builder
 public class MemberDto {
 
-    private int member_no;
-    private String member_id;
-    private String member_pwd;
-    private String member_name;
-    private String member_phone;
-    private String member_email;
-    private MultipartFile member_profile;
-    private char member_rank;
+    private int memberNo;
+    private String memberId;
+    private String memberPwd;
+    private String memberName;
+    private String memberPhone;
+    private String memberEmail;
+    private MultipartFile memberProfile;
+    private char memberRank;
 
     // ----------------------------------------------------------------
 
@@ -25,13 +25,13 @@ public class MemberDto {
 
     public MemberEntity toEntity () {
         return MemberEntity.builder()
-                .member_id( this.member_id )
-                .member_pwd( this.member_pwd )
-                .member_name( this.member_name )
-                .member_phone( this.member_phone )
-                .member_email( this.member_email )
-                .member_rank( this.member_rank )
-                .member_profile( this.member_profile.getOriginalFilename() )
+                .memberId( this.memberId )
+                .memberPwd( this.memberPwd )
+                .memberName( this.memberName )
+                .memberPhone( this.memberPhone )
+                .memberEmail( this.memberEmail )
+                .memberRank( this.memberRank )
+                .memberProfile( this.memberProfile.getOriginalFilename() )
                 .build();
     }
 }
