@@ -12,26 +12,26 @@ import javax.persistence.*;
 public class ChatMessagesEntity extends BaseTime {  // 메세지 생성날짜를 전달받기위함
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int chatMessages_id; //메세지 고유 번호, 자동증가
+    private int chatMessagesId; //메세지 고유 번호, 자동증가
 
     @Column
     private String content; // 메세지 내용
 
     @ManyToOne
-    @JoinColumn(name="member_no")
+    @JoinColumn(name="memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity; //멤버 ID
 
     @ManyToOne
-    @JoinColumn(name="chatRoom_id")
+    @JoinColumn(name="chatRoomId")
     @ToString.Exclude
     private ChatRoomsEntity chatRoomsEntity; //  채팅방 ID (fk)
 
 
     @Column
-    private String msg_type; // 파일 타입
+    private String msgType; // 파일 타입
 
     @Column
-    private String file_path; //파일 경로
+    private String filePath; //파일 경로
 
 }

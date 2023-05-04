@@ -12,16 +12,16 @@ import javax.persistence.*;
 public class ChatParticipantsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int chatParticipants_id; //채팅방 참여자 고유 번호, 자동증가
+    private int chatParticipantsId; //채팅방 참여자 고유 번호, 자동증가
 
     @ManyToOne
-    @JoinColumn(name="member_no")
+    @JoinColumn(name="memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity; //멤버 ID
 
 
     @ManyToOne
-    @JoinColumn(name="chatRoom_id")
+    @JoinColumn(name="chatRoomId")
     @ToString.Exclude
     private ChatRoomsEntity chatRoomsEntity; //  채팅방 ID (fk)
 }
