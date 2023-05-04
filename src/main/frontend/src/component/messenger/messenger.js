@@ -33,10 +33,14 @@ export default function Messenger(props){
     const create_chat = () => { setCreateChat(true);}
         //2) 방만들기
     const create = () => {
-        //3) ChatRooms dto 객체 만들기
-        let chat_room = { name:chat_title.current.value }
+        //3) ChatRooms dto 객체 만들기 !!!!!!!!!!!!!!!!!!!!!!!!
+        let chat_room = { mno:1 ,name:chat_title.current.value }
         axios.post("/chat" , chat_room )
-            .then(r => console.log(r.data))
+            .then(r => {
+                console.log(r.data);
+                if(r.data == true) {alert("방 생성 완료!");}
+                else{alert("오류가 발생하였습니다.");}
+            })
     }
         //3) 방 나가기
     const closeModal = () => {setCreateChat(false);}

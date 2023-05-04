@@ -16,18 +16,18 @@ public class ChatRoomsEntity extends BaseTime { // 채팅방 생성날짜를 전
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int chatRoom_id; //채팅방 고유 번호, 자동증가
+    private int chatRoomId; //채팅방 고유 번호, 자동증가
 
     @Column
     private String name; //채팅방 이름
 
     @ManyToOne
-    @JoinColumn(name="member_no")
+    @JoinColumn(name="memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity; //방주인
 
     public ChatRoomsDto toDto(){
-        return ChatRoomsDto.builder().chatRoom_id(this.chatRoom_id)
+        return ChatRoomsDto.builder().chatRoomId(this.chatRoomId)
                 .name(this.name)
                 .cdate(
                         this.cdate.toLocalDate().toString().equals(LocalDateTime.now().toLocalDate().toString())?
