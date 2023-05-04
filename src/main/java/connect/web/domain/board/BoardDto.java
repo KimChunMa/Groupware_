@@ -1,5 +1,6 @@
 package connect.web.domain.board;
 
+import connect.web.domain.member.PartEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,11 @@ public class BoardDto {
 
     private int member_no;
     private int part_no;
+    private String part_name;
+
+    public PartEntity toPartEntity(){
+        return PartEntity.builder().part_name(this.part_name).build();
+    }
 
     public BoardEntity toBoardEntity(){
         return BoardEntity.builder()
