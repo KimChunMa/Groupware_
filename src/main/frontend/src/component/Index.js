@@ -8,6 +8,7 @@ import Header from './Header';
 // ---------------------- 김동혁 ---------------------------------//
 import List from './board/List';
 import Write from './board/Write';
+import PartBoard from './board/PartBoard';
 //----------------------- 이경석 ---------------------------------//
 import Messenger from './messenger/messenger';
 
@@ -33,6 +34,7 @@ export default function Index( props ){
                 <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
                 <Route path="/list" element={ <List /> } /> {/*김동혁 */}
                 <Route path="/write" element={ <Write /> } /> {/*김동혁 */}
+                <Route path="/partboard" element={ <PartBoard /> } /> {/*김동혁 */}
             </Routes>
 
          </BrowserRouter>
