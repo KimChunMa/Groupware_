@@ -5,6 +5,8 @@ import Main from './Main';
 
 import Header from './Header';
 
+// -------------- 멤버 --------------- //
+import AddMember from './member/AddMember';
 
 
 //----------------------- 이경석 ---------------------------------//
@@ -28,6 +30,8 @@ export default function Index( props ){
             <Header />
 
             <Routes>
+                { /* 멤버 */ }
+                <Route path="/member/addmember" element={ <AddMember /> } />
                 <Route path="/" element={ <Main /> } />
                 <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
             </Routes>
