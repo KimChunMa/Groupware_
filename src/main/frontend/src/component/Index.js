@@ -9,6 +9,10 @@ import Header from './Header';
 import List from './board/List';
 import Write from './board/Write';
 import PartBoard from './board/PartBoard';
+// -------------- 멤버 --------------- //
+import AddMember from './member/AddMember';
+
+
 //----------------------- 이경석 ---------------------------------//
 import Messenger from './messenger/messenger';
 
@@ -30,6 +34,8 @@ export default function Index( props ){
             <Header />
 
             <Routes>
+                { /* 멤버 */ }
+                <Route path="/member/addmember" element={ <AddMember /> } />
                 <Route path="/" element={ <Main /> } />
                 <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
                 <Route path="/list" element={ <List /> } /> {/*김동혁 */}

@@ -3,6 +3,8 @@ package connect.web.domain.member;
 import connect.web.domain.addressbook.AddressBookEntity;
 import connect.web.domain.addressbook.AddressGroupEntity;
 import connect.web.domain.board.BoardEntity;
+import connect.web.domain.messenger.ChatMessagesEntity;
+import connect.web.domain.messenger.ChatParticipantsEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,5 +46,12 @@ public class MemberEntity {
     @Builder.Default
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 
+    @OneToMany( mappedBy = "memberEntity" )
+    @Builder.Default
+    private List<ChatMessagesEntity> chatMessagesEntities = new ArrayList<>();
+
+    @OneToMany( mappedBy = "memberEntity")
+    @Builder.Default
+    private List<ChatParticipantsEntity> chatParticipantsEntities = new ArrayList<>();
 
 }
