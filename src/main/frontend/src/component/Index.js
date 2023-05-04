@@ -10,6 +10,9 @@ import Header from './Header';
 //----------------------- 이경석 ---------------------------------//
 import Messenger from './messenger/messenger';
 
+//-----------------------백한결 [2023-05-04]----------------------------------//
+import Approval from './approval/approval';
+
 /*
     react-router-dom 다양한 라우터 컴포넌트 제공
     1. <BrowserRouter>  : 가상 URL 관리 [ 브라우저 URL 동기화 ]
@@ -30,6 +33,7 @@ export default function Index( props ){
             <Routes>
                 <Route path="/" element={ <Main /> } />
                 <Route path="/messenger" element={ <Messenger /> } /> {/*이경석 */}
+                <Route path="/approval" element={ <Approval /> } /> {/*백한결 */}
             </Routes>
 
          </BrowserRouter>

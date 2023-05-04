@@ -1,5 +1,4 @@
 *{
-    border:1px solid red;
     padding:0px;
     margin:0px;
 }
@@ -12,6 +11,9 @@
     margin-top: 120px;
 }
 
+.container * {
+     border:1px solid red;
+}
 /* 메신저 전체*/
 .wrap{
     width:90%;
