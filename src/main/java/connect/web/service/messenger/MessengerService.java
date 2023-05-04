@@ -2,10 +2,7 @@ package connect.web.service.messenger;
 
 import connect.web.domain.member.MemberEntity;
 import connect.web.domain.member.MemberEntityRepository;
-import connect.web.domain.messenger.ChatParticipantsEntity;
-import connect.web.domain.messenger.ChatRoomsDto;
-import connect.web.domain.messenger.ChatRoomsEntity;
-import connect.web.domain.messenger.ChatRoomsEntityRepository;
+import connect.web.domain.messenger.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +14,11 @@ public class MessengerService {
 
     @Autowired
     ChatRoomsEntityRepository chatRoomsEntityRepository;
+    @Autowired
+    ChatParticipantsEntityRepository chatParticipantsEntityRepository;
+
+    @Autowired
+    ChatMessagesEntityRepository chatMessagesEntityRepository;
     @Autowired
     MemberEntityRepository memberEntityRepository;
 
@@ -42,9 +44,7 @@ public class MessengerService {
         //chatParticipants DB 입력
         ChatParticipantsEntity chatParticipantsEntity = new ChatParticipantsEntity();
         chatParticipantsEntity.setChatRoomsEntity(chatRoomsEntity);
-        System.out.println("----------------");
-        System.out.println(chatParticipantsEntity);
-        chatRoomsEntityRepository.save(chatRoomsEntity);
+        chatParticipantsEntityRepository.save(chatParticipantsEntity);
 
     return true;
     }
