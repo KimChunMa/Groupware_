@@ -1,6 +1,7 @@
 package connect.web.domain.messenger;
 
 import connect.web.domain.BaseTime;
+import connect.web.domain.member.MemberEntity;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +20,11 @@ public class ChatRoomsEntity extends BaseTime { // 채팅방 생성날짜를 전
 
     @Column
     private String name; //채팅방 이름
+
+    @ManyToOne
+    @JoinColumn(name="member_no")
+    @ToString.Exclude
+    private MemberEntity memberEntity; //방주인
 
     public ChatRoomsDto toDto(){
         return ChatRoomsDto.builder().chatRoom_id(this.chatRoom_id)
