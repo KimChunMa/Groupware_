@@ -13,19 +13,19 @@ import javax.persistence.*;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class BoardEntity extends BaseTime {
     @Id @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int board_no;
-    @Column(nullable = false) private String board_title;
-    @Column(columnDefinition = "longtext") private String board_content;
+    private int boardNo;
+    @Column(nullable = false) private String boardTitle;
+    @Column(columnDefinition = "longtext") private String boardContent;
     @Column @ColumnDefault("0")
-    private int board_view;
+    private int boardView;
 
     @ManyToOne
-    @JoinColumn(name="member_no")
+    @JoinColumn(name="memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity;
 
     @ManyToOne
-    @JoinColumn(name="part_no")
+    @JoinColumn(name="partNo")
     @ToString.Exclude
     private PartEntity partEntity;
 }

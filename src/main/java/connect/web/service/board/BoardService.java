@@ -25,7 +25,7 @@ public class BoardService {
 
     // 1. [김동혁] 부서 등록
     public boolean partWrite(@RequestBody BoardDto boardDto){
-        // 1. 입력받은 part_name을 DTO에서 entity로 바꾸고 save
+        // 1. 입력받은 partName을 DTO에서 entity로 바꾸고 save
         log.info("Part boardDto : " + boardDto);
         PartEntity entity = partEntityRepository.save(boardDto.toPartEntity());
         // 2. 만일 생성된 엔티티의 pk값이 1보다 크면 성공

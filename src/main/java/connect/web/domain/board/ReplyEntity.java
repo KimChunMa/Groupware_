@@ -11,14 +11,14 @@ import javax.persistence.*;
 @Data @NoArgsConstructor@AllArgsConstructor@Builder
 public class ReplyEntity extends BaseTime{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reply_no;
+    private int replyNo;
     @Column
-    private String reply_content;
+    private String replyContent;
     // 작성자 fk
-    @ManyToOne @JoinColumn(name="member_no") @ToString.Exclude
+    @ManyToOne @JoinColumn(name="memberNo") @ToString.Exclude
     private MemberEntity memberEntity;
     // 게시물fk
-    @ManyToOne @JoinColumn(name="board_no") @ToString.Exclude
+    @ManyToOne @JoinColumn(name="boardNo") @ToString.Exclude
     private BoardEntity boardEntity;
 
 
