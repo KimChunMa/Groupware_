@@ -22,7 +22,7 @@ export default function AddMember( props ) {
     const addMember = () => {
         console.log('addMember');
         console.log( memberInfo.current );
-        console.log( memberInfo.current.member_id.value );
+        console.log( memberInfo.current.memberId.value );
 
         let formData = new FormData( memberInfo.current );
 
@@ -37,6 +37,7 @@ export default function AddMember( props ) {
         setRank(event.target.value);
     };
     const handleChangePart = (event: SelectChangeEvent) => {
+        console.log(event.target.value);
         setPart(event.target.value);
     };
 
@@ -51,7 +52,7 @@ export default function AddMember( props ) {
                               value={ part }
                               label="부서"
                               onChange={ handleChangePart }
-                              name="member_rank"
+                              name="partNo"
                             >
                               <MenuItem value={1}> 기술운영 </MenuItem>
                               <MenuItem value={2}> 영업 </MenuItem>
