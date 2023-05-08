@@ -17,4 +17,9 @@ public class LoginCotroller {
         return loginService.login( memberDto );
     }
 
+    @GetMapping("/login")
+    public MemberDto loginInfo() {
+        return loginService.loginInfo();
+    }
+
 }

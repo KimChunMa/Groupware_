@@ -54,4 +54,16 @@ public class MemberEntity {
     @Builder.Default
     private List<ChatParticipantsEntity> chatParticipantsEntities = new ArrayList<>();
 
+    public MemberDto toDto() {
+        return MemberDto.builder()
+                .memberNo( this.memberNo )
+                .memberName( this.memberName )
+                .memberPhone( this.memberPhone )
+                .memberEmail( this.memberEmail )
+                .memberRank( this.memberRank )
+                .partNo( this.partEntity.getPartNo() )
+                .build();
+    }
+
+
 }
