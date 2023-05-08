@@ -34,7 +34,6 @@ public class MemberService {
             }
         }
 
-
         // 2. 데이터 저장 후 controller return
         return false;
     }
