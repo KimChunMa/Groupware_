@@ -54,7 +54,7 @@ public class MessengerService {
     return true;
     }
 
-    //2.본인이 속한방 출력
+    //2.본인이 속한 채팅방 출력
     public List<ChatRoomsDto> printChat (){
         //로그인 회원 id 추출
         MemberEntity memberEntity = memberEntityRepository.findById(1).get();
