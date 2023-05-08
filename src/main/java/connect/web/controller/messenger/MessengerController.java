@@ -1,14 +1,12 @@
 package connect.web.controller.messenger;
 
 import connect.web.domain.messenger.ChatMessagesDto;
-import connect.web.domain.messenger.ChatMessagesEntity;
 import connect.web.domain.messenger.ChatRoomsDto;
 import connect.web.service.messenger.MessengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/chat")

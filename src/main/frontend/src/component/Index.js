@@ -60,7 +60,7 @@ export default function Index( props ){
                    <Route path="/write" element={<Write />} />
                    <Route path="/partboard" element={<PartBoard />} />
 
-             </Route>
+            </Route>
 
            </Routes>
          </BrowserRouter>
