@@ -19,6 +19,9 @@
    border:1px solid red;
 }
 
+.container * {
+     border:1px solid red;
+}
 /* 메신저 전체*/
 .wrap{
     width:100%;

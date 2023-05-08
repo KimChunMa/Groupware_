@@ -17,11 +17,17 @@ public class PartEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int part_no;
+    private int partNo;
 
-    @Column private String part_name;
+    @Column private String partName;
+
     // ↓ 필요해서 임시로 썼습니다ㅎㅎ 지우셔도 대용
     @OneToMany(mappedBy = "partEntity")
     @Builder.Default
     private List<BoardEntity> boardEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "partEntity")
+    @Builder.Default
+    private List<MemberEntity>  memberEntityList = new ArrayList<>();
+
 }

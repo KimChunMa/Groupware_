@@ -22,7 +22,7 @@ export default function AddMember( props ) {
     const addMember = () => {
         console.log('addMember');
         console.log( memberInfo.current );
-        console.log( memberInfo.current.member_id.value );
+        console.log( memberInfo.current.memberId.value );
 
         let formData = new FormData( memberInfo.current );
 
@@ -37,6 +37,7 @@ export default function AddMember( props ) {
         setRank(event.target.value);
     };
     const handleChangePart = (event: SelectChangeEvent) => {
+        console.log(event.target.value);
         setPart(event.target.value);
     };
 
@@ -51,7 +52,7 @@ export default function AddMember( props ) {
                               value={ part }
                               label="부서"
                               onChange={ handleChangePart }
-                              name="member_rank"
+                              name="partNo"
                             >
                               <MenuItem value={1}> 기술운영 </MenuItem>
                               <MenuItem value={2}> 영업 </MenuItem>
@@ -61,14 +62,14 @@ export default function AddMember( props ) {
                         </FormControl>
                     </div>
                     <div className="addMember-itemBox">
-                        <TextField label="사원명" type="text" className="input_name" name="member_name"/>
+                        <TextField label="사원명" type="text" className="input_name" name="memberName"/>
                         <FormControl className="input_rank">
                             <InputLabel> 직급 </InputLabel>
                             <Select
                               value={ rank }
                               label="직급"
                               onChange={ handleChange }
-                              name="member_rank"
+                              name="memberRank"
                             >
                               <MenuItem value={1}> 사원 </MenuItem>
                               <MenuItem value={2}> 주임 </MenuItem>
@@ -82,18 +83,18 @@ export default function AddMember( props ) {
                         </FormControl>
                     </div>
                     <div className="addMember-itemBox">
-                        <TextField label="아이디" type="text" className="input_id" name="member_id" />
-                        <TextField label="패스워드" type="password" className="input_pwd" name="member_pwd" />
+                        <TextField label="아이디" type="text" className="input_id" name="memberId" />
+                        <TextField label="패스워드" type="password" className="input_pwd" name="memberPwd" />
                     </div>
                     <div className="addMember-itemBox">
-                        <TextField label="연락처" type="text" className="input_phone" name="member_phone" />
+                        <TextField label="연락처" type="text" className="input_phone" name="memberPhone" />
                     </div>
                     <div className="addMember-itemBox">
-                        <TextField label="이메일" type="text" className="input_email" name="member_email" />
+                        <TextField label="이메일" type="text" className="input_email" name="memberEmail" />
                     </div>
                     <div className="addMember-itemBox imgBox">
                         <div className="input_btn_box">
-                            <TextField type="file" className="input_profile" name="member_profile" />
+                            <TextField type="file" className="input_profile" name="memberProfile" />
                             <div className="btnBox">
                                 <Button variant="contained" onClick={ addMember }> 등록 </Button>
                                 <Button variant="outlined"> 취소 </Button>
