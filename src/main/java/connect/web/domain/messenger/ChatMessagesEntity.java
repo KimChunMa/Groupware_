@@ -34,4 +34,14 @@ public class ChatMessagesEntity extends BaseTime {  // 메세지 생성날짜를
     @Column
     private String filePath; //파일 경로
 
+    public ChatMessagesDto toDto(){
+        return ChatMessagesDto.builder()
+                .chatMessagesId(this.chatMessagesId)
+                .content(this.content)
+                .memberNo(this.memberEntity.getMemberNo())
+                .chatRoomId(this.chatRoomsEntity.getChatRoomId())
+                .msgType(this.msgType)
+                .filePath(this.filePath).build();
+    }
+
 }

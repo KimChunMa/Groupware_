@@ -1,8 +1,6 @@
 package connect.web.domain.messenger;
 
-
 import lombok.*;
-
 
 @Data@Builder
 @NoArgsConstructor@AllArgsConstructor
