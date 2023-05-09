@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 
@@ -12,11 +13,14 @@ import java.util.Optional;
 @Service
 public class MemberService {
 
+
+
     @Autowired MemberEntityRepository memberEntityRepository;
     @Autowired PartEntityRepository partEntityRepository;
 
+
     // 1. 회원 등록하기
-    public boolean add( MemberDto memberDto ){
+    public boolean add( MemberDto memberDto){
         
         // 1. 입력된 partNo 로 엔티티 찾기
         Optional<PartEntity> optionalPartEntity = partEntityRepository.findById( memberDto.getPartNo() );
