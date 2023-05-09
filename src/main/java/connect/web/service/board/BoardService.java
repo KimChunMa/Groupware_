@@ -23,30 +23,36 @@ import java.util.Optional;
 @Slf4j
 public class BoardService {
 
-    @Autowired private BoardEntityRepository boardEntityRepository;
-    @Autowired private PartEntityRepository partEntityRepository;
-    @Autowired private MemberEntityRepository memberEntityRepository;
+    @Autowired
+    private BoardEntityRepository boardEntityRepository;
+    @Autowired
+    private PartEntityRepository partEntityRepository;
+    @Autowired
+    private MemberEntityRepository memberEntityRepository;
 
     // 1. [김동혁] 부서 등록
-    public boolean partWrite(@RequestBody BoardDto boardDto){
+    public boolean partWrite(@RequestBody BoardDto boardDto) {
         // 1. 입력받은 partName을 DTO에서 entity로 바꾸고 save
         log.info("Part boardDto : " + boardDto);
         PartEntity entity = partEntityRepository.save(boardDto.toPartEntity());
         // 2. 만일 생성된 엔티티의 pk값이 1보다 크면 성공
-        if(entity.getPartNo()>=1){return true;}
+        if (entity.getPartNo() >= 1) {
+            return true;
+        }
         return false;
     }
-    
+
     // 2. [김동혁] 게시물 쓰기를 위한 부서 출력
-    public List<PartDto> partList(){
+    public List<PartDto> partList() {
         List<PartEntity> partEntityList = partEntityRepository.findAll();
         List<PartDto> list = new ArrayList<>();
-        partEntityList.forEach((e)->{
-            list.add(new PartDto(e.getPartNo() , e.getPartName()));
-        }); return list;
+        partEntityList.forEach((e) -> {
+            list.add(new PartDto(e.getPartNo(), e.getPartName()));
+        });
+        return list;
     }
-
-    // 3. [김동혁] 게시글 쓰기
+}
+    /*// 3. [김동혁] 게시글 쓰기
     @Autowired
     private HttpServletRequest request;
     @Transactional
@@ -58,4 +64,4 @@ public class BoardService {
         // 2.
         Object o = (Object)request.getSession().getAttribute("login");
         // int memberNo = memberEntityRepository.findByMemberId()
-    }
+    }*/

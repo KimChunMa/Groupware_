@@ -11,7 +11,7 @@ export default function Write(props) {
         let info = {
             boardTitle : document.querySelector("#boardTitle").value,
             boardContent : document.querySelector("#boardTitle").value,
-            partNo : partNo
+            //partNo : partNo
         }
         console.log(info)
     }
