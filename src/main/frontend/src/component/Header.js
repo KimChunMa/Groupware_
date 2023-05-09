@@ -15,5 +15,6 @@ export default function Header( props ) {
         {/*백한결*/}
         <a href="/reportconfirm">  서류상태확인페이지 </a>
 
+        <a href="/"> LOGIN </a>
     </>);
 }

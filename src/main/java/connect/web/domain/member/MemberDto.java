@@ -18,6 +18,7 @@ public class MemberDto {
     private String memberEmail;
     private MultipartFile memberProfile;
     private char memberRank;
+    private int partNo;
 
     // ----------------------------------------------------------------
 
@@ -32,6 +33,9 @@ public class MemberDto {
                 .memberEmail( this.memberEmail )
                 .memberRank( this.memberRank )
                 .memberProfile( this.memberProfile.getOriginalFilename() )
+                .partEntity( PartEntity.builder()
+                            .partNo( this.partNo )
+                            .build() )
                 .build();
     }
 }
