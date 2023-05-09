@@ -12,7 +12,7 @@ export default function PartList(props){
     // 1. 부서 목록/리스트
     let [list , setList] = useState([]);
     useEffect(()=>{
-        axios.get('/board/category/list')
+        axios.get('/board/part/list')
             .then(r=>{setList(r.data)});
     },[])
 
@@ -29,7 +29,6 @@ export default function PartList(props){
             <InputLabel id="demo-simple-select-label">부서</InputLabel>
             <Select value={part} label="부서" onChange={handleChange}>
                 <MenuItem value={0}>전체보기</MenuItem>
-
                 {  /* 서버로 부터 받은 파트 리스트를 반복해서 출력 */ }
                 {
                     list.map((p)=>{
