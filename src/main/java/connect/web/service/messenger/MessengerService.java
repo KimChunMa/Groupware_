@@ -41,14 +41,19 @@ public class MessengerService {
         if(memberEntity != null){  return false;  }
 
 */
-
         //chatRooms DB 입력
         ChatRoomsEntity chatRoomsEntity = chatRoomsDto.toEntity();
+        //테스트용
+        MemberEntity memberEntity = MemberEntity.builder().memberNo(1).build();
+
+        //chatRooms의 member
+        chatRoomsEntity.setMemberEntity(memberEntity);
         chatRoomsEntityRepository.save(chatRoomsEntity);
 
         //chatParticipants DB 입력
         ChatParticipantsEntity chatParticipantsEntity = new ChatParticipantsEntity();
         chatParticipantsEntity.setChatRoomsEntity(chatRoomsEntity);
+        chatParticipantsEntity.setMemberEntity(memberEntity);
         chatParticipantsEntityRepository.save(chatParticipantsEntity);
 
     return true;
@@ -56,18 +61,20 @@ public class MessengerService {
 
     //2.본인이 속한 채팅방 출력
     public List<ChatRoomsDto> printChat (){
-        //로그인 회원 id 추출
+        //로그인 회원 id 추출 테스트용
         MemberEntity memberEntity = memberEntityRepository.findById(1).get();
 
-        // 자신이 속한 채팅방 번호(Id) 찾기
+        // 자신이 속한 채팅방 번호(Id) 찾기 (ChatParticipantsEntity)
         List<ChatParticipantsEntity> chatParticipantsEntityList =
             chatParticipantsEntityRepository.findByMemberNo(memberEntity.getMemberNo());
 
         // 채팅방 리스트 넣기
         List<ChatRoomsDto> chatRoomsDtoList = new ArrayList<>();
 
+        // 자신이 속한 채팅방의 번호를 모두 리스트에 넣기
         chatParticipantsEntityList.forEach( (o)-> {
-            chatRoomsDtoList.add(o.getChatRoomsEntity().toDto());
+            chatRoomsDtoList.add(chatRoomsEntityRepository.findByChatRoomId(o.getChatRoomsEntity()
+                    .getChatRoomId()).toDto());
         });
         return chatRoomsDtoList;
     }

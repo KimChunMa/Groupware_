@@ -2,6 +2,9 @@ import React , { useState , useEffect , useRef } from 'react';
 import axios from 'axios';
 import '../css/messenger/messenger.css';
 
+/* ------------------------ mui ------------------------------*/
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 /* ------------------------폰트 어썸--------------------------
 npm i --save @fortawesome/fontawesome-svg-core
@@ -15,35 +18,54 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faComments } from "@fortawesome/free-regular-svg-icons";
 
 
+
 export default function Messenger(props){
-    // 방 만들기 모달 용
-    let [createChat, setCreateChat] = useState(false);
+    // 0.방 만들기 모달 용
+    const [modal, setModal] = useState(false);
+
+    // 1-1.채팅방만들시 사용할 제목
+    const [title, setTitle] = useState("");
+
+    // 1-2.채팅방 배열
+    const [chatRooms , SetChatRooms] = useState([]);
+
 
     //메세지 출력창
-    let [msgContent, setMsgContent ] = useState([]);
+    const [msgContent, setMsgContent ] = useState([]);
+
+
 
     //채팅 입력창 DOM 객체 제어 변수
     let msgInput = useRef(null);
 
-    // 채팅방만들시 사용할 제목
-    let chat_title = useRef(null);
-
-    //1. 방만들기 (멤버 id는 어디에 얻어야하는지? MessengerService + messenger)
-        //1) 방만드는 아이콘 클릭시 19번 useState 변경
-    const create_chat = () => { setCreateChat(true);}
-        //2) 방만들기
+    // 1-1. 방만들기 (멤버 id는 어디에 얻어야하는지? MessengerService + messenger)
+        //1) 방만드는 아이콘 클릭시 모달나오게하기
+    const create_chat = () => { setModal(true);}
+        //2) TextField 값 가져오기
+    const titleChange = (event) => { setTitle(event.target.value); }
+        //3) 전달하기
     const create = () => {
-        //3) ChatRooms dto 객체 만들기 !!!!!!!!!!!!!!!!!!!!!!!!
-        let chat_room = { mno:1 ,name:chat_title.current.value }
-        axios.post("/chat" , chat_room )
+        let chat_room = {  name:title }
+        axios.post("/chat" , {params : {name:title}})
             .then(r => {
-                console.log(r.data);
-                if(r.data == true) {alert("방 생성 완료!");}
-                else{alert("오류가 발생하였습니다.");}
+                if(r.data == true) {
+                alert("방 생성 완료!");setModal(false);
+                document.querySelector('#title_input').value ="";
+                }else{alert("오류가 발생하였습니다.");}
             })
     }
-        //3) 방 나가기
-    const closeModal = () => {setCreateChat(false);}
+        //3) 모달 나가기
+    const closeModal = () => {setModal(false);}
+
+    // 1-2. 채팅방 출력하기
+    useEffect(()=>{
+        axios.get("/chat")
+            .then(r=> {console.log(r);
+            SetChatRooms([...r.data]);
+            })
+    },[])
+
+    console.log(chatRooms);
 
 
     return(<>
@@ -51,6 +73,7 @@ export default function Messenger(props){
         <div className="wrap">
         {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ left ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */}
             <div className="left">
+                {/* 왼쪽 상단 부분*/}
                 <div className="header">
                     <div className="order_chat">채팅 ▼</div>
                     <div className="create_chat" onClick={create_chat}>
@@ -58,51 +81,26 @@ export default function Messenger(props){
                     </div> {/*방만들기 아이콘*/}
                 </div>  {/* header e */}
 
+                {/*왼쪽 중단 부분*/}
                 <div className="left_content">
-                    <div className="chat_room">
-                        <div className="chat_room_left">
-                            <div className="left_content_img"> 채팅방 이미지 </div>
 
-                            <div className="msg">
-                                <div className="chat_name"> 채팅방 이름 </div>
-                                <div className="msg_text"> 최근 메세지 </div>
+                    {chatRooms.map((o)=>(
+                        <div className="chat_room">
+                            <div className="chat_room_left">
+                                <div className="left_content_img"> 채팅방 이미지 </div>
+
+                                <div className="msg">
+                                    <div className="chat_name"> {o.name} </div>
+                                    <div className="msg_text"> 최근 메세지 </div>
+                                </div>
+                            </div>
+
+                            <div className="chat_room_right">
+                                <div className="msg_date"> 2023.03.03 </div>
                             </div>
                         </div>
-
-                        <div className="chat_room_right">
-                            <div className="msg_date"> 2023.03.03 </div>
-                        </div>
-                    </div>
-
-                    <div className="chat_room">
-                        <div className="chat_room_left">
-                            <div className="left_content_img"> 채팅방 이미지 </div>
-
-                            <div className="msg">
-                                <div className="chat_name"> 채팅이름 </div>
-                                <div className="msg_text"> 최근 메세지 </div>
-                            </div>
-                        </div>
-
-                        <div className="chat_room_right">
-                            <div className="msg_date"> 2023.03.03 </div>
-                        </div>
-                    </div>
-
-                    <div className="chat_room">
-                        <div className="chat_room_left">
-                            <div className="left_content_img"> 채팅방 이미지 </div>
-
-                            <div className="msg">
-                                <div className="chat_name"> 채팅이름 </div>
-                                <div className="msg_text"> 최근 메세지 </div>
-                            </div>
-                        </div>
-
-                        <div className="chat_room_right">
-                            <div className="msg_date"> 2023.03.03 </div>
-                        </div>
-                    </div>
+                    ))}
+                })
 
                 </div>  {/* left_content e */}
             </div> {/* left e */}
@@ -159,18 +157,18 @@ export default function Messenger(props){
         </div>
     </div>
 
-	<div className="modal_wrap" style={createChat ? {display:'block'} : {display:'none'}} >
+    {/* 모달 창*/}
+	<div className="modal_wrap" style={modal ? {display:'block'} : {display:'none'}} >
 		<div className="modal_box">
 			<h3 className="modal_title">
                 방만들기
 			</h3>
 			<div className="modal_content">
-                <div className="chat_text"> 메신저 제목 </div>
-                <input type="text" ref={chat_title} className="create_chat_input"/> <br/>
+			     <TextField onChange={titleChange} id="title_input" label="채팅방 제목" variant="standard"  />
 			</div>
 
 			<div className="modal_btns">
-				<button onClick={create} className="modal_check" 	type="button">방 생성하기</button>
+				<button  onClick={create}  className="modal_check" type="button">방 생성하기</button>
 				<button onClick={closeModal} className="modal_cencel" type="button">닫기</button>
 			</div>
 		</div>
