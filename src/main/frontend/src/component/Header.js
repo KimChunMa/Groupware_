@@ -37,6 +37,7 @@ export default function Header( props ) {
 
 
     return (<>
+
         <a href="/home"> HOME </a>
         <a href="/member/addmember"> 직원등록 </a>
         {/*이경석 링크용*/}
@@ -46,5 +47,6 @@ export default function Header( props ) {
         <a href="/list">   게시판 들가기 </a>
         <a href="/"> LOGIN </a>
         <button onClick={ logOut }> LOGOUT </button>
+
     </>);
 }
