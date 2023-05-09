@@ -45,12 +45,19 @@ public class LoginService {
         String memberId = (String)request.getSession().getAttribute("login");
 
         Optional<MemberEntity> optionalMemberEntity = memberEntityRepository.findByMemberId( memberId );
+
         if( optionalMemberEntity.isPresent() ) {
             MemberEntity memberEntity = optionalMemberEntity.get();
             return memberEntity.toDto();
         }else{
             return new MemberDto();
         }
+    }
+
+    // 로그아웃
+    public boolean logout() {
+        request.getSession().setAttribute("login" , null );
+        return true;
     }
 
 

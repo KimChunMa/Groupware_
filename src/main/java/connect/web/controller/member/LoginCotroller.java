@@ -33,4 +33,10 @@ public class LoginCotroller {
         return loginService.loginInfo();
     }
 
+    @GetMapping("/logout")
+    public boolean logout() {
+        return loginService.logout();
+    }
+
+
 }
