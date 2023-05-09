@@ -54,9 +54,11 @@ public class MemberEntity {
     @Builder.Default
     private List<ChatParticipantsEntity> chatParticipantsEntities = new ArrayList<>();
 
+    // 1. 출력용 [ 세션 ]
     public MemberDto toDto() {
         return MemberDto.builder()
                 .memberNo( this.memberNo )
+                .memberId( this.memberId )
                 .memberName( this.memberName )
                 .memberPhone( this.memberPhone )
                 .memberEmail( this.memberEmail )

@@ -10,6 +10,7 @@ export default function Header( props ) {
 
     // 로그인
     useEffect( () => {
+        console.log( )
         axios.get("/login").then( r => {
             console.log( r.data );
             setLoginInfo( r.data );
@@ -18,8 +19,8 @@ export default function Header( props ) {
 
     // 로그아웃
 
-    return (<>
 
+    return (<>
         <a href="/home"> HOME </a>
         <a href="/member/addmember"> 직원등록 </a>
         {/*이경석 링크용*/}
