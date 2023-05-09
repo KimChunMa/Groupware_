@@ -1,6 +1,7 @@
 package connect.web.domain.approval;
 
 
+import connect.web.domain.member.MemberEntity;
 import lombok.*;
 
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class ApprovalDto {
     private String approvalContent;  //내용
     private String approvalStatus;     //결재단계
     private String approvalData;     //결재날짜
-
+    private int memberNo;
 
 
     //Dto-> entity하기 (DB 저장용) => { 작성자, 제목, 내용, 결제단계 }
