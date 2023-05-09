@@ -12,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -41,4 +45,17 @@ public class BoardService {
             list.add(new PartDto(e.getPartNo() , e.getPartName()));
         }); return list;
     }
-}
+
+    // 3. [김동혁] 게시글 쓰기
+    @Autowired
+    private HttpServletRequest request;
+    @Transactional
+    public byte write(BoardDto boardDto){log.info("service write boardDto : " + boardDto);
+        // 1. 부서 엔티티 찾기
+        Optional<PartEntity> partEntityOptional = partEntityRepository.findById(boardDto.getPartNo());
+        if (!partEntityOptional.isPresent()){return 1;}
+        PartEntity partEntity = partEntityOptional.get();
+        // 2.
+        Object o = (Object)request.getSession().getAttribute("login");
+        // int memberNo = memberEntityRepository.findByMemberId()
+    }
