@@ -12,7 +12,12 @@ import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
+import PartList from './PartList';
+
 export default function List(props) {
+
+
+
     return(
     <Container>
         <div style={{display : 'flex' , justifyContent:'space-between' , alignItems:'center'}}>

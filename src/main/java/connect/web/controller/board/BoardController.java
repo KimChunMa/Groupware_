@@ -30,4 +30,11 @@ public class BoardController {
         List<PartDto> result = boardService.partList();
         return result;
     }
+
+    // 3. 게시글쓰기
+    @PostMapping("")
+    public byte write(@RequestBody BoardDto boardDto){log.info("write boardDto : " +boardDto);
+        byte result = boardService.write(boardDto);
+        return result;
+    }
 }
