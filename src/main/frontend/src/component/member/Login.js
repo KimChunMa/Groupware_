@@ -70,7 +70,7 @@ export default function Login() {
                 <LockOutlinedIcon />
             </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Connect, GruopWare
                 </Typography>
             <Box component="form" onSubmit={ handleSubmit } noValidate sx={{ mt: 1 }}>
                 <TextField
@@ -78,7 +78,7 @@ export default function Login() {
                   required
                   fullWidth
                   id="memberId"
-                  label="company id"
+                  label="COMPANY ID"
                   name="memberId"
                   ref={ memberId }
                   autoFocus
@@ -88,14 +88,10 @@ export default function Login() {
                   required
                   fullWidth
                   name="memberPwd"
-                  label="Password"
+                  label="PASSWORD"
                   type="password"
                   id="memberPwd"
                   ref={ memberPwd }
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
                 />
                 <Button
                   type="submit"
@@ -109,11 +105,6 @@ export default function Login() {
                     <Grid item xs>
                     <Link href="#" variant="body2">
                       Forgot password?
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
                     </Link>
                 </Grid>
                 </Grid>

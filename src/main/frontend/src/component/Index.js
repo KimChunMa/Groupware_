@@ -1,9 +1,15 @@
-import React from 'react';
-import { BrowserRouter , Routes , Route , Outlet } from 'react-router-dom';
+import React , { useEffect } from 'react';
+import { BrowserRouter , Routes , Route , Outlet , useLocation } from 'react-router-dom';
+
 
 import Main from './Main';
-
 import Header from './Header';
+
+//---- templates
+import '../templates/css/style.css';
+import '../templates/charts/ChartjsConfig';
+import Dashboard from '../templates/pages/Dashboard'
+
 
 // ---------------------- 김동혁 ---------------------------------//
 import List from './board/List';
@@ -36,6 +42,15 @@ import Reportconfirm from './approval/Reportconfirm'; //레포트상태확인  [
 
 
 export default function Index( props ){
+
+    const location = useLocation();
+
+    useEffect(() => {
+        document.querySelector('html').style.scrollBehavior = 'auto'
+        window.scroll({ top: 0 })
+        document.querySelector('html').style.scrollBehavior = ''
+    }, [window.location.pathname]); // triggered on route change
+
     return (<>
          <BrowserRouter>
 
