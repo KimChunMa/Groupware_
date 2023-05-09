@@ -14,6 +14,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static connect.web.domain.approval.ApprovalEntityRepository.*;
+
 @Slf4j
 @Service
 public class ApprovalService {
@@ -22,9 +24,10 @@ public class ApprovalService {
     private ApprovalEntityRepository approvalEntityRepository;
 
     //서류 등록
-
     @Transactional
     public boolean approvalWrite( ApprovalDto approvalDto){
+
+
         log.info("c approvalWrite"+approvalDto);
 
         ApprovalEntity approvalEntity =
@@ -37,15 +40,15 @@ public class ApprovalService {
     }
 
 
-/*    //서류 상태출력
+    //서류 상태출력
     @Transactional
-    public List<ApprovalDto> approvalDtoList(  ){
+    public List<ApprovalDto> approvalDtoList( int approvalNo ){
         log.info("c approvalDtoList : " );
 
-        List<ApprovalDto> ApprovalDtoList = ApprovalEntityRepository.findAll();
+
 
         List<ApprovalDto> list = new ArrayList<>();
-        ApprovalDtoList.forEach((e) -> {
+/*        ApprovalDtoList.forEach((e) -> {
             list.add(new ApprovalDto(
                     e.getApproval_no(),
                     e.getApproval_writer(),
@@ -54,9 +57,9 @@ public class ApprovalService {
                     e.getApproval_status(),
                     e.getApproval_data()
             ));
-        });
+        });*/
                 return list;
 
-    } //출력 e*/
+    } //출력 e
 
 }//class e

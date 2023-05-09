@@ -13,7 +13,8 @@ export default function ApprovalWrite( props ){
             approvalWriter: document.querySelector('#approvalWriter').value,
             approvalTitle: document.querySelector('#approvalTitle').value,
             approvalContent: document.querySelector('#approvalContent').value,
-            approvalData: document.querySelector('#approvalData').value
+            approvalData: document.querySelector('#approvalData').value,
+
         }
 
         console.log( info );
@@ -23,6 +24,7 @@ export default function ApprovalWrite( props ){
                        console.log(r);
                        if(r.data=true){
                             alert('게시물작성성공');
+                            window.location.href="/";
                        }
 
 /*                       if(r.data==1){
@@ -41,6 +43,7 @@ export default function ApprovalWrite( props ){
     }
 
 
+
     return(<>
         <Container>
             <TextField fullWidth className="approvalWriter" id="approvalWriter" label="작성자" variant="standard" />
@@ -55,6 +58,9 @@ export default function ApprovalWrite( props ){
             <TextField fullWidth className="approvalData" id="approvalData" label="날짜" variant="standard" />
             <Button variant="outlined" onClick={ setApproval }> 작성 </Button>
             <Button variant="outlined"> 취소 </Button>
+            <div>
+
+            </div>
         </Container>
     </>)
 
