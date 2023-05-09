@@ -17,7 +17,7 @@ public class MessengerController {
     //----------------------- 채팅방 기능 --------------------------------
     //1.방 만들기
     @PostMapping("")
-    public boolean Create_chat (@RequestBody ChatRoomsDto chatRoomsDto){
+    public boolean CreateChat (@RequestBody ChatRoomsDto chatRoomsDto){
         return messengerService.createChat(chatRoomsDto);
     }
 

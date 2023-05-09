@@ -27,15 +27,17 @@ public class ChatRoomsEntity extends BaseTime { // 채팅방 생성날짜를 전
     private MemberEntity memberEntity; //방주인
 
     public ChatRoomsDto toDto(){
-        return ChatRoomsDto.builder().chatRoomId(this.chatRoomId)
+        return ChatRoomsDto.builder()
+                .chatRoomId(this.chatRoomId)
                 .name(this.name)
                 .cdate(
-                        this.cdate.toLocalDate().toString().equals(LocalDateTime.now().toLocalDate().toString())?
-                        this.cdate.toLocalDate().format(DateTimeFormatter.ofPattern("HH:mm:ss")):
-                        this.cdate.toLocalDate().format(DateTimeFormatter.ofPattern("MM-dd"))
+                    //만약 작성 날짜/시간중 날짜가 현재 날짜와 동일하다면
+                    this.cdate.toLocalDate().toString().equals(LocalDateTime.now().toLocalDate().toString()) ?
+                    this.cdate.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) :
+                    this.cdate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd") )
                 )
+                .memberNo(this.memberEntity.getMemberNo())
                 .build();
-
     }
 }
 
