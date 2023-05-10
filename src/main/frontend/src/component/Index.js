@@ -16,10 +16,11 @@ import List from './board/List';
 import Write from './board/Write';
 import PartBoard from './board/PartBoard';
 
-// -------------- 멤버 - 김성봉 --------------- //
+// -------------- 김성봉 --------------- //
 import Home from './Home'
 import Login from './member/Login'
 import AddMember from './member/AddMember';
+import MemberList from './member/MemberList';
 
 
 //----------------------- 이경석 ---------------------------------//
@@ -40,53 +41,52 @@ import Reportconfirm from './Approval/Reportconfirm'; //레포트상태확인  [
         http://localhost:3000/login     get 요청시 Login 컴포넌트 반환
 */
 
+export default function Index(props) {
+    return (
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+    );
+}
 
-export default function Index( props ){
+function App() {
 
-    // const location = useLocation();
+    const location = useLocation();
 
     useEffect(() => {
         document.querySelector('html').style.scrollBehavior = 'auto'
         window.scroll({ top: 0 })
         document.querySelector('html').style.scrollBehavior = ''
-    }, [window.location.pathname]); // triggered on route change
+    }, [location.pathname]); // use location from hook
 
-    return (<>
-        <BrowserRouter>
-           <Routes>
-
+    return (
+        <Routes>
             <Route path="/" element={<Login />} />
+            {/* 로그인페이지를 제외하고 나머지페이지에서는 헤더 컴포넌트 렌더링 하기위해 한번감싸기 */}
+            {/* 필요한 페이지 있으신 경우 <Route element={<Main />}> </Route> 안에 라우트 경로만들어서 사용바랍니다. */}
+            {/* 2023-05-07 김성봉 */}
+            <Route element={<Main />}>
+                {/* 김성봉 */}
+                <Route path="/home" element={<Home />} />
+                <Route path="/member/addmember" element={<AddMember />} />
+                <Route path="/member/memberlist" element={<MemberList />} />
 
-             { /* 로그인페이지를 제외하고 나머지페이지에서는 헤더 컴포넌트 렌더링 하기위해 한번감싸기 */ }
-             { /* 필요한 페이지 있으신 경우 <Route element={<Main />}> </Route> 안에 라우트 경로만들어서 사용바랍니다. */ }
-             { /* 2023-05-07 김성봉 */ }
-             <Route element={<Main />}>
+                {/* 이경석 */}
+                <Route path="/messenger" element={<Messenger />} />
 
-                    { /* 김성봉 */ }
-                   <Route path="/home" element={<Home />} />
-                   <Route path="/member/addmember" element={<AddMember />} />
+                {/* 백한결 */}
+                <Route path="/approval" element={<Approval />} />
+                <Route path="/reportconfirm" element={<Reportconfirm />} />
 
-                   { /* 이경석 */ }
-                   <Route path="/messenger" element={<Messenger />} />
-
-                   { /* 백한결 */ }
-                   <Route path="/approval" element={<Approval />} />
-                   <Route path="/reportconfirm" element={<Reportconfirm />} />
-
-
-
-                   { /* 김동혁 */ }
-                   <Route path="/list" element={<List />} />
-                   <Route path="/write" element={<Write />} />
-                   <Route path="/partboard" element={<PartBoard />} />
-
-           </Route>
-
-           </Routes>
-        </BrowserRouter>
-    </>);
-
+                {/* 김동혁 */}
+                <Route path="/list" element={<List />} />
+                <Route path="/write" element={<Write />} />
+                <Route path="/partboard" element={<PartBoard />} />
+            </Route>
+        </Routes>
+    );
 }
+
 
 
 
