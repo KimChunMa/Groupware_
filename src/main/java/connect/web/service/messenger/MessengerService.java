@@ -115,13 +115,16 @@ public class MessengerService {
     //---------------------------- 메세지 보내기 -------------------------
     //1. 메세지 보내기
     public boolean sendMessages(ChatMessagesDto messagesDto){
-        //현재 받은 메세지를 Entity로 변환
+        //1) 현재 받은 메세지를 Entity로 변환
         ChatMessagesEntity chatMessagesEntity = messagesDto.toEntity();
-        //변환한 Entity에 멤버,채팅방 넣기
-        chatMessagesEntity.getMemberEntity().setMemberNo(1);
-        chatMessagesEntity.getChatRoomsEntity().setChatRoomId(messagesDto.getChatRoomId());
-        chatMessagesEntityRepository.save(messagesDto.toEntity());
-
+        //2)변환한 Entity에 멤버,채팅방 넣기
+        MemberEntity memberEntity = memberEntityRepository.findById(messagesDto.getMemberNo()).get();
+        ChatRoomsEntity chatRoomsEntity = chatRoomsEntityRepository.findById(messagesDto.getChatRoomId()).get();
+        //chatMessages <- memberEntity
+        chatMessagesEntity.setMemberEntity(memberEntity);
+        //chatMessages <- chatRooms
+        chatMessagesEntity.setChatRoomsEntity(chatRoomsEntity);
+        chatMessagesEntityRepository.save(chatMessagesEntity);
         return true;
     }
 
