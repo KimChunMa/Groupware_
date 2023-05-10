@@ -35,27 +35,27 @@ public class MemberEntity {
     @ToString.Exclude
     private PartEntity partEntity;
 
-    @OneToMany( mappedBy = "memberEntity" )
+    @OneToMany( mappedBy = "memberEntity",cascade = CascadeType.REMOVE )
     @Builder.Default
     private List<AddressGroupEntity> addressGroupEntityList = new ArrayList<>();
 
-    @OneToMany( mappedBy = "memberEntity" )
+    @OneToMany( mappedBy = "memberEntity",cascade = CascadeType.REMOVE )
     @Builder.Default
     private List<AddressBookEntity> addressBookEntityList = new ArrayList<>();
 
-    @OneToMany( mappedBy = "memberEntity" )
+    @OneToMany( mappedBy = "memberEntity",cascade = CascadeType.REMOVE )
     @Builder.Default
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 
-    @OneToMany( mappedBy = "memberEntity" )
+    @OneToMany( mappedBy = "memberEntity",cascade = CascadeType.REMOVE )
     @Builder.Default
     private List<ChatMessagesEntity> chatMessagesEntities = new ArrayList<>();
 
-    @OneToMany( mappedBy = "memberEntity")
+    @OneToMany( mappedBy = "memberEntity",cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<ChatParticipantsEntity> chatParticipantsEntities = new ArrayList<>();
 
-    @OneToMany( mappedBy = "memberEntity")
+    @OneToMany( mappedBy = "memberEntity",cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<ApprovalEntity> approvalEntityList = new ArrayList<>();
 
