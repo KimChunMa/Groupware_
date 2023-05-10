@@ -46,7 +46,7 @@ export default function Messenger(props){
     // 1-2.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
 
-    //1-3. 클릭한 채팅방
+    //1-3. 클릭한 채팅방 번호
     const [roomId , setRoomId] = useState();
 
     //메세지 출력창
@@ -85,14 +85,13 @@ export default function Messenger(props){
         printChat();
     },[])
 
-    //1-3. 채팅방 클릭하기
+    //1-3. 채팅방 클릭시 메세지 출력
     const clickRooms = (chatRoomId)=> {
         console.log(chatRoomId);
         setRoomId(chatRoomId)
-        axios.get("/chat/messages", {chatRoomId:chatRoomId})
+        axios.get("/chat/message", {params:{"chatRoomId":chatRoomId}})
             .then(r=>{console.log(r);  })
     }
-    console.log(roomId)
 
 
     return(<>

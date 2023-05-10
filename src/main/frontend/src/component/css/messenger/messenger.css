@@ -76,6 +76,7 @@
     border-bottom:1px solid #e5e5e5;
     justify-content:space-between;
     height:70px;
+    cursor:pointer;
 }
 
 /* 채팅방 이미지, 이름, 메세지*/

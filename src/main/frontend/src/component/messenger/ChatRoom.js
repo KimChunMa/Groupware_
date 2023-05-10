@@ -3,15 +3,11 @@ import axios from 'axios';
 //   implementation 'org.springframework.boot:spring-boot-starter-websocket' //web 소켓 builder
 
 export default function Messenger(props){
-    //2.메세지 보내기 DOM
+    //1.메세지 보내기 DOM
     let msgInput = useRef(null);
-
     console.log(props.roomId) //채팅방 번호
 
-
-
-
-    //2. 메세지 보내기
+    //1. 메세지 보내기
     const sendMessages = () =>{
         console.log(msgInput.current.value);
         let chatMessagesDto = {
@@ -24,6 +20,12 @@ export default function Messenger(props){
         axios.post('/chat/message', chatMessagesDto)
             .then(r=>{console.log(r)})
     }
+
+
+
+
+
+
 
     let [msgContent, setMsgContent ] = useState([]);
 
