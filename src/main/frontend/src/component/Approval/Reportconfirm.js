@@ -24,6 +24,13 @@ export default function Reportconfirm( props ){
     //요청한 게시물 정보를 가지고 있는 리스트 변수[상태관리변수]
     const [ rows, setRows ]=useState( [] );
 
+    const getUserRank = () => {
+        axios.get('/approval/getUserRank').then(r => {
+            console.log(r);
+
+        })
+    }
+
 
     useEffect(()=>{
         axios.get('/approval/alist')
@@ -37,6 +44,6 @@ export default function Reportconfirm( props ){
     //서류상태확인
     return(<>
         <h3>서류</h3>
-
+        <button  onClick={getUserRank} type="button">랭크</button>
     </>)
 }

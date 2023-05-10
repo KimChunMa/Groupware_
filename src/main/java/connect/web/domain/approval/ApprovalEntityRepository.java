@@ -15,5 +15,7 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
     @Query( value = "select * from approval where member_no = :pk" ,nativeQuery = true )
     List<ApprovalEntity> findByMember( @Param("pk") int pk);
 
+/*    @Query*/
+
 
 }

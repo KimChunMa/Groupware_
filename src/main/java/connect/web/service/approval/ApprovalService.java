@@ -111,6 +111,23 @@ public class ApprovalService {
 
         return list;
     }
+/*
+    //멤버랭크 꺼내기
+    @Transactional
+    public List<ApprovalDto>approvalDtos(){
+        List<ApprovalDto>List = new ArrayList<>();
+
+        List<ApprovalEntity> approvalEntities = approvalEntityRepository.findByRank(getMember().getMemberNo()); // 랭크 빼는 함수 확인
+
+        log.info("s approvalEntities"+approvalEntities);
+
+        approvalEntities.forEach((o)->{
+            List.add(o.approvalDto());
+        });
+
+        log.info(List+"");
+        return null;
+    }*/
 
     //전체출력함수
 /*    @Transactional
