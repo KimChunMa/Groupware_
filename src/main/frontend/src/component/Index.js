@@ -16,10 +16,11 @@ import List from './board/List';
 import Write from './board/Write';
 import PartBoard from './board/PartBoard';
 
-// -------------- 멤버 - 김성봉 --------------- //
+// -------------- 김성봉 --------------- //
 import Home from './Home'
 import Login from './member/Login'
 import AddMember from './member/AddMember';
+import MemberList from './member/MemberList';
 
 
 //----------------------- 이경석 ---------------------------------//
@@ -66,8 +67,9 @@ function App() {
             {/* 2023-05-07 김성봉 */}
             <Route element={<Main />}>
                 {/* 김성봉 */}
-                <Route path="/home" element={<Dashboard />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/member/addmember" element={<AddMember />} />
+                <Route path="/member/memberlist" element={<MemberList />} />
 
                 {/* 이경석 */}
                 <Route path="/messenger" element={<Messenger />} />
@@ -84,6 +86,7 @@ function App() {
         </Routes>
     );
 }
+
 
 
 

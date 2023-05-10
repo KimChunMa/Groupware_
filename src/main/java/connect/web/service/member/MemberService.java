@@ -5,19 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @Service
 public class MemberService {
 
-
-
     @Autowired MemberEntityRepository memberEntityRepository;
     @Autowired PartEntityRepository partEntityRepository;
-
 
     // 1. 회원 등록하기
     public boolean add( MemberDto memberDto){
@@ -37,8 +35,32 @@ public class MemberService {
                 return true;
             }
         }
-
         // 2. 데이터 저장 후 controller return
+        return false;
+    }
+
+    // 2. 모든 멤버 호출하기
+    public List<MemberDto> getMembers() {
+        // member 테이블 내 모든 레코드 조회하기
+        List<MemberEntity> memberEntityList = memberEntityRepository.findAll();
+
+        // 조회된 MemberEntity > DTO 로 형변환
+        List<MemberDto> memberDtoList = memberEntityList.stream().map(
+                memberEntity -> memberEntity.toDto() ).collect(Collectors.toList());
+
+        log.info( "dto 형변환 : " + memberDtoList );
+        return memberDtoList;
+    }
+
+    // 3. 멤버 삭제하기
+    public boolean deleteMember( int memberNo ) {
+
+        Optional<MemberEntity> optionalMemberEntity = memberEntityRepository.findById( memberNo );
+        if( optionalMemberEntity.isPresent() ){
+            memberEntityRepository.delete( optionalMemberEntity.get() );
+            return true;
+        }
+
         return false;
     }
 

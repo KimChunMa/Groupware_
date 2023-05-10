@@ -28,6 +28,10 @@ export default function AddMember( props ) {
 
         axios.post("/member/add", formData ).then( (r) => {
             console.log( r );
+            if( r.data ){
+                alert("등록 성공");
+                window.location.href="/member/memberlist" ;
+            }
         })
 
     }

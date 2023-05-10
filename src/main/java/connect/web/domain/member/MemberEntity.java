@@ -22,7 +22,7 @@ public class MemberEntity {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private int memberNo;
 
-    @Column private String memberId;
+    @Column( unique = true ) private String memberId;
     @Column private String memberPwd;
     @Column private String memberName;
     @Column private String memberPhone;
@@ -62,13 +62,13 @@ public class MemberEntity {
     // 1. 출력용 [ 세션 ]
     public MemberDto toDto() {
         return MemberDto.builder()
-                .memberNo( this.memberNo )
-                .memberId( this.memberId )
-                .memberName( this.memberName )
-                .memberPhone( this.memberPhone )
-                .memberEmail( this.memberEmail )
-                .memberRank( this.memberRank )
-                .partNo( this.partEntity.getPartNo() )
-                .build();
+            .memberNo( this.memberNo )
+            .memberId( this.memberId )
+            .memberName( this.memberName )
+            .memberPhone( this.memberPhone )
+            .memberEmail( this.memberEmail )
+            .memberRank( this.memberRank )
+            .partNo( this.partEntity.getPartNo() )
+            .build();
     }
 }

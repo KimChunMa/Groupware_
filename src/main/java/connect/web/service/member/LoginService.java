@@ -17,6 +17,7 @@ public class LoginService {
     @Autowired MemberEntityRepository memberEntityRepository;
     @Autowired HttpServletRequest request;
 
+
     // 로그인 메소드
     public boolean login( MemberDto memberDto ) {
         // JS 로부터 데이터 들어오는 지 확인용
@@ -33,7 +34,6 @@ public class LoginService {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -59,6 +59,7 @@ public class LoginService {
         request.getSession().setAttribute("login" , null );
         return true;
     }
+
 
 
 }
