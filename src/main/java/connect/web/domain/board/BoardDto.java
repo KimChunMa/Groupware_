@@ -15,6 +15,7 @@ public class BoardDto {
     private int boardView;
 
     private int memberNo;
+    private String memberName;
     private int partNo;
     private String partName;
 
