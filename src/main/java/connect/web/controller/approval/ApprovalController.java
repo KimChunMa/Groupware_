@@ -22,15 +22,22 @@ public class ApprovalController {
     public boolean approvalWrite(@RequestBody ApprovalDto approvalDto  ){
         log.info("c approvalWrite : "+approvalDto);
         boolean result = approvalService.approvalWrite(approvalDto);
-        return true;
+        return result;
     }
 
 
-/*    //서류 상태출력
-    @GetMapping("/approval/list")
-    public List<ApprovalDto> approvalDtoList(  ){
-        log.info("c approvalDtoList : " );
-        List<ApprovalDto> result = approvalService.approvalDtoList(  );
+    //내가 쓴 서류 상태출력
+    @GetMapping("/alist")
+    public List<ApprovalDto> approvalDtoList( ){
+        List<ApprovalDto> result = approvalService.approvalDtoList();
+        log.info("c result:::"+result);
+        return result;
+    }
+
+/*    @GetMapping("/alist")
+    public List<ApprovalDto> approvalDtoList( ){
+        List<ApprovalDto> result = approvalService.totalApproval();
+        log.info("c 모든 게시물출력 result:::"+result);
         return result;
     }*/
 
