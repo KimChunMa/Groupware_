@@ -33,6 +33,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'  // 롬복
     runtimeOnly 'com.mysql:mysql-connector-j' // MySql
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' //웹소켓
 }
 
 tasks.named('test') {
@@ -83,3 +84,5 @@ task copyReactBuildFiles(type: Copy) { // 리액트 빌드후 파일을 스프�
     from "$frontendDir/build"
     into "$projectDir/src/main/resources/static"
 }
+
+

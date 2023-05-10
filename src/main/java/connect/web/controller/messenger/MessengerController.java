@@ -1,5 +1,6 @@
 package connect.web.controller.messenger;
 
+import connect.web.domain.member.MemberDto;
 import connect.web.domain.messenger.ChatMessagesDto;
 import connect.web.domain.messenger.ChatRoomsDto;
 import connect.web.service.messenger.MessengerService;
@@ -13,6 +14,13 @@ import java.util.List;
 public class MessengerController {
     @Autowired
     private MessengerService messengerService;
+
+    //----------------------- 로그인 기능 --------------------------------
+    //0. 로그인된 MemberNo() 꺼내오기
+    @GetMapping("/login")
+    public MemberDto loginMemberNo(){
+        return messengerService.loginMember();
+    }
 
     //----------------------- 채팅방 기능 --------------------------------
     //1.방 만들기
@@ -63,4 +71,5 @@ public class MessengerController {
     public boolean DeleteMessages(int chatMessagesId){
         return messengerService.DeleteMessages(chatMessagesId);
     }
+
 }

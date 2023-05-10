@@ -1,5 +1,6 @@
 package connect.web.service.messenger;
 
+import connect.web.domain.member.MemberDto;
 import connect.web.domain.member.MemberEntity;
 import connect.web.domain.member.MemberEntityRepository;
 import connect.web.domain.messenger.*;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,52 +28,58 @@ public class MessengerService {
     @Autowired
     MemberEntityRepository memberEntityRepository;
 
-    /* ---------------------- 채팅방 생성 기능 ------------------------- */
+    @Autowired
+    HttpServletRequest request;
+
+
+    /* ---------------------- 0. 로그인 검사 ------------------------- */
+    public MemberDto loginMember(){
+        String login = (String)request.getSession().getAttribute("login");
+
+        //1. 있는 회원인지 검사 (유효성)
+        Optional<MemberEntity> optionalMemberEntity =
+                memberEntityRepository.findByMemberId(login);
+        //1-2.있으면 MemberNo() 검사
+        if(optionalMemberEntity.isPresent()) {
+            MemberEntity memberEntity  = optionalMemberEntity.get();
+            return memberEntity.toDto();
+        }
+        return null;
+    }
+
+    //* ---------------------- 채팅방 생성 기능 ------------------------- */
     //1. 방생성하기
     public  boolean createChat(ChatRoomsDto chatRoomsDto){
-
-        // 1.로그인 된 사람인지 검사 (유효성)
-
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //2. 있는 회원인지 검사 (유효성)
-        MemberEntity memberEntity =
-                memberEntityRepository.findById(chatRoomsDto.getMemberNo()).get();
-
-        //없는 회원이라면 중단
-        if(memberEntity != null){  return false;  }
-
-*/
-        //chatRooms DB 입력
+        // 1-1. 로그인된 회원 빼오기 {header 에서 들고오기}
+        MemberEntity memberEntity = memberEntityRepository.findById(chatRoomsDto.getMemberNo()).get();
+        // 1-2. ChatRoom html -> dto -> entity
         ChatRoomsEntity chatRoomsEntity = chatRoomsDto.toEntity();
-        //테스트용
-        MemberEntity memberEntity = MemberEntity.builder().memberNo(1).build();
-
-        //chatRooms의 member
+        //1-3. chatRooms <- member 단방향
         chatRoomsEntity.setMemberEntity(memberEntity);
         chatRoomsEntityRepository.save(chatRoomsEntity);
-
-        //chatParticipants DB 입력
+        //1-4. chatRooms -> chatParticipants <- member 단방향
         ChatParticipantsEntity chatParticipantsEntity = new ChatParticipantsEntity();
         chatParticipantsEntity.setChatRoomsEntity(chatRoomsEntity);
         chatParticipantsEntity.setMemberEntity(memberEntity);
         chatParticipantsEntityRepository.save(chatParticipantsEntity);
-
-    return true;
+        return true;
     }
 
     //2.본인이 속한 채팅방 출력
     public List<ChatRoomsDto> printChat (){
-        //로그인 회원 id 추출 테스트용
-        MemberEntity memberEntity = memberEntityRepository.findById(1).get();
+        //1. 회원정보 빼오기 {java에서 빼오기}
+        String login = (String)request.getSession().getAttribute("login");
+        MemberEntity memberEntity =
+                memberEntityRepository.findByMemberId(login).get();
 
         // 자신이 속한 채팅방 번호(Id) 찾기 (ChatParticipantsEntity)
         List<ChatParticipantsEntity> chatParticipantsEntityList =
-            chatParticipantsEntityRepository.findByMemberNo(memberEntity.getMemberNo());
+                chatParticipantsEntityRepository.findByMemberNo(memberEntity.getMemberNo());
 
         // 채팅방 리스트 넣기
         List<ChatRoomsDto> chatRoomsDtoList = new ArrayList<>();
 
-        // 자신이 속한 채팅방의 번호를 모두 리스트에 넣기
+        // ChatRooms의 memberNo찾기
         chatParticipantsEntityList.forEach( (o)-> {
             chatRoomsDtoList.add(chatRoomsEntityRepository.findByChatRoomId(o.getChatRoomsEntity()
                     .getChatRoomId()).toDto());
@@ -119,6 +127,8 @@ public class MessengerService {
 
     //2. 메세지 출력
     public List<ChatMessagesDto> printMessages(int chatRoomId){
+        System.out.println("-----------------------------");
+        System.out.println(chatRoomId);
         //현재 채팅방에 속한 메세지 가져오기
         List<ChatMessagesEntity> chatMessagesEntityList =
                 chatMessagesEntityRepository.findAllByChatRoomId(chatRoomId);

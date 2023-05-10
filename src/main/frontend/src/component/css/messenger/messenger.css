@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     margin-top: 120px;
-    background-color:#f5fbff;
+    background-color:#ebf1ff;
 }
 .container * {
 }
@@ -19,7 +19,7 @@
 .wrap{
     width:95%;
     margin:50px;
-
+    box-shadow: rgb(81 124 247 / 35%) 7px 5px 15px;
 }
 
 .wrap , .left , .right , .center{
@@ -30,7 +30,7 @@
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 왼쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 /* 왼쪽 채팅방 이름*/
 .left{
-    width:25%;
+    width:23%;
     flex-direction:column;
 }
 
@@ -42,8 +42,7 @@
     display:flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-right: 5px solid white;
-    border-radius: 12px;
+    border-right: #e5e5e5 solid 1px;
 }
 
 /* 방만들기 아이콘 */
@@ -58,7 +57,17 @@
     display:flex;
     flex-direction:column;
     background: white;
+    height: 400px;
+    border-radius: 10px;
+    overflow: auto;
+    font-size: 13px;
 }
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.left_content::-webkit-scrollbar {
+  display: none;
+}
+
 
 /* 하나의 채팅방*/
 .chat_room{
@@ -84,12 +93,17 @@
     margin-left: 15px;
 }
 
+.msg_text{
+    margin-top: 11px;
+}
+
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 
 /* 채팅방 */
 .center{
     width:45%;
     flex-direction:column;
+    background: #F8F9FB;
 }
 
 /* 중앙헤더이름 */

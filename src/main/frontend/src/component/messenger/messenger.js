@@ -1,7 +1,7 @@
 import React , { useState , useEffect , useRef } from 'react';
 import axios from 'axios';
 import '../css/messenger/messenger.css';
-
+import ChatRoom from './ChatRoom';
 /* ------------------------ mui ------------------------------*/
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -20,6 +20,23 @@ import { faComments } from "@fortawesome/free-regular-svg-icons";
 
 
 export default function Messenger(props){
+    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ로그인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    //로그인 정보 객체
+    let member =   JSON.parse( sessionStorage.getItem("login_token") );
+
+    //로그인 정보 가져오는 함수
+    useEffect(()=>{
+        axios.get("/login")
+            .then(r=>{
+            if(r.data.memberNo==0){
+                alert('오류!');  window.location.href ="/";
+            }else{member = r.data}
+            })
+    },[])
+
+    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 로그인 끝 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 채팅방 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 0.방 만들기 모달 용
     const [modal, setModal] = useState(false);
 
@@ -29,14 +46,11 @@ export default function Messenger(props){
     // 1-2.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
 
+    //1-3. 클릭한 채팅방
+    const [roomId , setRoomId] = useState();
 
     //메세지 출력창
     const [msgContent, setMsgContent ] = useState([]);
-
-
-
-    //채팅 입력창 DOM 객체 제어 변수
-    let msgInput = useRef(null);
 
     // 1-1. 방만들기 (멤버 id는 어디에 얻어야하는지? MessengerService + messenger)
         //1) 방만드는 아이콘 클릭시 모달나오게하기
@@ -45,27 +59,40 @@ export default function Messenger(props){
     const titleChange = (event) => { setTitle(event.target.value); }
         //3) 전달하기
     const create = () => {
-        let chat_room = {  name:title }
-        axios.post("/chat" , {params : {name:title}})
+        console.log(title)
+        let ChatRoomsDto = {name:title , memberNo: member.memberNo}
+        axios.post("/chat" ,  ChatRoomsDto )
             .then(r => {
                 if(r.data == true) {
                 alert("방 생성 완료!");setModal(false);
                 document.querySelector('#title_input').value ="";
+                printChat();
                 }else{alert("오류가 발생하였습니다.");}
             })
     }
-        //3) 모달 나가기
+    //3) 모달 나가기
     const closeModal = () => {setModal(false);}
+
+    const printChat = () => {
+          axios.get("/chat")
+                .then(r=> {console.log(r);
+                SetChatRooms([...r.data]);
+                })
+    }
 
     // 1-2. 채팅방 출력하기
     useEffect(()=>{
-        axios.get("/chat")
-            .then(r=> {console.log(r);
-            SetChatRooms([...r.data]);
-            })
+        printChat();
     },[])
 
-    console.log(chatRooms);
+    //1-3. 채팅방 클릭하기
+    const clickRooms = (chatRoomId)=> {
+        console.log(chatRoomId);
+        setRoomId(chatRoomId)
+        axios.get("/chat/messages", {chatRoomId:chatRoomId})
+            .then(r=>{console.log(r);  })
+    }
+    console.log(roomId)
 
 
     return(<>
@@ -85,7 +112,7 @@ export default function Messenger(props){
                 <div className="left_content">
 
                     {chatRooms.map((o)=>(
-                        <div className="chat_room">
+                        <div className="chat_room" onClick={(e) => clickRooms(o.chatRoomId)}>
                             <div className="chat_room_left">
                                 <div className="left_content_img"> 채팅방 이미지 </div>
 
@@ -96,59 +123,18 @@ export default function Messenger(props){
                             </div>
 
                             <div className="chat_room_right">
-                                <div className="msg_date"> 2023.03.03 </div>
+                                <div className="msg_date"> {o.cdate} </div>
                             </div>
                         </div>
                     ))}
-                })
+
 
                 </div>  {/* left_content e */}
             </div> {/* left e */}
 
-            {/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
-            <div className="center">
-                <div className="header">
-                    <span className="chat_name center_chat_name"> 중앙 헤더 </span>
-                 </div>
+            <ChatRoom roomId={roomId} member={member} />
 
-                <div className="in_chat_room">
-                    <div className="chat_date">2023.05.04 </div>
-                </div>
-
-                <div className="your_message messagebox">
-                    <div className="your_profile_img"> img </div>
-                    <div className="message"> asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</div>
-                </div>
-
-                <div className="me_message messagebox">
-                    <div className="message"> asdf </div>
-                    <div className="your_profile_img"> img </div>
-                </div>
-
-                 <div className="your_message messagebox">
-                                    <div className="your_profile_img"> img </div>
-                                    <div className="message"> asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</div>
-                  </div>
-
-                 <div className="me_message messagebox">
-                    <div className="message"> asdf </div>
-                    <div className="your_profile_img"> img </div>
-                 </div>
-
-                {/* --------------------- 메세지 입력 창 ------------------------ */}
-                <div className="message_send_box">
-                    <div className="file">
-                      <div className="btn-upload">파일 </div>
-                    </div>
-                    <form>
-                        <input type="file" name="file" id="file"/>
-                    </form>
-                    <input type="text" className="message_input" ref={msgInput} />
-                    <button type="button" className="message_btn"> 전송 </button>
-                </div>
-            </div> {/* center e */}
-
-
+            {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
                 오른쪽
             </div> {/* right e */}
