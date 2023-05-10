@@ -21,7 +21,7 @@ export default function Write(props) {
                     console.log(r);
                     if(r.data==1){alert('부서 선택 후 작성 가능[전체보기 제외]')}
                     else if( r.data == 2 ){ alert('게시물작성실패[ 로그인 후 작성 가능]'); }
-                    else if( r.data == 4 ){ alert('게시물작성성공'); }
+                    else if( r.data == 3 ){ alert('게시물작성성공'); }
                 })
     }
     // 부서 선택

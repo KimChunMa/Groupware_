@@ -7,6 +7,8 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Entity @Table(name="board")
@@ -28,5 +30,18 @@ public class BoardEntity extends BaseTime {
     @JoinColumn(name="partNo")
     @ToString.Exclude
     private PartEntity partEntity;
+
+    public BoardDto toDto() {
+        return BoardDto.builder()
+                .boardNo(this.boardNo).boardTitle(this.boardTitle) .boardContent(this.boardContent)
+                .partNo(this.getPartEntity().getPartNo()) .partName(this.getPartEntity().getPartName())
+                .memberNo(this.getMemberEntity().getMemberNo()) .memberName(this.getMemberEntity().getMemberName())
+                .boardView(this.boardView)
+                .boardDate( this.cdate.toLocalDate().toString().equals(LocalDateTime.now().toLocalDate().toString()) ?
+                        this.cdate.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")):
+                        this.cdate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+                )
+                .build();
+    }
 }
 

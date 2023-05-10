@@ -3,9 +3,14 @@ package connect.web.service.board;
 import connect.web.domain.board.BoardDto;
 import connect.web.domain.board.BoardEntity;
 import connect.web.domain.board.BoardEntityRepository;
+import connect.web.domain.board.PageDto;
 import connect.web.domain.member.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -71,6 +76,20 @@ public class BoardService {
         memberEntity.getBoardEntityList().add(boardEntity);
 
         return 3;
+    }
+
+    // 4. [김동혁] 게시물 출력
+    @Transactional
+    public PageDto getList(PageDto pageDto){
+        Pageable pageable = PageRequest.of(pageDto.getPage()-1, 5 , Sort.by(Sort.Direction.DESC , "board_no"));
+        // 현재 페이지번호[0시작] , 페이지당 표시할 게시물 수 (5개) , 게시물 번호 순으로 내림차순
+        Page<BoardEntity> entityPage =
+                boardEntityRepository.findBySearch(pageDto.getPartNo() , pageDto.getKey() , pageDto.getKeyword() , pageable);
+        List<BoardDto> boardDtoList = new ArrayList<>();
+        entityPage.forEach((b)->{boardDtoList.add(b.toDto());});
+        pageDto.setBoardDtoList(boardDtoList);
+        pageDto.setTotalPage(entityPage.getTotalPages());
+        return pageDto;
     }
 }
 
