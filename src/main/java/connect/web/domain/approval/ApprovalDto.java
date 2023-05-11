@@ -20,9 +20,12 @@ public class ApprovalDto {
     private String approvalWriter;   //신청자
     private String approvalTitle;    //제목
     private String approvalContent;  //내용
-    private String approvalStatus;     //결재단계
+    private String approvalStatus;   //결재단계
     private String approvalData;     //결재날짜
     private int memberNo;
+    private int memberRank;
+    private int partNo;
+    private String partName;         //부서명
 
 
     //Dto-> entity하기 (DB 저장용) => { 작성자, 제목, 내용, 결제단계 }
