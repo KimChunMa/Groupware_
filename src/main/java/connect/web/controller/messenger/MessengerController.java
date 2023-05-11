@@ -57,8 +57,6 @@ public class MessengerController {
     //2. 메세지 출력하기
     @GetMapping("/message")
     public List<ChatMessagesDto> printMessages(@RequestParam  int chatRoomId) {
-        System.out.println("----------------------------------------");
-        System.out.println(chatRoomId);
         return  messengerService.printMessages(chatRoomId);
     }
 

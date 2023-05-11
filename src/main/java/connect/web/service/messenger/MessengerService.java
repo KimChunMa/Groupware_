@@ -68,18 +68,17 @@ public class MessengerService {
     //2.본인이 속한 채팅방 출력
     public List<ChatRoomsDto> printChat (){
         //1. 회원정보 빼오기 {java에서 빼오기}
-        String login = (String)request.getSession().getAttribute("login");
         MemberEntity memberEntity =
-                memberEntityRepository.findByMemberId(login).get();
+                memberEntityRepository.findByMemberId(loginMember().getMemberId()).get();
 
-        // 자신이 속한 채팅방 번호(Id) 찾기 (ChatParticipantsEntity)
+        // 자신이 속한 chatRooms(Id) 여러개 찾기 (ChatParticipantsEntity)
         List<ChatParticipantsEntity> chatParticipantsEntityList =
                 chatParticipantsEntityRepository.findByMemberNo(memberEntity.getMemberNo());
 
-        // 채팅방 리스트 넣기
+        // 채팅방 리스트
         List<ChatRoomsDto> chatRoomsDtoList = new ArrayList<>();
 
-        // ChatRooms의 memberNo찾기
+        // chatParticipantsEntityList 과 ChatRooms의 memberNo 일치하는것 찾기
         chatParticipantsEntityList.forEach( (o)-> {
             chatRoomsDtoList.add(chatRoomsEntityRepository.findByChatRoomId(o.getChatRoomsEntity()
                     .getChatRoomId()).toDto());
@@ -142,7 +141,6 @@ public class MessengerService {
         chatMessagesEntityList.forEach((o)->{
             chatMessagesDtoList.add(o.toDto());
         });
-
         return chatMessagesDtoList;
     }
 
