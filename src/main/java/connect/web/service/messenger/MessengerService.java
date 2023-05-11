@@ -1,5 +1,6 @@
 package connect.web.service.messenger;
 
+import connect.web.controller.messenger.ChattingHandler;
 import connect.web.domain.member.MemberDto;
 import connect.web.domain.member.MemberEntity;
 import connect.web.domain.member.MemberEntityRepository;
@@ -7,6 +8,7 @@ import connect.web.domain.messenger.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -124,8 +126,16 @@ public class MessengerService {
         //chatMessages <- chatRooms
         chatMessagesEntity.setChatRoomsEntity(chatRoomsEntity);
         chatMessagesEntityRepository.save(chatMessagesEntity);
+
+        try { // 메시지가 도착한 방번호 전송 [ 해당 방번호를 최신화 할려고 ]
+            chattingHandler.handleMessage(null, new TextMessage(String.valueOf(messagesDto.getChatRoomId())) );
+        }
+        catch (Exception e ){}
         return true;
     }
+
+    @Autowired
+    ChattingHandler chattingHandler;
 
     //2. 메세지 출력
     public List<ChatMessagesDto> printMessages(int chatRoomId){

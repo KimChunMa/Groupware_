@@ -49,6 +49,8 @@ export default function Messenger(props){
     const [roomId , setRoomId] = useState(0);
 
 
+
+
     // 1-1. 채팅방 만들기 (멤버 id는 어디에 얻어야하는지? MessengerService + messenger)
         //1) 방만드는 아이콘 클릭시 모달나오게하기
     const create_chat = () => { setModal(true);}
@@ -122,7 +124,7 @@ export default function Messenger(props){
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
 
             {/* 클릭한 채팅방 Id, 멤버 정보, 채팅방 배열[클릭한 채팅-1] 배열은0부터 아이디는 1부터, 초기는 0*/}
-            <ChatRoom roomId={roomId} member={member} chatRooms={chatRooms[roomId-1]}  />
+            <ChatRoom roomId={roomId}member={member} chatRooms={chatRooms[roomId-1]} onClick={clickRooms} />
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">

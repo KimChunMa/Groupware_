@@ -7,42 +7,61 @@ export default function Messenger(props){
    	const member = props.member;
     //1.메세지 보내기 DOM
     let msgInput = useRef(null);
-    //2-1. 클릭한 채팅방 번호 (messenger 1-3 동일)
-    const [roomId2 , setRoomId2] = useState(0);
+
     //2-2. 현재 채팅방 전체 메세지
    	const [msgContent, setMsgContent ] = useState([]);
+    //3. 들어온 회원
+    let [id, setId] = useState(member.memberNo);
+    //4. 소켓
+    let ws = useRef( null );
 
+    useEffect( () => {
+        if(!ws.current){//만약 클라이언트소켓이 접속이 안되어 있을때
+             ws.current = new WebSocket("ws://localhost:8080/chat2");
+             ws.current.onopen = () => {console.log('서버 접속했습니다.');}
+             //4. 나갈때
+             ws.current.onclose = (e) => {console.log('서버 나갔습니다.')}
+             //5. 오류
+             ws.current.onerror = (e) => {console.log('소켓 오류')}
+             //6. 받을때
+             ws.current.onmessage = (e) => {
+                 console.log('서버소켓으로 메세지 받음'); console.log(e)
+                 console.log('방금 글이 작성된 방번호 : ' + e.data )
+                 props.clickRooms( e.data )
+                 printMessages( e.data )
+             }
+        }
+    })
 
     //1. 메세지 보내기
     const sendMessages = () =>{
         let chatMessagesDto = {
-            content: msgInput.current.value,
-            memberNo: props.member.memberNo,
-            chatRoomId: props.roomId,
-            msgType: "msg"
+            content: msgInput.current.value,    memberNo: member.memberNo,
+            chatRoomId: props.roomId,                msgType: "msg"
         }
         axios.post('/chat/message', chatMessagesDto)
-            .then(r=>{})
+            .then(r=>{ printMessages ( props.roomId )  })
     }
 
-    //2-1. 채팅방클릭시 채팅방 번호 수정
-    useEffect(()=>{ setRoomId2(props.roomId)},[props.roomId])
 
-    //2-2. 채팅방 클릭시 메세지 출력  (roomId2를 props.roomId로 수정 가능 )
-    useEffect(()=>{
-        if(roomId2 > 0){
-        axios.get("/chat/message", {params:{"chatRoomId":roomId2}})
+    //2-2. 채팅방 클릭시+입력받을시 메세지 출력
+    useEffect(()=>{ printMessages() },[props.roomId])
+
+    //2-3. 메세지 출력하기
+    const printMessages = (chatRoomId) => {
+        if(props.roomId > 0){ //초기값은 0이므로 클릭전 나오면 안됨.
+        axios.get("/chat/message", {params:{"chatRoomId":props.roomId}})
             .then(r=>{setMsgContent(r.data);})
         }
-    },[roomId2])
+    }
 
-    //2-3. 렌더링 할때마다 스크롤 가장 하단으로 내리기
+    //3. 렌더링 할때마다 스크롤 가장 하단으로 내리기
     useEffect ( () => {
     document.querySelector('.in_chat_room').scrollTop=
         document.querySelector('.in_chat_room').scrollHeight;
     },[msgContent])
 
-    console.log(msgContent)
+
 
     return (<>
                 {/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
@@ -57,12 +76,11 @@ export default function Messenger(props){
                     <div className="in_chat_room">
                     {
                          msgContent.map((o)=>{
-                            <div className="chat_date">2023.05.04 </div>
                             {
                                 if(o.memberNo != member.memberNo ){
                                     return(<>
                                         <div className="your_message messagebox">
-                                            <div className="your_profile_img"> img </div>
+                                            <div className="profile_img"> img </div>
                                             <div className="message"> {o.content} </div>
                                         </div>
                                     </>);
@@ -70,7 +88,7 @@ export default function Messenger(props){
                                     return(<>
                                          <div className="me_message messagebox">
                                              <div className="message"> {o.content}</div>
-                                             <div className="your_profile_img"> img </div>
+                                             <div className="profile_img"> img </div>
                                          </div>
                                      </>)
                                }
