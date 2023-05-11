@@ -22,7 +22,7 @@ import { faComments } from "@fortawesome/free-regular-svg-icons";
 export default function Messenger(props){
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ로그인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     //로그인 정보 객체
-    let member =   JSON.parse( sessionStorage.getItem("login_token") );
+    let member = JSON.parse( sessionStorage.getItem("login_token") );
 
     //로그인 정보 가져오는 함수
     useEffect(()=>{
@@ -33,7 +33,6 @@ export default function Messenger(props){
             }else{member = r.data}
             })
     },[])
-
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 로그인 끝 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 채팅방 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -46,20 +45,19 @@ export default function Messenger(props){
     // 1-2.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
 
-    //1-3. 클릭한 채팅방
-    const [roomId , setRoomId] = useState();
+    //1-3. 클릭한 채팅방 번호
+    const [roomId , setRoomId] = useState(0);
 
-    //메세지 출력창
-    const [msgContent, setMsgContent ] = useState([]);
 
-    // 1-1. 방만들기 (멤버 id는 어디에 얻어야하는지? MessengerService + messenger)
+
+
+    // 1-1. 채팅방 만들기 (멤버 id는 어디에 얻어야하는지? MessengerService + messenger)
         //1) 방만드는 아이콘 클릭시 모달나오게하기
     const create_chat = () => { setModal(true);}
         //2) TextField 값 가져오기
     const titleChange = (event) => { setTitle(event.target.value); }
         //3) 전달하기
     const create = () => {
-        console.log(title)
         let ChatRoomsDto = {name:title , memberNo: member.memberNo}
         axios.post("/chat" ,  ChatRoomsDto )
             .then(r => {
@@ -73,6 +71,7 @@ export default function Messenger(props){
     //3) 모달 나가기
     const closeModal = () => {setModal(false);}
 
+    //2. 채팅방 출력하기
     const printChat = () => {
           axios.get("/chat")
                 .then(r=> {console.log(r);
@@ -80,20 +79,11 @@ export default function Messenger(props){
                 })
     }
 
-    // 1-2. 채팅방 출력하기
-    useEffect(()=>{
-        printChat();
-    },[])
+    // 1-2. 채팅방 출력하기 (처음 한번)
+    useEffect(()=>{ printChat();},[])
 
-    //1-3. 채팅방 클릭하기
-    const clickRooms = (chatRoomId)=> {
-        console.log(chatRoomId);
-        setRoomId(chatRoomId)
-        axios.get("/chat/messages", {chatRoomId:chatRoomId})
-            .then(r=>{console.log(r);  })
-    }
-    console.log(roomId)
-
+    //1-3. 채팅방 클릭시 채팅방번호 수정후 ChatRoom에게 전달
+    const clickRooms = (chatRoomId)=> { setRoomId(chatRoomId); }
 
     return(<>
     <div className="container">
@@ -131,10 +121,12 @@ export default function Messenger(props){
 
                 </div>  {/* left_content e */}
             </div> {/* left e */}
+            {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
 
-            <ChatRoom roomId={roomId} member={member} />
+            {/* 클릭한 채팅방 Id, 멤버 정보, 채팅방 배열[클릭한 채팅-1] 배열은0부터 아이디는 1부터, 초기는 0*/}
+            <ChatRoom roomId={roomId}member={member} chatRooms={chatRooms[roomId-1]} onClick={clickRooms} />
 
-            {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
+            {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
                 오른쪽
             </div> {/* right e */}

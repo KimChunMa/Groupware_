@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -17,25 +18,35 @@ import java.util.List;
 public class ChattingHandler extends TextWebSocketHandler {
 
     //0. 서버소켓에 접속한 명단 저장
-    private static List<WebSocketSession> 접속명단 = new ArrayList<>();
+    private static List<WebSocketSession> memberList = new ArrayList<>();
 
     @Override  //클라이언트 접속시
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        System.out.println("-------------------------------------");
         log.info("afterConnectionEstablished"+session);
-        접속명단.add(session); //접속시 리스트에 저장 [다른세션과 통신하기 위함]
+        memberList.add(session); //접속시 리스트에 저장 [다른세션과 통신하기 위함]
+        System.out.println("-------------------------------------");
+        System.out.println(memberList);
     }
 
     @Override //클라이언트에게 메세지 받음
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println("-------------------------------------");
         log.info("handleTextMessage"+session); log.info("handleTextMessage"+message);
-        for(WebSocketSession 세션 : 접속명단){
-            세션.sendMessage(message); //?
+        for(WebSocketSession gotMessages : memberList){
+            gotMessages.sendMessage(message); //?
         }
+    }
+
+    @Override
+    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+        super.handleMessage(session, message);
     }
 
     @Override // 클라이언트가 서버소켓으로 부터 나갔을 때
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        System.out.println("-------------------------------------");
         log.info("afterConnectionClosed"+session);
-        접속명단.remove(session);
+        memberList.remove(session);
     }
 }

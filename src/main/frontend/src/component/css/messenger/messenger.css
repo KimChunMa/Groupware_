@@ -76,6 +76,7 @@
     border-bottom:1px solid #e5e5e5;
     justify-content:space-between;
     height:70px;
+    cursor:pointer;
 }
 
 /* 채팅방 이미지, 이름, 메세지*/
@@ -104,21 +105,30 @@
     width:45%;
     flex-direction:column;
     background: #F8F9FB;
+    height: 460px;
+    justify-content: space-between;
 }
 
 /* 중앙헤더이름 */
 .center_chat_name{
     width:100%;
-    height:100%;
+    height:75%;
     display:flex;
     align-items:center;
     justify-content: center;
+    line-height: 56px;
 }
 
 /* 채팅방안 */
 .in_chat_room{
     width:100%;
-    height:100%;
+    height: 290px;
+    overflow: scroll;
+}
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.in_chat_room::-webkit-scrollbar {
+  display: none;
 }
 
 /* 채팅방 날짜 */
@@ -132,28 +142,46 @@
     padding:15px;
 }
 
+/* 누군가의 메세지 */
 .your_message{
     width:100%;
     display:flex;
     justify-content: flex-start;
+
 }
 
+/* 나의 메세지*/
 .me_message{
     width:100%;
     display:flex;
     justify-content: flex-end;
 }
 
-.message{
-    max-width:50%; /*해당구역크기의 최대 사이즈*/
-    word-break: break-all; /* 자동줄바꿈 */
+.profile_img{
+    margin-top: 23px;
 }
+
+
+/* 전체 메세지 채팅*/
+.message{
+    background: #fff;
+    border: 1px solid #d5d6d8;
+    max-width: 50%;
+    padding: 15px;
+    word-break: break-all;
+    border-radius: 15px;
+    margin: 0px 10px;
+    font-size: 14px;
+}
+
+
 
 /* --------------------- 메세지 입력 창 ------------------------  */
 /* 메세지 입력창 전체*/
 .message_send_box{
     display:flex;
     align-items:center;
+    height: 60px;
 }
 
 /* 메세지 텍스트 입력공간*/

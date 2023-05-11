@@ -1,5 +1,6 @@
 package connect.web.service.messenger;
 
+import connect.web.controller.messenger.ChattingHandler;
 import connect.web.domain.member.MemberDto;
 import connect.web.domain.member.MemberEntity;
 import connect.web.domain.member.MemberEntityRepository;
@@ -7,6 +8,7 @@ import connect.web.domain.messenger.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -68,18 +70,17 @@ public class MessengerService {
     //2.본인이 속한 채팅방 출력
     public List<ChatRoomsDto> printChat (){
         //1. 회원정보 빼오기 {java에서 빼오기}
-        String login = (String)request.getSession().getAttribute("login");
         MemberEntity memberEntity =
-                memberEntityRepository.findByMemberId(login).get();
+                memberEntityRepository.findByMemberId(loginMember().getMemberId()).get();
 
-        // 자신이 속한 채팅방 번호(Id) 찾기 (ChatParticipantsEntity)
+        // 자신이 속한 chatRooms(Id) 여러개 찾기 (ChatParticipantsEntity)
         List<ChatParticipantsEntity> chatParticipantsEntityList =
                 chatParticipantsEntityRepository.findByMemberNo(memberEntity.getMemberNo());
 
-        // 채팅방 리스트 넣기
+        // 채팅방 리스트
         List<ChatRoomsDto> chatRoomsDtoList = new ArrayList<>();
 
-        // ChatRooms의 memberNo찾기
+        // chatParticipantsEntityList 과 ChatRooms의 memberNo 일치하는것 찾기
         chatParticipantsEntityList.forEach( (o)-> {
             chatRoomsDtoList.add(chatRoomsEntityRepository.findByChatRoomId(o.getChatRoomsEntity()
                     .getChatRoomId()).toDto());
@@ -125,8 +126,16 @@ public class MessengerService {
         //chatMessages <- chatRooms
         chatMessagesEntity.setChatRoomsEntity(chatRoomsEntity);
         chatMessagesEntityRepository.save(chatMessagesEntity);
+
+        try { // 메시지가 도착한 방번호 전송 [ 해당 방번호를 최신화 할려고 ]
+            chattingHandler.handleMessage(null, new TextMessage(String.valueOf(messagesDto.getChatRoomId())) );
+        }
+        catch (Exception e ){}
         return true;
     }
+
+    @Autowired
+    ChattingHandler chattingHandler;
 
     //2. 메세지 출력
     public List<ChatMessagesDto> printMessages(int chatRoomId){
@@ -142,7 +151,6 @@ public class MessengerService {
         chatMessagesEntityList.forEach((o)->{
             chatMessagesDtoList.add(o.toDto());
         });
-
         return chatMessagesDtoList;
     }
 
