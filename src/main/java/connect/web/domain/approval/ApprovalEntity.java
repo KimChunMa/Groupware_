@@ -26,7 +26,7 @@ public class ApprovalEntity {
     @Column(nullable = false) private String approvalWriter;    //신청자
     @Column(nullable = false) private String approvalTitle;     //제목
     @Column(nullable = false) private String approvalContent;   //내용
-    @ColumnDefault("0")@Column private String approvalStatus;   //결재상태[0:대기중 1:대리승인완료 2:과장승인완료 3:팀장승인완료(최종)]
+    @Column @Builder.Default private String approvalStatus = "0";   //결재상태[0:대기중 1:대리승인완료 2:과장승인완료 3:팀장승인완료(최종) 9:반려]
     @Column(nullable = false) private String approvalData;      //결재날짜
 
     @ManyToOne
@@ -50,6 +50,9 @@ public class ApprovalEntity {
                 .approvalContent(this.approvalContent)
                 .approvalStatus(this.approvalStatus)
                 .approvalData(this.approvalData)
+                .memberRank(this.memberEntity.getMemberRank() )
+                .partNo(this.memberEntity.getPartEntity().getPartNo())
+                .partName(this.memberEntity.getPartEntity().getPartName())
                 .build();
 
     }

@@ -14,7 +14,7 @@ public class MemberDto {
     private String memberPhone;
     private String memberEmail;
     private MultipartFile memberProfile;
-    private char memberRank;
+    private int memberRank;
     private int partNo;
 
     // ----------------------------------------------------------------

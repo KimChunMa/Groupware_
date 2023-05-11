@@ -21,6 +21,7 @@ public class ApprovalController {
     @Autowired
     HttpServletRequest request;
 
+
     //서류 등록
     @PostMapping("/awrite")
     public boolean approvalWrite(@RequestBody ApprovalDto approvalDto  ){
@@ -30,31 +31,45 @@ public class ApprovalController {
     }
 
 
-    //내가 쓴 서류 상태출력
+
+
+   //STATUS 상태에따른 서류 [2023-05-11 월 작업 ]
+    @GetMapping("/getUserRank")
+    public List<ApprovalDto> approvalDtoList( ){
+        List<ApprovalDto> result = approvalService.approvalDtoList();
+        log.info("c status에 따른 게시물출력 result:::"+result);
+        return result;
+    }
+
+/*    @PostMapping("/getAccept")
+    public boolean accept(){
+        boolean result = approvalService.accept();
+        log.info("c approvalWrite : "+result);
+        return result;
+    }*/
+
+/*    //내가 쓴 서류 상태출력
     @GetMapping("/alist")
     public List<ApprovalDto> approvalDtoList( ){
         List<ApprovalDto> result = approvalService.approvalDtoList();
         log.info("c result:::"+result);
         return result;
-    }
+    }*/
 
+/*
     //맴버랭크 빼내기 함수
     @GetMapping("/getUserRank")
     public List<ApprovalDto> getUserRank() {
-/*      String result =(String)request.getSession().getAttribute("login");
-        log.info("getUserRank getUserRank() result ::: " + result);*/
-        List<ApprovalDto> result = approvalService.approvalDtos();
-        log.info("c result:::"+result);
-
-        return null;
-    }
-
-/*    @GetMapping("/alist")
-    public List<ApprovalDto> approvalDtoList( ){
-        List<ApprovalDto> result = approvalService.totalApproval();
-        log.info("c 모든 게시물출력 result:::"+result);
+      //String result = (String)request.getSession().getAttribute("login");
+        List<ApprovalDto>result = approvalService.getUserRank();
+        log.info("getUserRank getUserRank() result ::: " + result);
+        // List<ApprovalDto> result = approvalService.approvalDtos();
+        //log.info("c result:::"+result);
         return result;
-    }*/
+    }
+*/
+
+
 
 
 }

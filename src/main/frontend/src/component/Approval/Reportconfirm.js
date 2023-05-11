@@ -24,26 +24,43 @@ export default function Reportconfirm( props ){
     //요청한 게시물 정보를 가지고 있는 리스트 변수[상태관리변수]
     const [ rows, setRows ]=useState( [] );
 
+
+    //status에 따른 서류 출력 [2023-05-11 월 작업 ]
     const getUserRank = () => {
         axios.get('/approval/getUserRank').then(r => {
-            console.log(r);
+              console.log(r);
 
         })
     }
 
 
+
+    //승인 눌렀을때 status 1로 업데이트되는 경우
+    const getAccept = () => {
+        console.log('승인버튼눌림')
+        axios.post('/approval/getAccept').then(r => {
+              console.log(r);
+        })
+    }
+
+
+
+
+/*
+    //전체서류출력
     useEffect(()=>{
         axios.get('/approval/alist')
                 .then(r => { console.log(r)
 
 
                  });
-    });
+    });*/
 
 
     //서류상태확인
     return(<>
         <h3>서류</h3>
         <button  onClick={getUserRank} type="button">랭크</button>
+        <button  onClick={getAccept} type="button">승인</button>
     </>)
 }

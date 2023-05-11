@@ -28,7 +28,7 @@ public class MemberEntity {
     @Column private String memberPhone;
     @Column private String memberEmail;
     @Column private String memberProfile;
-    @Column private char memberRank;
+    @Column int  memberRank;
 
     @ManyToOne
     @JoinColumn( name = "partNo")
