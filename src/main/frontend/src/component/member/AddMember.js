@@ -15,6 +15,8 @@ export default function AddMember( props ) {
     const [ rank , setRank ] = useState('');
     const [ part , setPart ] = useState('');
 
+    const [imageSrc, setImageSrc] = useState('');
+
     let memberInfo = useRef(null);
 
 
@@ -44,6 +46,25 @@ export default function AddMember( props ) {
         console.log(event.target.value);
         setPart(event.target.value);
     };
+
+
+    const encodeFileToBase64 = (fileBlob) => {
+
+        const reader = new FileReader();
+        reader.readAsDataURL(fileBlob);
+
+        return new Promise( (resolve) => {
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                resolve();
+            };
+        });
+    };
+
+    const handleImageUpload = (e) => {
+        console.log("이미지업로드");
+        encodeFileToBase64(e.target.files[0]);
+    }
 
     return (<>
         <Container className="addMember-wrap">
@@ -98,13 +119,15 @@ export default function AddMember( props ) {
                     </div>
                     <div className="addMember-itemBox imgBox">
                         <div className="input_btn_box">
-                            <TextField type="file" className="input_profile" name="memberProfile" />
+                            <TextField type="file" className="input_profile" name="memberProfile" onChange={ handleImageUpload } />
                             <div className="btnBox">
                                 <Button variant="contained" onClick={ addMember }> 등록 </Button>
                                 <Button variant="outlined"> 취소 </Button>
                             </div>
                         </div>
-                        <div className="img-view"> 이미지 미리보기 </div>
+                        <div className="preview">
+                            { imageSrc && <img src={imageSrc} alt="preview-img" /> }
+                        </div>
                     </div>
                 </div>
             </form>

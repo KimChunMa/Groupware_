@@ -1,12 +1,16 @@
 package connect.web.service.member;
 
 import connect.web.domain.member.*;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -17,15 +21,33 @@ public class MemberService {
     @Autowired MemberEntityRepository memberEntityRepository;
     @Autowired PartEntityRepository partEntityRepository;
 
+    String path = "C:\\java\\";
+
     // 1. 회원 등록하기
-    public boolean add( MemberDto memberDto){
+    @Transactional
+    public boolean add( MemberDto memberDto) {
         
         // 1. 입력된 partNo 로 엔티티 찾기
         Optional<PartEntity> optionalPartEntity = partEntityRepository.findById( memberDto.getPartNo() );
 
         if( optionalPartEntity.isPresent() ){ // 만약에 입력받은 부서값이 존재하면
             // 전달받은 DTO 를 엔티티로 변환 후 저장
+
+            if( !memberDto.getMemberProfile().equals("") ) { // 첨부파일이 존재하면
+                String fileName = UUID.randomUUID().toString() + "_" + memberDto.getMemberProfile().getOriginalFilename() ;
+
+                File file = new File( path + fileName );
+
+                try{
+                    memberDto.getMemberProfile().transferTo( file );
+                    memberDto.setUuidFilename( fileName );
+                }catch (Exception e){
+                    log.info("file upload failed : " + e );
+                }
+            }
+
             MemberEntity memberEntity = memberEntityRepository.save( memberDto.toEntity() );
+
             if( memberEntity.getMemberNo() > 0 ){ // 만약 저장된 getMemberNo 값이 0 이상일경우 -> 저장성공
 
                 // * member <-> part 양방향 저장

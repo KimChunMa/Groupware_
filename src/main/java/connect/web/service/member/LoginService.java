@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Optional;
 
 @Slf4j
@@ -47,12 +48,16 @@ public class LoginService {
         Optional<MemberEntity> optionalMemberEntity = memberEntityRepository.findByMemberId( memberId );
 
         if( optionalMemberEntity.isPresent() ) {
+
             MemberEntity memberEntity = optionalMemberEntity.get();
+
             return memberEntity.toDto();
+
         }else{
             return new MemberDto();
         }
     }
+
 
     // 로그아웃
     public boolean logout() {

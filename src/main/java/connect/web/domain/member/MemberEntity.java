@@ -28,7 +28,8 @@ public class MemberEntity {
     @Column private String memberPhone;
     @Column private String memberEmail;
     @Column private String memberProfile;
-    @Column private char memberRank;
+    @Column private String uuidFilename;
+    @Column private int memberRank;
 
     @ManyToOne
     @JoinColumn( name = "partNo")
@@ -69,6 +70,7 @@ public class MemberEntity {
             .memberEmail( this.memberEmail )
             .memberRank( this.memberRank )
             .partNo( this.partEntity.getPartNo() )
+            .uuidFilename( this.uuidFilename )
             .build();
     }
 }
