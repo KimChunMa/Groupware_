@@ -7,31 +7,26 @@ export default function Messenger(props){
    	const member = props.member;
     //1.메세지 보내기 DOM
     let msgInput = useRef(null);
-
     //2-2. 현재 채팅방 전체 메세지
    	const [msgContent, setMsgContent ] = useState([]);
-    //3. 들어온 회원
-    let [id, setId] = useState(member.memberNo);
-    //4. 소켓
+    //3. 소켓
     let ws = useRef( null );
 
     useEffect( () => {
         if(!ws.current){//만약 클라이언트소켓이 접속이 안되어 있을때
              ws.current = new WebSocket("ws://localhost:8080/chat2");
-             ws.current.onopen = () => {console.log('서버 접속했습니다.');}
+             ws.current.onopen = () => {}
              //4. 나갈때
-             ws.current.onclose = (e) => {console.log('서버 나갔습니다.')}
+             ws.current.onclose = (e) => {}
              //5. 오류
-             ws.current.onerror = (e) => {console.log('소켓 오류')}
+             ws.current.onerror = (e) => {}
              //6. 받을때
              ws.current.onmessage = (e) => {
-                 console.log('서버소켓으로 메세지 받음'); console.log(e)
-                 console.log('방금 글이 작성된 방번호 : ' + e.data )
-                 props.clickRooms( e.data )
-                 printMessages( e.data )
+                 printMessages(  e.data)
              }
         }
     })
+
 
     //1. 메세지 보내기
     const sendMessages = () =>{
@@ -40,19 +35,16 @@ export default function Messenger(props){
             chatRoomId: props.roomId,                msgType: "msg"
         }
         axios.post('/chat/message', chatMessagesDto)
-            .then(r=>{ printMessages ( props.roomId )  })
+            .then(r=>{ printMessages ( props.roomId );  })
     }
 
-
-    //2-2. 채팅방 클릭시+입력받을시 메세지 출력
-    useEffect(()=>{ printMessages() },[props.roomId])
+    //2-2. 채팅방 클릭시+입력받을시 메세지 출력  (roomId2를 props.roomId로 수정 가능 )
+    useEffect(()=>{ printMessages(props.roomId); },[props.roomId])
 
     //2-3. 메세지 출력하기
     const printMessages = (chatRoomId) => {
-        if(props.roomId > 0){ //초기값은 0이므로 클릭전 나오면 안됨.
-        axios.get("/chat/message", {params:{"chatRoomId":props.roomId}})
+        axios.get("/chat/message", {params:{"chatRoomId":chatRoomId}})
             .then(r=>{setMsgContent(r.data);})
-        }
     }
 
     //3. 렌더링 할때마다 스크롤 가장 하단으로 내리기
@@ -61,13 +53,11 @@ export default function Messenger(props){
         document.querySelector('.in_chat_room').scrollHeight;
     },[msgContent])
 
-
-
     return (<>
                 {/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
                 <div className="center">
                     <div className="header">
-                        <span className="chat_name center_chat_name">
+                        <span className="chat_name center_chat_name"> {/* 부모의 클릭한 채팅방 배열을 가져옴 */}
                             {props.chatRooms != undefined || props.chatRooms != null ?
                              props.chatRooms.name : '' }
                         </span>

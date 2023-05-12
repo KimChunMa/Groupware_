@@ -37,8 +37,8 @@ public class MessengerController {
 
     //3. 방 수정하기
     @PutMapping("")
-    public boolean editChat (@RequestParam int chatRoomId, @RequestParam String name){
-        return messengerService.editChat(chatRoomId, name);
+    public boolean editChat (@RequestBody ChatRoomsDto chatRoomsDto){
+        return messengerService.editChat(chatRoomsDto);
     }
 
     //4. 방삭제하기
@@ -69,6 +69,7 @@ public class MessengerController {
     //4. 메세지 삭제하기
     @DeleteMapping("/message")
     public boolean DeleteMessages(int chatMessagesId){
+
         return messengerService.DeleteMessages(chatMessagesId);
     }
 
