@@ -2,6 +2,7 @@ package connect.web.domain.approval;
 
 import connect.web.domain.member.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -39,10 +40,14 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
     List<ApprovalEntity>findByWatch( @Param("status") String status );
 
 
+    @Modifying
     //approval_no를 인수로 받아 서류승인완료되면 1단계씩 approval_status 1씩 증가하도록
     @Query( value = "update approval" +
-            "set approval_status = (approval_status + 1)" +
-            "where approval_no = :pk" ,nativeQuery = true)
-    boolean update( @Param("pk")int pk);
+            " set approval_status = (approval_status + 1)" +
+            " where approval_no = :approvalNo" ,nativeQuery = true)
+    int statusupdate( @Param("approvalNo")int approvalNo);
+
+
+
 
 }

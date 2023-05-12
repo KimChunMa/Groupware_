@@ -41,12 +41,26 @@ public class ApprovalController {
         return result;
     }
 
-/*    @PostMapping("/getAccept")
-    public boolean accept(){
-        boolean result = approvalService.accept();
-        log.info("c approvalWrite : "+result);
+/*
+    해당게시물출력
+    @GetMapping("/getAccept")
+    public boolean print(@RequestParam int approvalNo){
+        log.info("c accept::::approvalNo:::"+approvalNo);
+        boolean result = approvalService.print(approvalNo);
+        log.info("c accept result::::: "+result);
         return result;
-    }*/
+    }
+*/
+
+
+    //*수락버튼클릭*//*
+    @GetMapping("/getAccept")
+    public int accept(@RequestParam int approvalNo){
+        log.info("c accept::::approvalNo:::"+approvalNo);
+        int result = approvalService.accept(approvalNo);
+        log.info("c accept result::::: "+result);
+        return result;
+    }
 
 /*    //내가 쓴 서류 상태출력
     @GetMapping("/alist")

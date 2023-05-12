@@ -88,14 +88,26 @@ public class ApprovalService {
         return false;
     }
 
-
-/*    @Transactional
-    public boolean accept(){
-
+    /*수락버튼클릭
+    @Transactional
+    public boolean print(@RequestParam int approvalNo) {
+        log.info("s accept::::approvalNo:::" + approvalNo);
         boolean result = approvalEntityRepository.update(approvalNo);
+        log.info("s accept result::::: " + result);
         return result;
+    }
+*/
 
-    }*/
+
+    //*수락버튼클릭*//
+    @Transactional
+    public int accept(@RequestParam int approvalNo){
+        log.info("s accept::::approvalNo:::"+approvalNo);
+        int result = approvalEntityRepository.statusupdate(approvalNo);
+        log.info("s accept result::::: "+result);
+
+        return result;
+    }
 
     //서류 상태출력
     //STATUS 상태에따른 서류
