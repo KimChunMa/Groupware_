@@ -69,7 +69,8 @@ public class MessengerController {
     //4. 메세지 삭제하기
     @DeleteMapping("/message")
     public boolean DeleteMessages(int chatMessagesId){
-
+        System.out.println("--------------------");
+        System.out.println(chatMessagesId);
         return messengerService.DeleteMessages(chatMessagesId);
     }
 

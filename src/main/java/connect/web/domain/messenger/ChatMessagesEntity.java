@@ -3,6 +3,9 @@ package connect.web.domain.messenger;
 import connect.web.domain.BaseTime;
 import connect.web.domain.member.MemberEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity @Table(name="ChatMessages")
@@ -25,6 +28,7 @@ public class ChatMessagesEntity extends BaseTime {  // 메세지 생성날짜를
     @ManyToOne
     @JoinColumn(name="chatRoomId")
     @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ChatRoomsEntity chatRoomsEntity; //  채팅방 ID (fk)
 
 

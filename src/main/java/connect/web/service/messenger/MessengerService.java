@@ -109,13 +109,19 @@ public class MessengerService {
     @Transactional
     public boolean deletChat(int chatRoomId){
         //방주인 인지 검사
+        MemberEntity memberEntity =
+                memberEntityRepository.findById( loginMember().getMemberNo()).get();
 
-        //삭제할려는 방검사
-        Optional<ChatRoomsEntity> chatRoomsEntity =
-                chatRoomsEntityRepository.findById(chatRoomId);
-        //삭제
-        chatRoomsEntityRepository.delete(chatRoomsEntity.get());
-        return true;
+        ChatRoomsEntity chatRoomsEntity = chatRoomsEntityRepository.findById(chatRoomId).get();
+
+        if(memberEntity.getMemberNo() == chatRoomsEntity.getMemberEntity().getMemberNo()) {
+            System.out.println("------------------ 일치함");
+            System.out.println(chatRoomsEntity);
+            //삭제
+            chatRoomsEntityRepository.delete(chatRoomsEntity);
+            return true;
+        }
+        return false;
     }
 
     //---------------------------- 메세지 보내기 -------------------------
@@ -178,7 +184,6 @@ public class MessengerService {
     @Transactional
     public boolean DeleteMessages(int chatMessagesId){
         //메세지 보낸 사람과 일치한지 검사
-
         //메세지 삭제하기
         Optional<ChatMessagesEntity> chatMessagesEntity =
                 chatMessagesEntityRepository.findById(chatMessagesId);

@@ -2,6 +2,9 @@ package connect.web.domain.messenger;
 
 import connect.web.domain.member.MemberEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import javax.persistence.*;
 
@@ -17,11 +20,13 @@ public class ChatParticipantsEntity {
     @ManyToOne
     @JoinColumn(name="memberNo")
     @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MemberEntity memberEntity; //멤버 ID
 
 
     @ManyToOne
     @JoinColumn(name="chatRoomId")
     @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ChatRoomsEntity chatRoomsEntity; //  채팅방 ID (fk)
 }
