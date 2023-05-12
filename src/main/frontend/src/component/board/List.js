@@ -81,7 +81,7 @@ export default function List(props) {
                             <TableCell component="th" scope="row"> {row.boardNo} </TableCell>
                             <TableCell align="center"> {row.boardDate} </TableCell>
                             <TableCell align="center"> {row.partName} </TableCell>
-                            <TableCell align="left"> {row.boardTitle} </TableCell>
+                            <TableCell align="center"> <a href={'/view/'+row.boardNo }> {row.boardTitle} </a> </TableCell>
                             <TableCell align="center"> {row.memberName} </TableCell>
                             <TableCell align="center"> {row.boardView} </TableCell>
                         </TableRow>
@@ -89,7 +89,7 @@ export default function List(props) {
                 </TableBody>
             </Table>
         </TableContainer>
-        <div style={{margin:'30px 0 0 0 auto' , display:'flex'}}>
+        <div style={{ display:'flex' , justifyContent:'center' , margin: '30px 0 0 0px' , alignItems:'center'}}>
             <div>
                 <Pagination count={totalPage} color="primary" onChange={selectPage} />
             </div>

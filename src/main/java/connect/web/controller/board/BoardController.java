@@ -1,7 +1,6 @@
 package connect.web.controller.board;
 
 import connect.web.domain.board.BoardDto;
-import connect.web.domain.board.BoardEntity;
 import connect.web.domain.board.PageDto;
 import connect.web.domain.member.PartDto;
 import connect.web.service.board.BoardService;
@@ -43,6 +42,13 @@ public class BoardController {
     @GetMapping("")
     public PageDto getList(PageDto pageDto){
         PageDto result = boardService.getList(pageDto);
+        return result;
+    }
+
+    // 5. 개별 출력
+    @GetMapping("/getboard")
+    public BoardDto getboard(@RequestParam int boardNo){
+        BoardDto result = boardService.getboard(boardNo);
         return result;
     }
 }
