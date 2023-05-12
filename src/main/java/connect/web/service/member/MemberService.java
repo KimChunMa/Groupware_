@@ -86,4 +86,42 @@ public class MemberService {
         return false;
     }
 
+
+
+    // 4. 멤버 수정하기
+    @Transactional
+    public boolean updateMember( MemberDto memberDto ){
+        log.info("put : " + memberDto );
+        Optional<MemberEntity> optionalMemberEntity = memberEntityRepository.findById( memberDto.getMemberNo() );
+
+        if( optionalMemberEntity.isPresent() ){
+
+            MemberEntity memberEntity = optionalMemberEntity.get();
+
+            if( !memberDto.getMemberProfile().equals("") ){
+
+                String fileName = UUID.randomUUID().toString() + "_" + memberDto.getMemberProfile().getOriginalFilename() ;
+
+                File file = new File( path + fileName );
+
+                try{
+                    memberDto.getMemberProfile().transferTo( file );
+                    memberEntity.setUuidFilename( fileName );
+                }catch (Exception e){
+                    log.info("file upload failed : " + e );
+                }
+
+                memberEntity.setMemberEmail( memberDto.getMemberEmail() );
+                memberEntity.setMemberName( memberDto.getMemberName() );
+                memberEntity.setMemberPhone( memberDto.getMemberPhone() );
+                memberEntity.setMemberPwd( memberDto.getMemberPwd() );
+
+                return true ;
+            }
+        }
+
+        return false;
+    }
+
+
 }

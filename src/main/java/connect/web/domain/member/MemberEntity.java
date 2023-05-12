@@ -70,6 +70,7 @@ public class MemberEntity {
             .memberEmail( this.memberEmail )
             .memberRank( this.memberRank )
             .partNo( this.partEntity.getPartNo() )
+            .partName( this.partEntity.getPartName() )
             .uuidFilename( this.uuidFilename )
             .build();
     }

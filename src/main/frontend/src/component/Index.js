@@ -21,7 +21,9 @@ import PartBoard from './board/PartBoard';
 import Home from './Home'
 import Login from './member/Login'
 import AddMember from './member/AddMember';
+import AddPart from './member/AddPart'
 import MemberList from './member/MemberList';
+import AddrMain from './AddressBook/AddrMain'
 
 
 //----------------------- 이경석 ---------------------------------//
@@ -72,6 +74,8 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/member/addmember" element={<AddMember />} />
                 <Route path="/member/memberlist" element={<MemberList />} />
+                <Route path="/member/addressbook" element={<AddrMain />} />
+                <Route path="/member/addpart" element={<AddPart />} />
 
                 {/* 이경석 */}
                 <Route path="/messenger" element={<Messenger />} />

@@ -34,4 +34,11 @@ public class MemberController {
     public boolean deleteMember( @RequestParam int memberNo ){
         return memberService.deleteMember(memberNo);
     }
+
+
+    // 4. 멤버 수정하기
+    @PutMapping("")
+    public boolean updateMember( MemberDto memberDto ){
+        return memberService.updateMember(memberDto);
+    }
 }

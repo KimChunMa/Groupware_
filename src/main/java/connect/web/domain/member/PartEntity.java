@@ -30,4 +30,13 @@ public class PartEntity {
     @Builder.Default
     private List<MemberEntity>  memberEntityList = new ArrayList<>();
 
+
+    public PartDto toDto() {
+        return PartDto.builder()
+                .partNo( this.partNo )
+                .partName( this.partName )
+                .build();
+    }
+
+
 }

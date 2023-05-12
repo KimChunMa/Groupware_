@@ -10,4 +10,11 @@ import lombok.NoArgsConstructor;
 public class PartDto {
     private int partNo;
     private String partName;
+
+    public PartEntity toEntity(){
+        return PartEntity.builder()
+                .partName( this.partName )
+                .build();
+    }
+
 }
