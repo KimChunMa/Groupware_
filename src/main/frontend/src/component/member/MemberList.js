@@ -10,10 +10,24 @@ import Stack from '@mui/material/Stack';
 const columns = [
     { field: 'id', headerName: '번호', width: 100 },
     { field: 'memberId', headerName: '아이디', width: 100 },
-    { field: 'partNo', headerName: '부서', width: 100 },
+    { field: 'partName', headerName: '부서', width: 100 },
     { field: 'memberName', headerName: '사원명', width: 100 },
     { field: 'memberPhone', headerName: '휴대폰', width: 100 },
-    { field: 'memberEmail', headerName: '이메일', width: 100 }
+    { field: 'memberEmail', headerName: '이메일', width: 100 },
+    { field:
+        'data' ,
+        headerName : '수정' ,
+        width: 100 ,
+        renderCell : () => (
+            <Button
+                variant="contained"
+                color="primary"
+                size="small"
+            >
+            수정
+            </Button>
+        )
+    }
 ];
 
 export default function MemberList( props ) {

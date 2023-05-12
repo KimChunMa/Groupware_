@@ -17,6 +17,7 @@ public class MemberDto {
     private String uuidFilename;
     private int memberRank;
     private int partNo;
+    private String partName;
 
     // ----------------------------------------------------------------
 

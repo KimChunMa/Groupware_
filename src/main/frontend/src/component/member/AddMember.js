@@ -20,8 +20,23 @@ export default function AddMember( props ) {
     let memberInfo = useRef(null);
 
 
+    const getPart = () => {
+
+        axios.get("/part").then( r => {
+            console.log( r.data );
+        })
+
+    }
+
+
+    useEffect( () => {
+        getPart();
+    } , [] )
+
+
 
     const addMember = () => {
+
         console.log('addMember');
         console.log( memberInfo.current );
         console.log( memberInfo.current.memberId.value );

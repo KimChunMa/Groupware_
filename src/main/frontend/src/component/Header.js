@@ -3,6 +3,8 @@ import axios from 'axios';
 import FileSaver from "file-saver";
 import styles from './css/main/header.css';
 
+import SideBar from './SideBar';
+
 export default function Header( props ) {
 
     const [ login , setLogin ] = useState(null);
@@ -76,9 +78,10 @@ export default function Header( props ) {
 
 
     return (<>
-
+        <SideBar />
         <a href="/home"> HOME </a>
         <a href="/member/addmember"> 직원등록 </a>
+        <a href="/addressbook"> 주소록 </a>
         {/*이경석 링크용*/}
         <a href="/messenger"> 메신저 들어가기</a>
         {/*김동혁 임시 링크용*/}
@@ -93,6 +96,8 @@ export default function Header( props ) {
         <button onClick={ getProfileImg }> 이미지 테스트 </button>
 
         <img src={ imageUrl } />
+
+
 
 
     </>);
