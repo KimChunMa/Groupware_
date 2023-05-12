@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useParams}from 'react-router-dom';
 import Button from '@mui/material/Button';
 
-export default function View(props){
+export default function ViewA(props){
     /*결제전  서류  내용 페이지*/
     const params = useParams();
     console.log(params);
