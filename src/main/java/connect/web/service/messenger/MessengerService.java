@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,7 @@ public class MessengerService {
 
     //* ---------------------- 채팅방 생성 기능 ------------------------- */
     //1. 방생성하기
+    @Transactional
     public  boolean createChat(ChatRoomsDto chatRoomsDto){
         // 1-1. 로그인된 회원 빼오기 {header 에서 들고오기}
         MemberEntity memberEntity = memberEntityRepository.findById(chatRoomsDto.getMemberNo()).get();
@@ -68,6 +70,7 @@ public class MessengerService {
     }
 
     //2.본인이 속한 채팅방 출력
+    @Transactional
     public List<ChatRoomsDto> printChat (){
         //1. 회원정보 빼오기 {java에서 빼오기}
         MemberEntity memberEntity =
@@ -89,19 +92,21 @@ public class MessengerService {
     }
 
     //3. 방 이름 수정하기
-    public boolean editChat (int chatRoomId, String name){
-        //방주인 인지 검사
-
+    @Transactional
+    public boolean editChat (ChatRoomsDto chatRoomsDto){
         //현재 수정할려는 채팅방 검사
-        Optional<ChatRoomsEntity> chatRoomsEntity =
-                chatRoomsEntityRepository.findById(chatRoomId);
+        Optional<ChatRoomsEntity> optionalChatRoomsEntity =
+                chatRoomsEntityRepository.findById(chatRoomsDto.getChatRoomId());
 
-        chatRoomsEntity.get().setName(name);
-
+        if( optionalChatRoomsEntity.get().getMemberEntity().getMemberNo() != loginMember().getMemberNo()){
+            return false;
+        }
+        optionalChatRoomsEntity.get().setName(chatRoomsDto.getName());
         return true;
     }
 
     //4. 방 삭제하기
+    @Transactional
     public boolean deletChat(int chatRoomId){
         //방주인 인지 검사
 
@@ -115,6 +120,7 @@ public class MessengerService {
 
     //---------------------------- 메세지 보내기 -------------------------
     //1. 메세지 보내기
+    @Transactional
     public boolean sendMessages(ChatMessagesDto messagesDto){
         //1) 현재 받은 메세지를 Entity로 변환
         ChatMessagesEntity chatMessagesEntity = messagesDto.toEntity();
@@ -138,6 +144,7 @@ public class MessengerService {
     ChattingHandler chattingHandler;
 
     //2. 메세지 출력
+    @Transactional
     public List<ChatMessagesDto> printMessages(int chatRoomId){
         System.out.println("-----------------------------");
         System.out.println(chatRoomId);
@@ -155,6 +162,7 @@ public class MessengerService {
     }
 
     //3. 메세지 수정하기
+    @Transactional
     public boolean editMessages(int chatMessagesId, String content){
         //메세지 보낸 사람과 일치한지 검사
 
@@ -167,6 +175,7 @@ public class MessengerService {
     }
 
     //4. 삭제하기
+    @Transactional
     public boolean DeleteMessages(int chatMessagesId){
         //메세지 보낸 사람과 일치한지 검사
 

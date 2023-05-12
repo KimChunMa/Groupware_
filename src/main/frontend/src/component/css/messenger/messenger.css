@@ -9,10 +9,8 @@
     height:100%;
     display: flex;
     justify-content: center;
-    margin-top: 120px;
+    margin-top: 10px;
     background-color:#ebf1ff;
-}
-.container * {
 }
 
 /* 메신저 전체*/
@@ -97,6 +95,41 @@
 .msg_text{
     margin-top: 11px;
 }
+
+
+/* ------------ 우클릭시 리스트 창 ----------------*/
+.chat_menu {
+  display: none;
+  position: absolute;
+  width: 100px;
+  margin: 0;
+  padding: 0;
+  background: #85a5ff;;
+  border-radius: 5px;
+  list-style: none;
+  box-shadow:
+    0 15px 35px rgba(50,50,90,0.1),
+    0 5px 15px rgba(0,0,0,0.07);
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.chat_menu li {
+  border-left: 3px solid transparent;
+  transition: ease .2s;
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+  transition: ease .2s;
+}
+
+.chat_menu li:hover {
+  background: #CE93D8;
+  border-left: 3px solid #9C27B0;
+  color: #FFFFFF;
+}
+
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 
@@ -241,8 +274,7 @@
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방만들기 모달 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 /*모달 배경*/
-.modal_wrap{
-	background-color:rgb(255 255 255 / 50%);
+.modal_wrap , .modal_wrap2{
 	position: fixed;
 	top: 20%; left: 30%;
 	width: 80%; height: 100%;
