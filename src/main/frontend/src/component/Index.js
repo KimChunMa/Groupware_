@@ -14,6 +14,7 @@ import Dashboard from '../templates/pages/Dashboard'
 // ---------------------- 김동혁 ---------------------------------//
 import List from './board/List';
 import Write from './board/Write';
+import View from './board/View';
 import PartBoard from './board/PartBoard';
 
 // -------------- 김성봉 --------------- //
@@ -84,6 +85,7 @@ function App() {
                 <Route path="/list" element={<List />} />
                 <Route path="/write" element={<Write />} />
                 <Route path="/partboard" element={<PartBoard />} />
+                <Route path="/view/:boardNo" element={<View />} />
             </Route>
         </Routes>
     );

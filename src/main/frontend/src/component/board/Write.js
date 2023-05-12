@@ -24,6 +24,11 @@ export default function Write(props) {
                     else if( r.data == 3 ){ alert('게시물작성성공'); }
                 })
     }
+    // 1-1 게시글쓰기 취소
+    const cancelSetBoard = () =>{
+        window.location.href="/list";
+    }
+
     // 부서 선택
     let [partNo,setPartNo] = useState(0);
     const partChange = (partNo) =>{setPartNo(partNo);}
@@ -33,7 +38,7 @@ export default function Write(props) {
             <TextField fullWidth className="boardTitle"     id="boardTitle" label="제목" variant="standard" />
             <TextField fullWidth className="boardContent"   id="boardContent" label="내용" multiline rows={10} variant="standard"/>
             <Button variant="outlined" onClick={setBoard}> 등록 </Button>
-            <Button variant="outlined"> 취소 </Button>
+            <Button variant="outlined" onClick={cancelSetBoard}> 취소 </Button>
         </Container>
     </>)
 

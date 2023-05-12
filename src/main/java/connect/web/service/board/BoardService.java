@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,6 +91,17 @@ public class BoardService {
         pageDto.setBoardDtoList(boardDtoList);
         pageDto.setTotalPage(entityPage.getTotalPages());
         return pageDto;
+    }
+
+    // 5. 개별 출력
+    public BoardDto getboard(int boardNo){
+        Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardNo);
+        if(optionalBoardEntity.isPresent()){
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            BoardDto boardDto = boardEntity.toDto();
+            return boardDto;
+        }
+        return null;
     }
 }
 
