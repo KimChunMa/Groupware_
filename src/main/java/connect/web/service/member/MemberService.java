@@ -33,7 +33,9 @@ public class MemberService {
         if( optionalPartEntity.isPresent() ){ // 만약에 입력받은 부서값이 존재하면
             // 전달받은 DTO 를 엔티티로 변환 후 저장
 
-            if( !memberDto.getMemberProfile().equals("") ) { // 첨부파일이 존재하면
+            if( memberDto.getMemberProfile() != null && !memberDto.getMemberProfile().isEmpty() ) { // 첨부파일이 존재하면
+
+                log.info("첨부파일 있음 +++++++++++++++++++++");
                 String fileName = UUID.randomUUID().toString() + "_" + memberDto.getMemberProfile().getOriginalFilename() ;
 
                 File file = new File( path + fileName );

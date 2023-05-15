@@ -31,7 +31,6 @@ public class MemberDto {
                 .memberPhone( this.memberPhone )
                 .memberEmail( this.memberEmail )
                 .memberRank( this.memberRank )
-                .memberProfile( this.memberProfile.getOriginalFilename() )
                 .uuidFilename( this.uuidFilename )
                 .partEntity( PartEntity.builder()
                             .partNo( this.partNo )
