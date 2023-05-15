@@ -16,6 +16,7 @@ import List from './board/List';
 import Write from './board/Write';
 import View from './board/View';
 import PartBoard from './board/PartBoard';
+import BoardUpdate from './board/BoardUpdate';
 
 // -------------- 김성봉 --------------- //
 import Home from './Home'
@@ -92,6 +93,7 @@ function App() {
                 <Route path="/write" element={<Write />} />
                 <Route path="/partboard" element={<PartBoard />} />
                 <Route path="/view/:boardNo" element={<View />} />
+                <Route path="/update" element={<BoardUpdate />} />
             </Route>
         </Routes>
     );

@@ -93,15 +93,51 @@ public class BoardService {
         return pageDto;
     }
 
-    // 5. 개별 출력
+    // 5. [김동혁] 개별 게시물 출력
+    @Transactional
     public BoardDto getboard(int boardNo){
+        String ip = request.getRemoteAddr();
+        Object o = request.getSession().getAttribute(ip+boardNo);
         Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardNo);
-        if(optionalBoardEntity.isPresent()){
+        if(o==null&& optionalBoardEntity.isPresent()){
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            BoardDto boardDto = boardEntity.toDto();
+            request.getSession().setAttribute(ip+boardNo,1);
+            request.getSession().setMaxInactiveInterval(60*60*24);
+            boardEntity.setBoardView(boardEntity.getBoardView()+1);
+            return boardDto;
+        } else if (o!=null && optionalBoardEntity.isPresent()) {
             BoardEntity boardEntity = optionalBoardEntity.get();
             BoardDto boardDto = boardEntity.toDto();
             return boardDto;
         }
         return null;
     }
+
+    // 6. [김동혁] 개별 게시물 삭제
+    public boolean delete(int boardNo){
+        Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardNo);
+        if(optionalBoardEntity.isPresent()){
+            boardEntityRepository.delete(optionalBoardEntity.get());
+            return true;
+        }
+        return false;
+    }
+
+    // 7. [김동혁] 개별 게시물 수정
+    @Transactional
+    public boolean update(BoardDto boardDto){ // 1. boarddto 인수로 받아와서
+        Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardDto.getBoardNo());
+        if(optionalBoardEntity.isPresent()){
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            boardEntity.setBoardTitle(boardDto.getBoardTitle());
+            boardEntity.setBoardContent(boardDto.getBoardContent());
+            return true;
+        }
+        return false;
+    }
+
+
+
 }
 
