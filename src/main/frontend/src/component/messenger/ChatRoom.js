@@ -41,11 +41,15 @@ export default function Messenger(props){
         if( chatMessagesDto.content != ''){
             axios.post('/chat/message', chatMessagesDto)
                  .then(r=>{ printMessages ( props.roomId ); msgInput.current.value=""; })
-        }
+        } //메세지 전송후 메세지 내용 초기화
+         chatMessagesDto.content = '';
 
         if(fileInputClick.current.value != ''){//첨부파일 존재시
-        chatMessagesDto.files = new FormData( fileForm.current )
-             axios.post('/chat/fileUpload' , chatMessagesDto )
+        let formData = new FormData( fileForm.current )
+        formData.set( 'chatRoomId' , props.roomId )
+        formData.set( 'memberNo' , member.memberNo )
+
+             axios.post('/chat/fileUpload' , new FormData( fileForm.current ) )
                   .then(r=> {console.log(r); })
         }
     }
@@ -116,7 +120,7 @@ export default function Messenger(props){
                           <div className="btn-upload" onClick={fileUpload}>파일 </div>
                         </div>
                         <form ref={fileForm}>
-                            <input  ref={fileInputClick} type="file" name="attachFile" id="file" multiple={true}   />
+                            <input  ref={fileInputClick} type="file" name="files" id="file" multiple={true}   />
                         </form>
                         <input type="text" className="message_input" ref={msgInput} />
                         <button type="button" className="message_btn" onClick={sendMessages}> 전송 </button>

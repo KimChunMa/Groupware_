@@ -79,7 +79,7 @@ public class MessengerController {
 
     //1. 파일 보내기
     @PostMapping("/fileUpload") //chat 관련 첨부파일 업로드
-    public boolean fileUpload(@RequestParam ChatMessagesDto chatMessagesDto){
+    public boolean fileUpload(ChatMessagesDto chatMessagesDto){
         return messengerService.fileUpload(chatMessagesDto);
     }
 /*
