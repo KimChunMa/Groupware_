@@ -3,9 +3,14 @@ package connect.web.domain.messenger;
 import connect.web.domain.BaseTime;
 import connect.web.domain.member.MemberEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity @Table(name="ChatRooms")
@@ -18,13 +23,21 @@ public class ChatRoomsEntity extends BaseTime { // 채팅방 생성날짜를 전
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chatRoomId; //채팅방 고유 번호, 자동증가
 
-    @Column
+    @Column(nullable = false)
     private String name; //채팅방 이름
 
     @ManyToOne
     @JoinColumn(name="memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity; //방주인
+
+    @OneToMany( mappedBy = "chatRoomsEntity")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ChatParticipantsEntity> chatParticipantsEntityList = new ArrayList<>();
+
+    @OneToMany( mappedBy = "chatRoomsEntity")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ChatMessagesEntity> chatMessagesEntityList = new ArrayList<>();
 
     public ChatRoomsDto toDto(){
         return ChatRoomsDto.builder()

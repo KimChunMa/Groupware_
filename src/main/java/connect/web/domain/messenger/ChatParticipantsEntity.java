@@ -2,6 +2,9 @@ package connect.web.domain.messenger;
 
 import connect.web.domain.member.MemberEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import javax.persistence.*;
 

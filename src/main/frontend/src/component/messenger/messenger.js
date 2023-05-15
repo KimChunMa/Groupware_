@@ -117,8 +117,8 @@ export default function Messenger(props){
 
      //4. 채팅방 삭제
      const del_chat = ((chatRoomId)=>{
-        axios.delete("/chat", {params:{chatRoomId:chatRoomId }})
-            .then(r=>{ if(r.data==true){alert('삭제 되었습니다.'); printChat();}
+        axios.delete("/chat", {params:{"chatRoomId":chatRoomId }})
+            .then(r=>{ console.log(r) ; if(r.data==true){alert('삭제 되었습니다.'); printChat();}
                         else{alert('오류!') } } )
      })
 
