@@ -33,14 +33,21 @@ export default function MemberList( props ) {
 
     const [ selectMember , setSelectedMember ] = useState('');
 
+    // 정보수정 렌더링 상태변수
+    const[ editInfo , setEditInfo ] = useState({});
+
+
     // 모달 제어 변수
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = ( event , params ) => {
+
+        // renderCell 함수는 params 로 값을 받고 해당 값을 살펴보면 row 라는 데이터가 들어있다.
         console.log( event );
         console.log( params );
         console.log( params.row.memberId );
         setSelectedMember( params.row.memberId );
+        setEditInfo( params.row );
         setOpen(true);
     }
     const handleClose = () => setOpen(false);
@@ -89,6 +96,43 @@ export default function MemberList( props ) {
     } , [] )
 
 
+    // 수정 텍스트필드 렌더링을 위한 객체 생성 함수
+    const infoEdit = () =>{ // form 내부 텍스트 필드가 체인지 됐을 경우
+
+        console.log('테스트입니다.')
+        console.log( updateMember.current );
+        console.log( updateMember.current.memberName );
+        console.log( updateMember.current.memberName.value );
+        // useRef 활용 텍스트필드의 value 값을 가져온다
+
+        let newInfo = { // 새로운 객체에 각 텍스트필드 입력값을 체인지 마다 받아와 저장하고
+            memberNo : editInfo.memberNo,
+            memberName : updateMember.current.memberName.value,
+            memberPwd : updateMember.current.memberPwd.value,
+            memberPwdConfirm : updateMember.current.memberPwdConfirm.value,
+            memberPhone : updateMember.current.memberPhone.value,
+            memberEmail : updateMember.current.memberEmail.value
+        }
+
+        // useState 상태변수에 대입하여 렌더링
+        setEditInfo( newInfo );
+
+    }
+
+    const memberUpdate = () => {
+        console.log('업데이트')
+        console.log( editInfo );
+
+        console.log( updateMember.current );
+        console.log( updateMember.current.memberName.value );
+
+        let formData = new FormData( updateMember.current );
+
+        axios.post("/member/update" , { memberNo : 1 } ).then( r => {
+            console.log( r );
+        })
+    }
+
     const columns = [
             { field: 'id', headerName: '번호', width: 100 },
             { field: 'memberId', headerName: '아이디', width: 100 },
@@ -121,16 +165,17 @@ export default function MemberList( props ) {
                                 variant="standard"
                                 disabled
                             />
-                            <form ref={ updateMember }>
-                                <TextField id="memberName" label="이름" variant="standard" />
-                                <TextField id="memberPwd" label="비밀번호" variant="standard" />
-                                <TextField id="memberPwdConfirm" label="비밀번호 확인" variant="standard" />
-                                <TextField id="memberPhone" label="연락처" variant="standard" />
-                                <TextField id="memberEmail" label="이메일" variant="standard" />
+                            <form ref={ updateMember } onChange={ infoEdit }>
+                                <TextField id="memberName" value={ editInfo.memberName } label="이름" variant="standard" />
+                                <TextField id="memberPwd" value={ editInfo.memberPwd } label="비밀번호" variant="standard" />
+                                <TextField id="memberPwdConfirm" value={ editInfo.memberPwdConfirm } label="비밀번호 확인" variant="standard" />
+                                <TextField id="memberPhone" value={ editInfo.memberPhone } label="연락처" variant="standard" />
+                                <TextField id="memberEmail" value={ editInfo.memberEmail } label="이메일" variant="standard" />
+                                <TextField type="file" className="input_profile" name="memberProfile" />
                             </form>
                           </div>
                           <div className="modiBtnBox">
-                            <Button> 수정 </Button>
+                            <Button onClick={ memberUpdate }> 수정 </Button>
                             <Button onClick={ handleClose }> 취소 </Button>
                           </div>
                         </Box>

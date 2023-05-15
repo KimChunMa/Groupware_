@@ -19,9 +19,9 @@ public class MemberDto {
     private int partNo;
     private String partName;
 
+    private String memberPwdConfirm;
+
     // ----------------------------------------------------------------
-
-
 
     public MemberEntity toEntity () {
         return MemberEntity.builder()

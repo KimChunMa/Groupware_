@@ -86,7 +86,7 @@ export default function SideBar( props ) {
 
                 <Box sx={{ height: '100%', flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
                     <Box sx={{ mb: 1 }}>
-                        <Button onClick={handleExpandClick} className="allbtn">
+                        <Button onClick={handleExpandClick} className="allbtn" style={{ margin: "10px" }}>
                             {expanded.length === 0 ? '전체보기' : '간략히 보기'}
                         </Button>
                     </Box>

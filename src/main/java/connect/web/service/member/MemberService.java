@@ -100,7 +100,7 @@ public class MemberService {
 
             MemberEntity memberEntity = optionalMemberEntity.get();
 
-            if( !memberDto.getMemberProfile().equals("") ){
+            if( memberDto.getMemberProfile() != null && !memberDto.getMemberProfile().isEmpty() ){
 
                 String fileName = UUID.randomUUID().toString() + "_" + memberDto.getMemberProfile().getOriginalFilename() ;
 
@@ -119,6 +119,15 @@ public class MemberService {
                 memberEntity.setMemberPwd( memberDto.getMemberPwd() );
 
                 return true ;
+            }else{
+
+                memberEntity.setMemberEmail( memberDto.getMemberEmail() );
+                memberEntity.setMemberName( memberDto.getMemberName() );
+                memberEntity.setMemberPhone( memberDto.getMemberPhone() );
+                memberEntity.setMemberPwd( memberDto.getMemberPwd() );
+
+                return true;
+
             }
         }
 
