@@ -39,6 +39,7 @@ export default function MemberList( props ) {
     const handleOpen = ( event , params ) => {
         console.log( event );
         console.log( params );
+        console.log( params.row.memberId );
         setSelectedMember( params.row.memberId );
         setOpen(true);
     }
