@@ -90,6 +90,7 @@ export default function Header( props ) {
         <a href="/approval">  서류작성 </a>
         {/*백한결*/}
         <a href="/reportconfirm">  서류상태확인페이지 </a>
+        <a href="/approval/myapproval">  내 서류상태확인 </a>
 
         <a href="/"> LOGIN </a>
         <button onClick={ logOut }> LOGOUT </button>

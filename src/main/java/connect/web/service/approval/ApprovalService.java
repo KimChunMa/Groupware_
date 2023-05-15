@@ -1,5 +1,6 @@
 package connect.web.service.approval;
 
+import com.sun.org.apache.bcel.internal.generic.LUSHR;
 import connect.web.domain.approval.ApprovalDto;
 import connect.web.domain.approval.ApprovalEntity;
 import connect.web.domain.approval.ApprovalEntityRepository;
@@ -8,20 +9,13 @@ import connect.web.domain.member.MemberEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.parser.Entity;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
-
-import static connect.web.domain.approval.ApprovalEntityRepository.*;
 
 @Slf4j
 @Service
@@ -98,6 +92,20 @@ public class ApprovalService {
     }
 */
 
+    //해당게시물출력 [2023-05-15]
+    @Transactional
+    public ApprovalDto print(int approvalNo){
+        Optional<ApprovalEntity>optionalApprovalEntity =
+                    approvalEntityRepository.findPrint(approvalNo);
+
+        if(optionalApprovalEntity.isPresent() ){
+            ApprovalEntity approvalEntity = optionalApprovalEntity.get();
+            ApprovalDto approvalDto = approvalEntity.approvalDto();
+            return approvalDto;
+        }
+        return null;
+    }
+
 
     //*수락버튼클릭*//
     @Transactional
@@ -108,6 +116,17 @@ public class ApprovalService {
 
         return result;
     }
+
+    //*반려버튼클릭*//
+    @Transactional
+    public int refuse(@RequestParam int approvalNo){
+        log.info("s refuse::::approvalNo:::"+approvalNo);
+        int result = approvalEntityRepository.statusrefuse(approvalNo);
+        log.info("s refuse result::::: "+result);
+        return result;
+    }
+
+
 
     //서류 상태출력
     //STATUS 상태에따른 서류
@@ -123,19 +142,24 @@ public class ApprovalService {
         if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능] 즉 approval_status값이 0일경우에만 보이는 것임
             status = "0" ;
 
+
         }else if( memberRank == 4){ //과장일경우 [대리가 승인한 경우의 서류 열람가능]
             status = "1" ;
 
         }else if( memberRank == 6){ //팀장일경우 [과장이 승인한 경우의 서류 열람가능]
             status= "2";
 
-        }else if( memberRank == 9){ //서류반려했을겨우
-            status="9";
+        }else if( memberRank == 9){ //사장일경우  즉 최종결제완료됨
+            status="3";
 
         }
 
         List<ApprovalEntity> approvalEntityList = approvalEntityRepository.findByWatch( status );
         //String statuss = (approvalEntityRepository.findByStatus(5)); // 멤버 pk를이용한  approval_status 찾음
+        log.info("과장님 서류상태확인:::");
+        log.info(approvalEntityList.toString());
+        log.info(approvalEntityList+"");
+
 
         approvalEntityList.forEach((o)->{
             list.add(o.approvalDto());
@@ -144,6 +168,30 @@ public class ApprovalService {
     }
 
 
+
+    //내가 쓴 서류 결제상태 출력 [2023-05-15 월 작업 ]
+    @Transactional
+    public List<ApprovalDto>myapprovalDtoList(){
+
+        List<ApprovalDto>list = new ArrayList<>();
+        List<ApprovalEntity>list1 = new ArrayList<>();
+
+        int memberNO= getMember().getMemberNo(); //멤버넘버 빼내기
+
+        log.info("memberNO확인::::"+memberNO);
+
+        List<ApprovalEntity> approvalmyList = approvalEntityRepository.findMyapproval(memberNO);
+        log.info("optionalapprovalmyList확인::::"+approvalmyList);
+
+        if(approvalmyList.size()>0){
+            approvalmyList.forEach((o)->{
+                list.add(o.approvalDto());
+            });
+            return list;
+        }else{
+            return null;
+        }
+    }
 
 
 /*
@@ -189,21 +237,6 @@ public class ApprovalService {
 
 
 
-    //전체출력함수
-/*    @Transactional
-    public List<ApprovalDto>totalApproval(){
-
-        List<ApprovalDto>Alllist = new ArrayList<>();
-
-        List<ApprovalEntity> approvalAllList = approvalEntityRepository.findAll();
-
-        log.info("s approvalAllList 모든 게시물출력"+approvalAllList);
-
-        approvalAllList.forEach((o)->{
-            Alllist.add(o.approvalDto());
-        });
-        return Alllist;
-    }*/
 
 
 }//class e
