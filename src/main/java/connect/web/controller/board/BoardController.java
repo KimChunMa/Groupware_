@@ -51,4 +51,18 @@ public class BoardController {
         BoardDto result = boardService.getboard(boardNo);
         return result;
     }
+
+    // 6. 삭제
+    @DeleteMapping("")
+    public boolean delete(@RequestParam int boardNo){
+        boolean result = boardService.delete(boardNo);
+        return result;
+    }
+
+    // 7. 수정
+    @PutMapping("")
+    public boolean put(@RequestBody BoardDto boardDto){
+        boolean result = boardService.update(boardDto);
+        return result;
+    }
 }
