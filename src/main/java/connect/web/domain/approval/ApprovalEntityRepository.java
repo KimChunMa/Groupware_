@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Entity;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity, Integer > {
@@ -41,7 +43,7 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
 
 
     @Modifying
-    //approval_no를 인수로 받아 서류승인완료되면 1단계씩 approval_status 1씩 증가하도록
+    //수락버튼 클릭시 approval_no를 인수로 받아 서류승인완료되면 1단계씩 approval_status 1씩 증가하도록
     @Query( value = "update approval" +
             " set approval_status = (approval_status + 1)" +
             " where approval_no = :approvalNo" ,nativeQuery = true)
@@ -49,5 +51,19 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
 
 
 
+    @Modifying
+    //반려버튼 클릭시 approval_status 9로 업데이트
+    @Query( value = "update approval set approval_status ='9' where approval_no =:approvalNo " ,nativeQuery = true)
+    int statusrefuse( @Param("approvalNo")int approvalNo);
+
+
+    //결제 할 서류의 게시물 상세보기
+    @Query( value = " select * from approval where approval_no = :approvalNo", nativeQuery = true)
+    Optional<ApprovalEntity> findPrint(@Param("approvalNo")int approvalNo);
+
+
+    //내가 쓴 서류의 결제상태확인하기
+    @Query( value = " select * from approval where member_no = :memberNO", nativeQuery = true)
+    List<ApprovalEntity> findMyapproval(@Param("memberNO")int memberNO);
 
 }
