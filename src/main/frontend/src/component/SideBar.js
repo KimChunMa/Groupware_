@@ -1,6 +1,8 @@
 import React , { useState , useEffect , useRef } from 'react';
 import axios from 'axios';
 
+import styles from './css/main/Sidebar.css';
+
 import { Drawer , Box , Typography , Button , IconButton } from "@mui/material"
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -19,11 +21,15 @@ import TreeItem from '@mui/lab/TreeItem';
 
 export default function SideBar( props ) {
 
+    const [ login , setLogin ] = useState( props.login );
+
     // 사이드바 open , close 상태관리 변수
     const [ isDrawerOpen , setIsDrawerOpen ] = useState( false );
 
+    // 트리 메뉴 확장 변수
     const [expanded, setExpanded] = React.useState([]);
 
+    // 트리 메뉴 확장 토글러
     const handleToggle = (event, nodeIds) => {
         setExpanded(nodeIds);
     };
@@ -33,6 +39,8 @@ export default function SideBar( props ) {
             oldExpanded.length === 0 ? ['1', '5', '6', '7'] : [],
         );
     };
+
+
 
     const handleClick = ( event , nodeIds ) => {
 
@@ -60,7 +68,7 @@ export default function SideBar( props ) {
         <Drawer
             anchor="left"
             open={ isDrawerOpen }
-            onClose={ () => setIsDrawerOpen(false) }
+            onClose={ () => setIsDrawerOpen( false ) }
         >
             <Box p={2} width='400px' textAlign='center' role='presentation'>
 
@@ -68,13 +76,17 @@ export default function SideBar( props ) {
                     Connect, @
                 </Typography>
 
-                <div>
-                    직원 프로필이 표시될 자리
+                <div className="imgBox">
+                    <img className="profileImg" src={ props.imageUrl } />
+                    <div className="profile_info">
+                        <div className="part_name"> { props.login.partName } </div>
+                        <div className="member_name"> { props.login.memberName } </div>
+                    </div>
                 </div>
 
                 <Box sx={{ height: '100%', flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
                     <Box sx={{ mb: 1 }}>
-                        <Button onClick={handleExpandClick}>
+                        <Button onClick={handleExpandClick} className="allbtn">
                             {expanded.length === 0 ? '전체보기' : '간략히 보기'}
                         </Button>
                     </Box>

@@ -13,7 +13,12 @@ export default function AddMember( props ) {
 
 
     const [ rank , setRank ] = useState('');
-    const [ part , setPart ] = useState('');
+    const [ selectValue , setSelectValue ] = useState(0);
+
+    const [ part , setPart ] = useState([]);
+
+    const partState = useRef(null);
+    console.log( partState.current );
 
     const [imageSrc, setImageSrc] = useState('');
 
@@ -24,6 +29,7 @@ export default function AddMember( props ) {
 
         axios.get("/part").then( r => {
             console.log( r.data );
+            setPart( r.data );
         })
 
     }
@@ -54,12 +60,16 @@ export default function AddMember( props ) {
     }
 
 
+
+
     const handleChange = (event: SelectChangeEvent) => {
+        console.log(event.target.value);
         setRank(event.target.value);
     };
+
     const handleChangePart = (event: SelectChangeEvent) => {
         console.log(event.target.value);
-        setPart(event.target.value);
+        setSelectValue(event.target.value);
     };
 
 
@@ -89,15 +99,19 @@ export default function AddMember( props ) {
                         <FormControl className="input_rank">
                             <InputLabel> 부서선택 </InputLabel>
                             <Select
-                              value={ part }
+                              value={ selectValue }
                               label="부서"
                               onChange={ handleChangePart }
                               name="partNo"
                             >
-                              <MenuItem value={1}> 기술운영 </MenuItem>
-                              <MenuItem value={2}> 영업 </MenuItem>
-                              <MenuItem value={3}> 경영지원 </MenuItem>
-                              <MenuItem value={4}> 사업 </MenuItem>
+                                <MenuItem value={0}> 부서를 선택해주세요. </MenuItem>
+                                {
+                                    part.map( (p) => {
+                                        return (
+                                            <MenuItem value={ p.partNo }> { p.partName } </MenuItem>
+                                        );
+                                    })
+                                }
                             </Select>
                         </FormControl>
                     </div>

@@ -29,7 +29,7 @@ create table member(
     member_phone varchar(20) not null,                          -- 멤버 전화번호
     memmber_email varchar(30),                                  -- 멤버 이메일
     member_profile longtext,									-- 멤버 프로필이미지
-    member_rank char(1) not null,                               -- 직급   / 1: 사원 / 2: 주임 / 3: 대리 / 4: 과장 / 5: 차장 / 6: 부장 / 7: 팀장 / 8: 임원 / 9: 사장
+    member_rank char(1) not null,                               -- 직급   / 1: 사원 / 2: 주임 / 3: 대리 / 4: 과장 / 5: 차장 / 6: 부장 / 7: 팀장  / 9: 사장
     part_no int,                                                -- 부서
     foreign key ( part_no ) references part ( part_no )         -- 부서 FK 
 );

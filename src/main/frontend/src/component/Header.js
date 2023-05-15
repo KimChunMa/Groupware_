@@ -7,23 +7,31 @@ import SideBar from './SideBar';
 
 export default function Header( props ) {
 
-    const [ login , setLogin ] = useState(null);
+    const [ login , setLogin ] = useState({});
     const [ loginInfo , setLoginInfo ] = useState({}) ;
     const [ imageUrl , setImageUrl ] = useState("");
 
     // 로그인
     useEffect( () => {
-        console.log( )
-        axios.get("/login").then( r => {
-            console.log( r.data );
-            if( r.data != '' ){ // 로그인하였거나 로그인이 되어있는 경우
-                sessionStorage.setItem("login_token" , JSON.stringify( r.data ) );
-                setLogin( JSON.parse( sessionStorage.getItem("login_token") ) );
-            }
-        })
+        createSession();
     } , [] )
 
-    const loginToken = JSON.parse(sessionStorage.getItem("login_token"));
+    async function createSession() {
+        try {
+            const response = await axios.get('/login');
+            console.log( response.data );
+
+            if (response.data !== '') {
+
+                sessionStorage.setItem( 'login_token', JSON.stringify( response.data ) );
+                setLogin(JSON.parse(sessionStorage.getItem('login_token')));
+                getProfileImg( response.data.uuidFilename );
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
 
     // 로그아웃
@@ -41,14 +49,10 @@ export default function Header( props ) {
     }
 
     // 로그인한사람(세션)의 프로필 이미지 가져오기
-    const getProfileImg = () => {
+    const getProfileImg = ( uuidFilename ) => {
 
-        const uuidFilename = login.uuidFilename ; // 로그인된 사람의 실제 이미지파일이름
-        console.log( uuidFilename );
-
-        if( uuidFilename == null ){ // 만약에 이미지파일을 등록하지 않은 사람인 경우
-            alert("등록된 이미지 파일이 없습니다");
-            return ;
+        if( uuidFilename == null ){
+            uuidFilename = 'default.png' ;
         }
 
         // 서버로부터 이미지를 찾아 Blob 으로 가져오기
@@ -60,12 +64,10 @@ export default function Header( props ) {
 
             }).then(response => {
 
-                console.log( response.data );
                 const contentType = response.headers['content-type']; // 응답받은값의 헤더에 컨텐츠타입을 호출 // 예) : 'image/png'
-                console.log(contentType);
 
                 const imageBlob = new Blob([response.data], {type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
-                const imageUrl = URL.createObjectURL(imageBlob);  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
+                const imageUrl = URL.createObjectURL(imageBlob ) ;  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
                 console.log( imageUrl );
 
                 setImageUrl( imageUrl ); // 상태변수에 Blob 경로 대입
@@ -78,7 +80,13 @@ export default function Header( props ) {
 
 
     return (<>
-        <SideBar />
+
+        <SideBar
+            imageUrl={ imageUrl }
+            getProfileImg={ getProfileImg }
+            login={ login }
+        />
+
         <a href="/home"> HOME </a>
         <a href="/member/addmember"> 직원등록 </a>
         <a href="/addressbook"> 주소록 </a>
@@ -94,11 +102,5 @@ export default function Header( props ) {
         <a href="/"> LOGIN </a>
         <button onClick={ logOut }> LOGOUT </button>
         <button onClick={ getProfileImg }> 이미지 테스트 </button>
-
-        <img src={ imageUrl } />
-
-
-
-
     </>);
 }
