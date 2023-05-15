@@ -8,31 +8,46 @@ import connect.web.domain.messenger.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
 
 public class MessengerService {
 
-    @Autowired
+    @Autowired //채팅방
     ChatRoomsEntityRepository chatRoomsEntityRepository;
-    @Autowired
+    @Autowired //채팅방 회원체크
     ChatParticipantsEntityRepository chatParticipantsEntityRepository;
 
-    @Autowired
+    @Autowired //메세지
     ChatMessagesEntityRepository chatMessagesEntityRepository;
-    @Autowired
+    @Autowired // 회원
     MemberEntityRepository memberEntityRepository;
 
-    @Autowired
+    @Autowired //회원 소켓 전용
     HttpServletRequest request;
+
+    @Autowired //메세지 소켓전용
+    ChattingHandler chattingHandler;
+
+
+    @Autowired
+    private HttpServletResponse response; // 응답 객체
 
 
     /* ---------------------- 0. 로그인 검사 ------------------------- */
@@ -146,9 +161,6 @@ public class MessengerService {
         return true;
     }
 
-    @Autowired
-    ChattingHandler chattingHandler;
-
     //2. 메세지 출력
     @Transactional
     public List<ChatMessagesDto> printMessages(int chatRoomId){
@@ -190,5 +202,58 @@ public class MessengerService {
 
         chatMessagesEntityRepository.delete(chatMessagesEntity.get());
         return true;
+    }
+
+    /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 파일 보내기  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+    //첨부파일 저장할 경로 [1. 배포 전 2.배포 후]
+    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
+
+    //파일 전송하기
+    public boolean fileUpload( ChatMessagesDto chatMessagesDto){
+
+        if(chatMessagesDto.getFiles().size() != 0 ){ // 첨부파일 존재시
+            chatMessagesDto.getFiles().forEach((file) -> {
+                //1. 만약 동일한 파일명이 생긴다면, 덮어씌울수 있으니[=식별불가능]
+                String fileName = UUID.randomUUID().toString()
+                        +"_"+file.getOriginalFilename();
+                //2. 경로 + 파일명 조합해서 file 클래스 생성
+                File fileSave = new File(path+fileName);
+                //3. 업로드 // multipartFile.transferTo(저장할 file 클래스의 객체)
+                try{file.transferTo(fileSave);}catch(Exception e){log.info("file upload fail : " + e);}
+
+                //4. 확장자 분리
+                String extension = file.getOriginalFilename().substring(
+                        file.getOriginalFilename().lastIndexOf(".") + 1);
+
+                chatMessagesEntityRepository.save(
+                        ChatMessagesEntity.builder().originalFilename(file.getOriginalFilename())
+                                .uuidFile(fileName).msgType(extension).build()
+                );
+            });
+            return true;
+        }
+        return false;
+    }
+
+
+    public void filedownload( String uuidFile ){ // spring 다운로드 관한 API 없음
+        String pathFile = path + uuidFile; // 경로+uuid파일명 : 실제 파일이 존재하는 위치
+        try {
+            // 1. 다운로드 형식 구성
+            response.setHeader(  "Content-Disposition", // 헤더 구성 [ 브라우저 다운로드 형식 ]
+                    "attchment;filename = " + URLEncoder.encode( uuidFile.split("_")[1], "UTF-8") // 다운로드시 표시될 이름
+            );
+            //2. 다운로드 스트림 구성
+            File file = new File( pathFile ); // 다운로드할 파일의 경로에서 파일객체화
+            // 3. 입력 스트림 [  서버가 먼저 다운로드 할 파일의 바이트 읽어오기 = 대상 : 클라이언트가 요청한 파일 ]
+            BufferedInputStream fin = new BufferedInputStream( new FileInputStream(file) );
+            byte[] bytes = new byte[ (int) file.length() ]; // 파일의 길이[용량=바이트단위] 만큼 바이트 배열 선언
+            fin.read( bytes ); // 읽어온 바이트들을 bytes배열 저장
+            // 4. 출력 스트림 [ 서버가 읽어온 바이트를 출력할 스트림  = 대상 : response = 현재 서비스 요청한 클라이언트에게 ]
+            BufferedOutputStream fout = new BufferedOutputStream( response.getOutputStream() );
+            fout.write( bytes ); // 입력스트림에서 읽어온 바이트 배열을 내보내기
+            fout.flush(); // 스트림 메모리 초기화
+            fin.close(); fout.close(); // 스트림 닫기
+        }catch(Exception e){ log.info("file download fail : "+e );}
     }
 }

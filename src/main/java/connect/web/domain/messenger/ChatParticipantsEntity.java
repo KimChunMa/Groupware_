@@ -20,13 +20,11 @@ public class ChatParticipantsEntity {
     @ManyToOne
     @JoinColumn(name="memberNo")
     @ToString.Exclude
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private MemberEntity memberEntity; //멤버 ID
 
 
     @ManyToOne
     @JoinColumn(name="chatRoomId")
     @ToString.Exclude
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private ChatRoomsEntity chatRoomsEntity; //  채팅방 ID (fk)
 }

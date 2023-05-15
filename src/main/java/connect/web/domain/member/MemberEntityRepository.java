@@ -14,4 +14,7 @@ public interface MemberEntityRepository extends JpaRepository<MemberEntity , Int
 
     // 멤버 아이디로 회원번호(PK) 찾기
     public int findByMemberNo(String memberId);
+
+    //멤버이름으로 아이디 찾기
+    public MemberEntity findByMemberName(String memberName);
 }

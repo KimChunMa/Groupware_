@@ -6,6 +6,7 @@ import connect.web.domain.messenger.ChatRoomsDto;
 import connect.web.service.messenger.MessengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -73,5 +74,20 @@ public class MessengerController {
         System.out.println(chatMessagesId);
         return messengerService.DeleteMessages(chatMessagesId);
     }
+
+    /* -------------------------------- 파일 ----------------------------*/
+
+    //1. 파일 보내기
+    @PostMapping("/fileUpload") //chat 관련 첨부파일 업로드
+    public boolean fileUpload(@RequestParam ChatMessagesDto chatMessagesDto){
+        return messengerService.fileUpload(chatMessagesDto);
+    }
+/*
+    @GetMapping("/filedownload") //char 관련 첨부파일 다운로드
+    public void filedownload( @RequestParam("uuidFile") String filepath ){
+        System.out.println("uuidFile : " + filepath);
+        fileService.filedownload(filepath);
+    }
+*/
 
 }

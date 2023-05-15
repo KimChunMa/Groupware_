@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -12,10 +15,19 @@ import lombok.NoArgsConstructor;
 public class ChatMessagesDto {
     private int chatMessagesId; //메세지 고유 번호, 자동증가
     private String content; // 메세지 내용
-    private int memberNo; //보낸사람 멤버
     private int chatRoomId; // 보낸 채팅방 id
+    private String cdate; // 메세지 생성 날짜
+
+    private String memberName; // 메세지 보낸사람 이름
+    private int memberNo; // 회원 번호
+
     private String msgType; // 메세지 타입
     private String filePath;// 파일 경로
+    private String originalFilename; //실제 순수 파일명
+    private String uuidFile; //식별된 파일명
+    private String sizeKb; // 용량
+
+    private List<MultipartFile> files;    //첨부파일 입력용
 
 
     public ChatMessagesEntity toEntity(){
@@ -23,6 +35,9 @@ public class ChatMessagesDto {
                 .content(this.content)
                 .msgType(this.msgType)
                 .filePath(this.filePath)
+                .originalFilename(this.originalFilename)
+                .uuidFile(this.uuidFile)
+                .sizeKb(this.sizeKb)
                 .build();
     }
 
