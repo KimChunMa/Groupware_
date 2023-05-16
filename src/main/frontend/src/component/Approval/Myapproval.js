@@ -51,7 +51,6 @@ export default function Myapproval(props) {
 
 
 
-
         return(<>
             <Container>
                  <h3>내 서류 결제상태확인 페이지</h3>

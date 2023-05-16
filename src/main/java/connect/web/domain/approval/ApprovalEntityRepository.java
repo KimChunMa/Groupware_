@@ -25,6 +25,12 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
     List<ApprovalEntity>findByRank( @Param("rank") int rank , @Param("part") int part );*/
 
 
+/*    //partName뽑아내기[2023-05-16]
+    @Query( value ="select part_name from member, part where member_no =:memberNo ")
+    List<MemberEntity>findPartName( @Param("memberNo")int memberNo);*/
+
+
+
     /*STATUS 상태에따른 서류*/
     @Query( value ="select  m.member_no," +
             " m.member_name," +
