@@ -130,7 +130,7 @@ export default function Messenger(props){
             <div className="left">
                 {/* 왼쪽 상단 부분*/}
                 <div className="header">
-                    <div className="order_chat">채팅 ▼</div>
+                    <div className="order_chat"></div>
                     <div className="create_chat" onClick={create_chat}>
                         <FontAwesomeIcon icon={faComments} size="2x" />
                     </div> {/*방만들기 아이콘*/}

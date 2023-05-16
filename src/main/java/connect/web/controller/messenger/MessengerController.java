@@ -80,14 +80,14 @@ public class MessengerController {
     //1. 파일 보내기
     @PostMapping("/fileUpload") //chat 관련 첨부파일 업로드
     public boolean fileUpload(ChatMessagesDto chatMessagesDto){
-        return messengerService.fileUpload(chatMessagesDto);
+      return messengerService.fileUpload(chatMessagesDto);
     }
-/*
-    @GetMapping("/filedownload") //char 관련 첨부파일 다운로드
-    public void filedownload( @RequestParam("uuidFile") String filepath ){
-        System.out.println("uuidFile : " + filepath);
-        fileService.filedownload(filepath);
+
+    @GetMapping("/fileDownload") //char 관련 첨부파일 다운로드
+    public void fileDownload( @RequestParam("uuidFile") String uuidFile ){
+        System.out.println("uuidFile : " + uuidFile);
+        messengerService.fileDownload(uuidFile);
     }
-*/
+
 
 }

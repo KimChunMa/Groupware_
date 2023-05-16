@@ -46,11 +46,10 @@ export default function Messenger(props){
 
         if(fileInputClick.current.value != ''){//첨부파일 존재시
         let formData = new FormData( fileForm.current )
-        formData.set( 'chatRoomId' , props.roomId )
-        formData.set( 'memberNo' , member.memberNo )
-
-             axios.post('/chat/fileUpload' , new FormData( fileForm.current ) )
-                  .then(r=> {console.log(r); })
+        console.log( props.roomId  ) ; console.log( member.memberNo  )
+        formData.set( 'chatRoomId' , props.roomId ); formData.set( 'memberNo' , member.memberNo )
+             axios.post('/chat/fileUpload' , formData )
+                  .then(r=> {printMessages ( props.roomId ); fileInputClick.current.value=''; })
         }
     }
 
@@ -88,25 +87,56 @@ export default function Messenger(props){
                     {
                          msgContent.map((o)=>{
                             {
+
                                 if(o.memberNo != member.memberNo ){
-                                    return(<>
-                                        <div className="your_message messagebox">
-                                            <div className="profile_img"> img </div>
-                                            <div className="message_name"> {o.memberName} </div>
-                                            <div className="message"> {o.content} </div>
-                                            <div className="message_cdate"> {o.cdate} </div>
-                                        </div>
-                                    </>);
+                                        return(<>
+                                            <div className="your_message messagebox">
+                                                <div className="profile_img"> img </div>
+                                                <div className="message_name"> {o.memberName} </div>
+
+                                                {o.msgType == 'msg' ?
+                                                <div className="message"> {o.content} </div> :
+                                                <div className="message">
+                                                    <div className="message_img">
+                                                        <img src={"http://localhost:8080/static/media/"+o.uuidFile}/>
+                                                    </div>
+                                                    <span className="img_name"> {o.originalFilename} </span>
+                                                    <span className="img_downLoad">
+                                                        <a href={"/chat/fileDownload?uuidFile=" + o.uuidFile } > 저장 </a>
+                                                    </span>
+                                                </div>
+                                                }
+
+                                                <div className="message_cdate"> {o.cdate} </div>
+                                            </div>
+                                        </>);
+
                                }else if( o.memberNo == member.memberNo ){
-                                    return(<>
-                                         <div className="me_message messagebox">
-                                             <div className="message_cdate"> {o.cdate} </div>
-                                             <div className="message"> {o.content}</div>
-                                             <div className="profile_img"> img </div>
-                                             <div className="message_name"> {o.memberName} </div>
-                                         </div>
-                                     </>)
+                                        return(<>
+                                             <div className="me_message messagebox">
+                                                 <div className="message_cdate"> {o.cdate} </div>
+
+                                                {o.msgType == 'msg' ?
+                                                <div className="message"> {o.content} </div> :
+                                                <div className="message">
+                                                    <div className="message_img">
+                                                        <img src={"http://localhost:8080/static/media/"+o.uuidFile}/>
+                                                    </div>
+                                                    <span className="img_name"> {o.originalFilename} </span>
+                                                    <span className="img_downLoad">
+                                                        <a href={"/chat/fileDownload?uuidFile=" + o.uuidFile } > 저장 </a>
+                                                    </span>
+                                                </div>
+                                                }
+
+                                                 <div className="profile_img"> img </div>
+                                                 <div className="message_name"> {o.memberName} </div>
+                                             </div>
+                                         </>)
                                }
+
+
+
                             }
                         })
                     }
