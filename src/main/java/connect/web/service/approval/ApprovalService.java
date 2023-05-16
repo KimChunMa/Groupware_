@@ -190,9 +190,9 @@ public class ApprovalService {
         int memberNo = getMember().getMemberNo();
         log.info(memberNo+"");
         PartEntity partEntity = new PartEntity();
-        partEntity = partEntityRepository.findPartName(memberNo);
+        Optional<PartEntity> optionalPartEntity  = partEntityRepository.findPartName(memberNo);
         log.info("partName뽑아내는과정");
-        log.info(partEntity+"");
+        log.info(optionalPartEntity+"");
 
 
         List<ApprovalEntity> approvalEntityList = approvalEntityRepository.findByWatch( status );
