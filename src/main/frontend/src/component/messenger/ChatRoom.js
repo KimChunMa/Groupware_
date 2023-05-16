@@ -13,7 +13,7 @@ export default function Messenger(props){
     let ws = useRef( null );
     //4. 파일보내기
     let fileForm = useRef(null); // Form
-    let fileInputClick= useRef(null); // input file
+    let fileInputClick= useRef(null); // input file 작동용 (none 처리함)
 
 
     //1-1. 메세지 보내기 (소켓)

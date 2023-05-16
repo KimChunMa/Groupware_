@@ -39,22 +39,31 @@ export default function Messenger(props){
 
     // 1-1.채팅방만들시 사용할 제목
     const [title, setTitle] = useState("");
+    // 1-2. 채팅방 이미지
+    let fileForm = useRef(null); // Form
+    // 1-3. input file 작동용
+    let fileInputClick= useRef(null); // input file
 
-    // 1-2.채팅방 배열
+    // 2-1.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
 
-    //1-3. 클릭한 채팅방 번호
+    //2-2. 클릭한 채팅방 번호
     const [roomId , setRoomId] = useState(0);
 
     //3. 수정+삭제할 채팅방 번호
     const [editId, setEditId] = useState(0);
 
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 함수 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 1-1. 채팅방 만들기
         //1) 방만드는 아이콘 클릭시 모달나오게하기
     const create_chat = () => { setModal(true);}
         //2) TextField 값 가져오기
     const titleChange = (event) => { setTitle(event.target.value); }
-        //3) 전달하기
+
+        //3. 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
+    const fileUpload = () => {fileInputClick.current.click();};
+
+        //4) 전달하기
     const create = () => {
         let ChatRoomsDto = {name:title , memberNo: member.memberNo}
         axios.post("/chat" ,  ChatRoomsDto )
@@ -66,6 +75,8 @@ export default function Messenger(props){
                 }else{alert("오류가 발생하였습니다.");}
             })
     }
+
+
     //3) 모달 나가기
     const closeModal = () => {setModal(false); document.querySelector('.modal_wrap2').style.display = 'none';}
 
@@ -184,6 +195,24 @@ export default function Messenger(props){
                     <div className="modal_content">
                          <TextField onChange={titleChange} id="title_input" label="채팅방 제목" variant="standard"  />
                     </div>
+
+                    <h3 className="modal_title">
+                        초대할 사람 이름
+                    </h3>
+                    <div className="modal_content">
+                         <TextField onChange={titleChange} id="title_input" label="채팅방 제목" variant="standard"  />
+                    </div>
+
+                    <h3 className="modal_title">
+                        채팅방 이미지
+                    </h3>
+
+                    <div className="file">
+                      <div className="btn-upload" onClick={fileUpload}>파일 </div>
+                    </div>
+                    <form ref={fileForm}>
+                        <input  ref={fileInputClick} type="file" name="files" id="file" multiple={true}   />
+                    </form>
 
                     <div className="modal_btns">
                         <button  onClick={create}  className="modal_check" type="button">방 생성하기</button>
