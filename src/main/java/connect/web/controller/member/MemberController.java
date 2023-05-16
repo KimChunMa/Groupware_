@@ -38,7 +38,7 @@ public class MemberController {
 
     // 4. 멤버 수정하기
     @PostMapping("/update")
-    public boolean updateMember( @RequestBody MemberDto memberDto ){
+    public byte updateMember( MemberDto memberDto ){
         log.info( "put controller : " + memberDto );
         return memberService.updateMember(memberDto);
     }

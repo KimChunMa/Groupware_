@@ -92,7 +92,7 @@ public class MemberService {
 
     // 4. 멤버 수정하기
     @Transactional
-    public boolean updateMember( MemberDto memberDto ){
+    public byte updateMember( MemberDto memberDto ){
         log.info("put : " + memberDto );
         Optional<MemberEntity> optionalMemberEntity = memberEntityRepository.findById( memberDto.getMemberNo() );
 
@@ -100,38 +100,58 @@ public class MemberService {
 
             MemberEntity memberEntity = optionalMemberEntity.get();
 
-            if( memberDto.getMemberProfile() != null && !memberDto.getMemberProfile().isEmpty() ){
-
-                String fileName = UUID.randomUUID().toString() + "_" + memberDto.getMemberProfile().getOriginalFilename() ;
-
-                File file = new File( path + fileName );
-
-                try{
-                    memberDto.getMemberProfile().transferTo( file );
-                    memberEntity.setUuidFilename( fileName );
-                }catch (Exception e){
-                    log.info("file upload failed : " + e );
-                }
-
-                memberEntity.setMemberEmail( memberDto.getMemberEmail() );
-                memberEntity.setMemberName( memberDto.getMemberName() );
-                memberEntity.setMemberPhone( memberDto.getMemberPhone() );
-                memberEntity.setMemberPwd( memberDto.getMemberPwd() );
-
-                return true ;
+            // 만약에 입력받은 패스워드와 패스워드 확인이 일치하지 않는다면
+            if( !memberDto.getMemberPwd().equals( memberDto.getMemberPwdConfirm() ) ){
+                return 1;
             }else{
 
-                memberEntity.setMemberEmail( memberDto.getMemberEmail() );
-                memberEntity.setMemberName( memberDto.getMemberName() );
-                memberEntity.setMemberPhone( memberDto.getMemberPhone() );
-                memberEntity.setMemberPwd( memberDto.getMemberPwd() );
+                if( memberDto.getMemberPwd().equals("") || memberDto.getMemberPwdConfirm().equals("") ){
+                    memberDto.setMemberPwd( memberEntity.getMemberPwd() );
+                }
 
-                return true;
+                PartEntity partEntity = partEntityRepository.findById( memberDto.getPartNo() ).get() ;
 
+
+                // 만약에 첨부파일이 존재한다면
+                if( memberDto.getMemberProfile() != null && !memberDto.getMemberProfile().isEmpty() ){
+
+                    String fileName = UUID.randomUUID().toString() + "_" + memberDto.getMemberProfile().getOriginalFilename() ;
+
+                    File file = new File( path + fileName );
+
+                    try{
+                        memberDto.getMemberProfile().transferTo( file );
+                        memberEntity.setUuidFilename( fileName );
+                    }catch (Exception e){
+                        log.info("file upload failed : " + e );
+                    }
+
+                    memberEntity.setMemberEmail( memberDto.getMemberEmail() );
+                    memberEntity.setMemberName( memberDto.getMemberName() );
+                    memberEntity.setMemberPhone( memberDto.getMemberPhone() );
+                    memberEntity.setMemberPwd( memberDto.getMemberPwd() );
+                    memberEntity.setMemberRank( memberDto.getMemberRank() );
+                    memberEntity.setPartEntity( partEntity );
+
+                    return 0 ;
+
+                }else{ // 첨부파일이 존재하지 않는다면
+
+                    memberEntity.setMemberEmail( memberDto.getMemberEmail() );
+                    memberEntity.setMemberName( memberDto.getMemberName() );
+                    memberEntity.setMemberPhone( memberDto.getMemberPhone() );
+                    memberEntity.setMemberPwd( memberDto.getMemberPwd() );
+                    memberEntity.setMemberRank( memberDto.getMemberRank() );
+                    memberEntity.setPartEntity( partEntity );
+
+                    return 0;
+
+                }
             }
+
         }
 
-        return false;
+        return 2;
     }
 
 
