@@ -2,6 +2,7 @@ package connect.web.controller.board;
 
 import connect.web.domain.board.BoardDto;
 import connect.web.domain.board.PageDto;
+import connect.web.domain.board.ReplyDto;
 import connect.web.domain.member.PartDto;
 import connect.web.service.board.BoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,4 +66,12 @@ public class BoardController {
         boolean result = boardService.update(boardDto);
         return result;
     }
+
+/*    // 8. 댓글 작성
+    @PostMapping("/reply")
+    public boolean postReply(@RequestBody ReplyDto replyDto){ log.info("postReply : " +replyDto);
+        boolean result = boardService.postReply(replyDto);
+        return true;
+    }*/
+
 }

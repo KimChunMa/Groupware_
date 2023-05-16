@@ -16,5 +16,11 @@ public class ReplyDto {
 
     private int memberNo;
     private String memberName;
+    // 저장용
+    public ReplyEntity toEntity(){
+        return ReplyEntity.builder()
+                .replyContent(this.replyContent)
+                .build();
+    }
 
 }

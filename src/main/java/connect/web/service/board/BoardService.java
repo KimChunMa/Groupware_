@@ -1,9 +1,6 @@
 package connect.web.service.board;
 
-import connect.web.domain.board.BoardDto;
-import connect.web.domain.board.BoardEntity;
-import connect.web.domain.board.BoardEntityRepository;
-import connect.web.domain.board.PageDto;
+import connect.web.domain.board.*;
 import connect.web.domain.member.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +134,22 @@ public class BoardService {
         return false;
     }
 
-
-
+/*    // 8. [김동혁] 댓글작성
+    @Autowired
+    private ReplyEntityRepository replyEntityRepository;
+    @Transactional
+    public boolean postReply(@RequestBody ReplyDto replyDto){ log.info("postReply : " + replyDto);
+        // 로그인 확인
+        String o = (String) request.getSession().getAttribute("login");
+        MemberEntity memberEntity = memberEntityRepository.findByMemberId(o).get();
+        // 댓글 달 게시물 호출
+        Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(replyDto.getBoardNo());
+        if(!optionalBoardEntity.isPresent()){ return false;}
+        BoardEntity boardEntity = optionalBoardEntity.get();
+        // 댓글 작성
+        ReplyEntity replyEntity = replyEntityRepository.save(replyDto.toEntity());
+        if (replyEntity.getReplyNo()<1){return false;}
+        //
+    }*/
 }
 

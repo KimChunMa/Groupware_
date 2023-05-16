@@ -21,5 +21,4 @@ public class ReplyEntity extends BaseTime{
     @ManyToOne @JoinColumn(name="boardNo") @ToString.Exclude
     private BoardEntity boardEntity;
 
-
 }
