@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -18,7 +19,7 @@ public class AddressGroupEntity {
     private int groupNo;
 
     @Column private String groupName;
-    @Column private char groupType;
+    @Column private int groupType;
 
     @ManyToOne
     @JoinColumn( name = "memberNo")
@@ -29,6 +30,19 @@ public class AddressGroupEntity {
     @Builder.Default
     private List<AddressBookEntity> addressBookEntityList = new ArrayList<>();
 
+    public AddressGroupDto toDto() {
+        return AddressGroupDto.builder()
+                .groupNo( this.groupNo )
+                .groupName( this.groupName )
+                .groupType( this.groupType )
+                .memberNo( this.memberEntity.getMemberNo())
+                .addressBookDtoList(
+                    this.addressBookEntityList.stream().map(
+                            o -> o.toDto()
+                    ).collect(Collectors.toList())
+                )
+                .build();
+    }
 
 }
 
