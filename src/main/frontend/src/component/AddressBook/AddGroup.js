@@ -49,11 +49,12 @@ export default function AddGroup( props ) {
 
         axios.post("/addressgroup" , { groupName : groupName.current.value } ).then( r =>{
             console.log( r );
+            // <Alert severity="success"> 성공적으로 주소록이 등록되었습니다! </Alert>
 
         })
     }
 
-    // <Alert severity="success"> 성공적으로 주소록이 등록되었습니다! </Alert>
+
     return (<>
         <Paper elevation={3} style={{ height: "100%" }}>
             <div className="group-add-btnbox">
