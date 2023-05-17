@@ -29,10 +29,15 @@ public class ApprovalEntity {
     @Column @Builder.Default private String approvalStatus = "0";   //결재상태[0:대기중 1:대리승인완료 2:과장승인완료 3:팀장승인완료(최종) 9:반려]
     @Column(nullable = false) private String approvalData;      //결재날짜
 
+
     @ManyToOne
     @JoinColumn( name = "memberNo")
     @ToString.Exclude
     private MemberEntity memberEntity;
+
+    private String partName;
+    private int partNo;
+
 
 /*
     @ManyToOne
@@ -50,6 +55,10 @@ public class ApprovalEntity {
                 .approvalContent(this.approvalContent)
                 .approvalStatus(this.approvalStatus)
                 .approvalData(this.approvalData)
+                .memberRank(this.memberEntity.getMemberRank())
+                .memberNo(this.memberEntity.getMemberNo())
+                .partName(this.partName)
+                .partNo(this.partNo)
                 .build();
 
     }

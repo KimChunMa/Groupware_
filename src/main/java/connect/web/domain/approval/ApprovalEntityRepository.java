@@ -64,12 +64,15 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
 
 
     //결제 할 서류의 게시물 상세보기
-    @Query( value = " select * from approval where approval_no = :approvalNo", nativeQuery = true)
+    @Query( value = " select m.member_no, m.member_name, m.member_rank, p.part_no, p.part_name, a.approval_no, a.approval_content, a.approval_data, a.approval_status, a.approval_title , a.approval_writer " +
+            " from member m, part p , approval a where p.part_no =m.part_no and a.member_no = m.member_no and a.approval_no = :approvalNo", nativeQuery = true)
     Optional<ApprovalEntity> findPrint(@Param("approvalNo")int approvalNo);
 
 
-    //내가 쓴 서류의 결제상태확인하기
-    @Query( value = " select * from approval where member_no = :memberNO", nativeQuery = true)
+
+    //내가 쓴 서류 결제상태 출력 [2023-05-17 수 작업 ]
+    @Query( value = " select m.member_no, m.member_name, m.member_rank, p.part_no, p.part_name, a.approval_no, a.approval_content, a.approval_data, a.approval_status, a.approval_title , a.approval_writer " +
+            " from member m, part p , approval a where p.part_no =m.part_no and a.member_no = m.member_no and a.member_no = :memberNO", nativeQuery = true)
     List<ApprovalEntity> findMyapproval(@Param("memberNO")int memberNO);
 
 }

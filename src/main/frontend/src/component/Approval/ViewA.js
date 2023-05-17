@@ -57,6 +57,32 @@ export default function ViewA(props){
     }
 
 
+    const abc = (value) => {
+
+            if( value == 1 ){
+                    return '사원';
+                }else if(value == 2) {
+                    return '주임';
+                }else if(value == 3) {
+                    return '대리';
+                }else if(value == 4 ){
+                    return '과장';
+                }else if(value == 5 ){
+                    return '차장';
+                }else if(value == 6) {
+                    return '부장';
+                }else if(value == 7){
+                    return '팀장';
+                }else if( value == 9 ){
+                    return '사장';
+                }else{
+                    return '슈퍼관리자'
+                }
+
+            }
+
+
+
     return(<>
         <Container>
                  <h3>서류상세내용확인</h3>
@@ -77,11 +103,11 @@ export default function ViewA(props){
             </div>
 
             <div>
-                 직위: {approval.memberRank} /*수정필요*/
+                 직위:  { abc(approval.memberRank) }
             </div>
 
             <div>
-                 부서명: {approval.partName} /*수정필요*/
+                 부서명: {approval.partName}
             </div>
         </Container>
 

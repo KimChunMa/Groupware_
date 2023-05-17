@@ -185,14 +185,11 @@ public class ApprovalService {
 
         }
 
-
+/*
         //partName 뽑아내기위한 작업 [2023-05-16]
         int memberNo = getMember().getMemberNo();
         log.info(memberNo+"");
-        PartEntity partEntity = new PartEntity();
-        Optional<PartEntity> optionalPartEntity  = partEntityRepository.findPartName(memberNo);
-        log.info("partName뽑아내는과정");
-        log.info(optionalPartEntity+"");
+        Optional<PartEntity> optionalPartEntity  = partEntityRepository.findPartName(memberNo);*/
 
 
         List<ApprovalEntity> approvalEntityList = approvalEntityRepository.findByWatch( status );

@@ -33,6 +33,23 @@ export default function Reportconfirm( props ){
 
         }
 
+        //결제상태확인하기
+        const getUserState = ( state ) => {
+                console.log( state );
+                if(state == '0'){
+                    return '대기중'
+                }else if(state == '1'){
+                    return '주임결제완료'
+                }else if(state == '2'){
+                    return'과장결제완료'
+                }else if(state == '3'){
+                    return'팀장결제완료'
+                }else if(state == '4'){
+                    return'최종승인'
+                }else if(state == '9'){
+                    return'반려'
+                }
+         }
 
     //서류상태확인
     return(<>
@@ -60,7 +77,7 @@ export default function Reportconfirm( props ){
                                   <TableCell align="center"> <a href={"/approval/view/"+row.approvalNo}> {row.approvalTitle} </a> </TableCell>
                                   <TableCell align="center">{row.approvalWriter}</TableCell>
                                   <TableCell align="center">{row.approvalData}</TableCell>
-                                  <TableCell align="center">{row.approvalStatus === '0' ? '대기중' : row.approvalStatus}</TableCell>
+                                  <TableCell align="center">{getUserState(row.approvalStatus)}</TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>
