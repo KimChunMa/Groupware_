@@ -16,7 +16,8 @@ public class AddressGroupController {
     @Autowired AddressGroupService addressGroupService;
 
     @PostMapping("")
-    public boolean addGroup(@RequestBody AddressGroupDto addressGroupDto ){
+    public byte addGroup(@RequestBody AddressGroupDto addressGroupDto ){
+        log.info("groupdto : " + addressGroupDto );
         return addressGroupService.addGroup(addressGroupDto);
     }
 
