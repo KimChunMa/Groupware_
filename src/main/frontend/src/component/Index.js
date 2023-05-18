@@ -34,6 +34,7 @@ import Messenger from './messenger/messenger';
 import Approval from './Approval/Approval'; //휴가계작성  [2023-05-04]
 import Reportconfirm from './Approval/Reportconfirm'; //레포트상태확인  [2023-05-09]
 import ViewA from "./Approval/ViewA" //결제 전 서류 내용 확인  [2023-05-12]
+import ViewB from "./Approval/ViewB" //결제 전 서류 내용 확인  [2023-05-12]
 import Myapproval from "./Approval/Myapproval" //결제 전 서류 내용 확인 [2023-05-15]
 //-----------------------백한결 [2023-05-04]----------------------------------//
 
@@ -86,6 +87,7 @@ function App() {
                 <Route path="/approval" element={<Approval />} />
                 <Route path="/reportconfirm" element={<Reportconfirm />} />
                 <Route path="/approval/view/:approvalNo" element = { <ViewA/> } />
+                <Route path="/approval/viewB/:approvalNo" element = { <ViewB/> } />
                 <Route path="/approval/myapproval" element = { <Myapproval/> } />
 
                 {/* 김동혁 */}

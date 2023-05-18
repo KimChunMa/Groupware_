@@ -28,7 +28,11 @@ export default function Reportconfirm( props ){
             axios.get('/approval/getUserRank').then(r => {
                   console.log(r);
                   console.log(r.data);
+                  if(r.data == ""){
+                        alert('결제할 서류가 없습니다')
+                  }
                   setRows(r.data);
+
             })
 
         }
@@ -37,15 +41,22 @@ export default function Reportconfirm( props ){
         const getUserState = ( state ) => {
                 console.log( state );
                 if(state == '0'){
-                    return '대기중'
+                    return '주임결제대기중'
                 }else if(state == '1'){
-                    return '주임결제완료'
+                    return '대리결제대기중'
                 }else if(state == '2'){
-                    return'과장결제완료'
+                    return'과장결제대기중'
                 }else if(state == '3'){
-                    return'팀장결제완료'
+                    return'차장결제대기중'
                 }else if(state == '4'){
-                    return'최종승인'
+                    return'팀장결제대기중'
+                }else if(state == '5'){
+                    return'부장결제대기중'
+                }else if(state == '6'){
+                    return'최종결제대기중'
+                }else if(state == '7'){
+                    return'최종결제완료'
+
                 }else if(state == '9'){
                     return'반려'
                 }

@@ -11,10 +11,10 @@ export default function ViewA(props){
     console.log(params);
     console.log(params.approvalNo);
 
-    //해당게시물의 서류내용출력 [2023-05-15]
+    //해당게시물의 서류내용출력 [2023-05-18]
     const [approval , setApproval] = useState({});
 
-    //1.해당게시물의 서류내용출력 [2023-05-15]
+    //1.해당게시물의 서류내용출력 [2023-05-18]
     const getPrint = ()=>{
         axios.get('/approval/getPrint',{ params :{approvalNo:params.approvalNo} })
             .then( (r) =>{
@@ -27,36 +27,6 @@ export default function ViewA(props){
     //1.처음 열렸을때 렌더링
     useEffect(()=>{getPrint();},[])
 
-
-     //수락버튼 클릭시[2023-05-12]
-    const setOkay = () => {
-        console.log('수락버튼 클릭');
-        console.log(params.approvalNo);
-        axios.get('/approval/getAccept', { params :{approvalNo:params.approvalNo} } ).then( r => {
-            console.log(r);
-            console.log(r.data);
-            if(r.data==1){
-                    alert('수락되었습니다');
-                    window.location.href='/home';
-            }else{
-                    alert('수락실패하였습니다')
-            }
-        })
-    }
-
-    //반려버튼 클릭시[2023-05-15]
-    const setNo = () => {
-        console.log('반려버튼 클릭')
-        console.log(params.approvalNo);
-        axios.get( '/approval/getRefuse', { params :{approvalNo:params.approvalNo} } ).then( r =>{
-                console.log(r);
-                console.log(r.data);
-                if(r.data==1){
-                    alert('반려되였습니다')
-                    window.location.href='/home';
-                }
-        })
-    }
 
     /*직위*/
     const abc = (value) => {
@@ -82,11 +52,9 @@ export default function ViewA(props){
 
             }
 
-
-
     return(<>
         <Container>
-                 <h3>서류상세내용확인</h3>
+                 <h3> MY서류상세내용확인</h3>
             <div>
                  작성일: {approval.approvalData}
             </div>
@@ -112,8 +80,6 @@ export default function ViewA(props){
             </div>
         </Container>
 
-            <Button onClick={ setOkay }> 수락 </Button>
-            <Button onClick={ setNo }> 반려 </Button>
 
     </>)
 

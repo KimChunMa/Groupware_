@@ -73,18 +73,36 @@ public class ApprovalService {
             log.info(approvalEntity+"");
 
 
-                approvalEntity.setMemberEntity(memberEntity);
-                log.info("memberentity도 approvalentity에 저장되었는지");
-                log.info(approvalEntity+"");
-                log.info(approvalEntity.getMemberEntity().getMemberId()+"");
+            approvalEntity.setMemberEntity(memberEntity);
+            log.info("memberentity도 approvalentity에 저장되었는지");
+            log.info(approvalEntity+"");
+            log.info(approvalEntity.getMemberEntity().getMemberId()+"");
 
 
-                int memberRank = getMember().getMemberRank(); //세션의 회원의 랭크 찾았음
+            int memberRank = getMember().getMemberRank(); //세션의 회원의 랭크 찾았음
 
-                String status = "0";
+            String status = "0";
 
-                if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능]즉 approval_status값이 0일경우에만 보이는 것임
+            if(memberRank ==1){         //사원의경우
                 status = "0" ;
+            }else if(memberRank==2){    //주임
+                status = "1" ;
+            }else if(memberRank==3){    //대리
+                status = "2" ;
+            }else if(memberRank==4){    //과장
+                status = "3" ;
+            }else if(memberRank==5){    //차장
+                status = "4" ;
+            }else if(memberRank==6){    //부장
+                status = "5" ;
+            }else if(memberRank==7){    //팀장
+                status = "6" ;
+            }else if(memberRank==9){    //사장
+                status = "7" ;
+            }
+
+/*            if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능]즉 approval_status값이 0일경우에만 보이는 것임
+                    status = "0" ;
 
 
             }else if( memberRank == 4){ //과장일경우 [대리가 승인한 경우의 서류 열람가능]
@@ -96,7 +114,7 @@ public class ApprovalService {
             }else if( memberRank == 9){ //사장일경우  즉 최종결제완료됨
                 status="3";
 
-            }
+            }*/
 
 
             ApprovalEntity approvalEntity2 = approvalEntityRepository.save(approvalEntity);
@@ -170,7 +188,26 @@ public class ApprovalService {
 
         String status = "0";
 
-        if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능] 즉 approval_status값이 0일경우에만 보이는 것임
+        if(memberRank ==1){         //사원의경우
+            status = "-1" ;
+        }else if(memberRank==2){    //주임
+            status = "0" ;
+        }else if(memberRank==3){    //대리
+            status = "1" ;
+        }else if(memberRank==4){    //과장
+            status = "2" ;
+        }else if(memberRank==5){    //차장
+            status = "3" ;
+        }else if(memberRank==6){    //부장
+            status = "4" ;
+        }else if(memberRank==7){    //팀장
+            status = "5" ;
+        }else if(memberRank==9){    //사장
+            status = "6" ;
+        }
+
+
+/*        if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능] 즉 approval_status값이 0일경우에만 보이는 것임
             status = "0" ;
 
 
@@ -183,7 +220,7 @@ public class ApprovalService {
         }else if( memberRank == 9){ //사장일경우  즉 최종결제완료됨
             status="3";
 
-        }
+        }*/
 
 /*
         //partName 뽑아내기위한 작업 [2023-05-16]
