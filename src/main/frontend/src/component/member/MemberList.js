@@ -345,6 +345,7 @@ export default function MemberList( props ) {
                     }}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
+                    disableRowSelectionOnClick
                     onRowSelectionModelChange={ (newRowSelectionModel) => {
                         setRowSelectionModel(newRowSelectionModel);
                     }}

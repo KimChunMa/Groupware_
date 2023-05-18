@@ -30,5 +30,68 @@
 }
 
 .addr-add-title{
-    padding : 40px;
+    padding : 20px 40px;
+}
+
+
+
+.non-click {
+    background-color: white;
+}
+
+.clicked {
+     background-color: #1976d2 ;
+     color: white;
+     padding-left: 15px;
+}
+
+.non-clicked{
+    padding-left: 15px;
+}
+
+.addrList-Box{
+    border : solid 1px #e8e8e8;
+    width: 95%;
+    height : 50%;
+    margin : 0px auto;
+}
+
+.add-input-box{
+    display: flex;
+    align-items : center;
+    width : 95%;
+    margin : 0px auto;
+}
+.add-title{
+    padding : 30px 20px;
+}
+.addr_name , .addr_phone {
+    margin-right : 10px !important;
+}
+.addr-add-btn{
+    font-size : 30px !important;
+}
+
+.addr_email{
+    margin-right : 25px !important;
+}
+
+.group-List-Box{
+    border: solid 1px #e8e8e8;
+    margin : 0px auto;
+    width: 95%;
+    height: 595px;
+    border-radius : 5px;
+}
+
+.alert-position{
+    position : absolute;
+    top : 30px;
+    left : 15%;
+    width: 70%;
+    z-index : 9999;
+}
+
+.updateBtn{
+    margin-left : 50px !important;
 }

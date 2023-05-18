@@ -26,4 +26,18 @@ public class AddressGroupController {
         return addressGroupService.getGroup();
     }
 
+
+    @PutMapping("")
+    public boolean updateGroup(@RequestBody AddressGroupDto addressGroupDto){
+        log.info( "put : " + addressGroupDto );
+        return addressGroupService.updateGroup(addressGroupDto);
+    }
+
+    @DeleteMapping("")
+    public boolean deleteGroup(@RequestParam int groupNo ){
+        log.info("delete : " + groupNo );
+        return addressGroupService.deleteGroup( groupNo );
+    }
+
+
 }

@@ -8,10 +8,12 @@ import connect.web.domain.member.MemberEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -68,6 +70,34 @@ public class AddressGroupService {
         return addressGroupEntityList.stream().map(
                 o -> o.toDto()
         ).collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public boolean updateGroup( AddressGroupDto addressGroupDto ) {
+
+        Optional<AddressGroupEntity> optionalAddressGroupEntity = addressGroupEntityRepository.findById( addressGroupDto.getGroupNo() );
+
+        if( optionalAddressGroupEntity.isPresent() ){
+            AddressGroupEntity addressGroupEntity = optionalAddressGroupEntity.get();
+            addressGroupEntity.setGroupName( addressGroupDto.getGroupName() );
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean deleteGroup( int groupNo ){
+
+        Optional<AddressGroupEntity> optionalAddressGroupEntity = addressGroupEntityRepository.findById( groupNo );
+
+        if( optionalAddressGroupEntity.isPresent() ){
+            AddressGroupEntity addressGroupEntity = optionalAddressGroupEntity.get();
+            addressGroupEntityRepository.delete( addressGroupEntity );
+            return true;
+        }
+
+        return false;
     }
 
 }
