@@ -25,7 +25,7 @@ const style = {
     bgcolor: 'background.paper',
     border: '1px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 4
 };
 export default function AddGroup( props ) {
 
@@ -131,7 +131,6 @@ export default function AddGroup( props ) {
                 props.failAlert();
             }
         })
-
     }
 
 
