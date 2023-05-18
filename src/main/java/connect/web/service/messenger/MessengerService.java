@@ -44,6 +44,7 @@ public class MessengerService {
     @Autowired
     private HttpServletResponse response; // 응답 객체
 
+    //저장경로
     String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
 
 
@@ -136,7 +137,22 @@ public class MessengerService {
     }
     //---------------------------- 채팅방 파일----------------------------
     public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
-        return true;
+        if(chatRoomsDto.getFiles().getSize()>0){
+            //1. 만약 동일한 파일명이 생긴다면, 덮어씌울수 있으니[=식별불가능]
+            String fileName = UUID.randomUUID().toString()
+                    +"_"+chatRoomsDto.getFiles().getOriginalFilename();
+            //2. 경로 + 파일명 조합해서 file 클래스 생성
+            File fileSave = new File(path+fileName);
+            //3. 업로드 // multipartFile.transferTo(저장할 file 클래스의 객체)
+            try{chatRoomsDto.getFiles().transferTo(fileSave);}catch(Exception e){log.info("file upload fail : " + e);}
+            ChatRoomsEntity chatRoomsEntity = chatRoomsDto.toEntity();
+            chatRoomsEntity.setOriginalFilename(chatRoomsDto.getFiles().getOriginalFilename());
+            chatRoomsEntity.setUuidFile(fileName);
+            chatRoomsEntity.setMemberEntity(memberEntityRepository.findById(chatRoomsDto.getMemberNo()).get());
+            chatRoomsEntityRepository.save(chatRoomsEntity);
+            return true;
+        }
+        return false;
     }
 
     //---------------------------- 메세지 보내기 -------------------------

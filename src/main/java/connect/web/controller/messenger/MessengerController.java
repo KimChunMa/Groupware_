@@ -52,7 +52,7 @@ public class MessengerController {
 
     @PostMapping("/file")
     public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
-        return messengerService.createChat(chatRoomsDto);
+        return messengerService.CreateChat_file(chatRoomsDto);
     }
 
 
