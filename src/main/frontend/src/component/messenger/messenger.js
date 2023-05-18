@@ -76,7 +76,6 @@ export default function Messenger(props){
             })
     }
 
-
     //3) 모달 나가기
     const closeModal = () => {setModal(false); document.querySelector('.modal_wrap2').style.display = 'none';}
 
@@ -94,27 +93,24 @@ export default function Messenger(props){
     //2-3. 채팅방 클릭시 채팅방번호 수정후 ChatRoom에게 전달
     const clickRooms = (chatRoomId)=> { setRoomId(chatRoomId);  }
 
-	//3. 채팅방 우클릭시 메뉴 보이기
+	//3. 채팅방 우클릭시 수정,삭제창 보이게
      const show_menu=(e,chatRoomId)=>{
         e.preventDefault(); //기존 우클릭 이벤트 제거
+        //현재 우클릭한 채팅방을 제외한 나머지 모두 none
         document.querySelectorAll('.chat_menu').forEach((o)=>{  o.style.display='none'; })
-        //document.querySelect('.#popMenu').style.display = 'block';
-        let x = e.pageX + 'px'; // 현재 마우스의 X좌표
-        let y = e.pageY + 'px'; // 현재 마우스의 Y좌표
-
+        let x = e.pageX + 'px'; /* 현재 마우스의 X좌표 */ let y = e.pageY + 'px'; // 현재 마우스의 Y좌표
         const chat_menu = document.querySelector('.num_'+chatRoomId);
         chat_menu.style.left = x; chat_menu.style.top = y; chat_menu.style.display = 'block';
-        setEditId(chatRoomId)
+        setEditId(chatRoomId); //어떤 채팅방을 클릭했는지 알려주기
      }
 
-    //3-1. 아무곳이나 클릭시 메뉴 숨기기
+    //3-1. 아무곳이나 클릭시 우클릭 메뉴 숨기기
      const hide_menu = ((e) => {
          document.querySelectorAll('.chat_menu').forEach((o)=>{  o.style.display='none'; })
      });
 
      //3-2. 수정 클릭시 수정팝업창
-     const edit_modal = ((chatRoomId)=>{
-          setEditId(chatRoomId)
+     const edit_chat = ((chatRoomId)=>{
           document.querySelector('.modal_wrap2').style.display = 'block';
      })
 
@@ -139,7 +135,7 @@ export default function Messenger(props){
         <div className="wrap">
         {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ left ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */}
             <div className="left">
-                {/* 왼쪽 상단 부분*/}
+                {/* 왼쪽 상단 부분 = 헤더 */}
                 <div className="header">
                     <div className="order_chat"></div>
                     <div className="create_chat" onClick={create_chat}>
@@ -147,7 +143,7 @@ export default function Messenger(props){
                     </div> {/*방만들기 아이콘*/}
                 </div>  {/* header e */}
 
-                {/*왼쪽 중단 부분*/}
+                {/*왼쪽 중단 부분 = 채팅방 */}
                 <div className="left_content">
 
                     {chatRooms.map((o)=>(
@@ -166,10 +162,11 @@ export default function Messenger(props){
                             <div className="chat_room_right">
                                 <div className="msg_date"> {o.cdate} </div>
                             </div>
-
+                            {/* 우클릭시 채팅방 수정 삭제 리스트 */}
                             <ul className={"chat_menu num_"+o.chatRoomId}>
-                              <li onClick={(e)=> edit_modal(o.chatRoomId)}> 채팅방 수정  </li>
-                              <li onClick={(e)=> del_chat(o.chatRoomId)}> 채팅방 삭제 {o.chatRoomId} </li>
+                              <li> {o.name} </li>
+                              <li onClick={(e)=> edit_chat(o.chatRoomId)}> 채팅방 수정  </li>
+                              <li onClick={(e)=> del_chat(o.chatRoomId)}> 채팅방 삭제 </li>
                             </ul>
 
                         </div>
@@ -179,7 +176,7 @@ export default function Messenger(props){
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
 
             {/* 클릭한 채팅방 Id, 멤버 정보, 채팅방 배열[클릭한 채팅-1] {배열은 0부터 아이디는 1부터/ 초기는 채팅방 안뜨게 0} */}
-            <ChatRoom roomId={roomId} member={member} chatRooms={chatRooms[roomId-1]}  />
+            <ChatRoom roomId={roomId} member={member} chatRooms={chatRooms[roomId-1]}   />
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">

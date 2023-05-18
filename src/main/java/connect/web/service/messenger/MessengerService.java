@@ -169,25 +169,36 @@ public class MessengerService {
 
     //3. 메세지 수정하기
     @Transactional
-    public boolean editMessages(int chatMessagesId, String content){
+    public boolean editMessages( ChatMessagesDto chatMessagesDto){
         //메세지 수정하기
         Optional<ChatMessagesEntity> chatMessagesEntity =
-            chatMessagesEntityRepository.findById(chatMessagesId);
-        chatMessagesEntity.get().setContent(content);
-
+            chatMessagesEntityRepository.findById(chatMessagesDto.getChatMessagesId());
+        chatMessagesEntity.get().setContent(chatMessagesDto.getContent());
         return true;
     }
+
+    //3-1. 개개인의 메세지 가져오기
+    @Transactional
+    public ChatMessagesDto oneMessage(int chatMessagesId){
+        return chatMessagesEntityRepository.findById(chatMessagesId).get().toDto();
+    }
+
 
     //4. 삭제하기
     @Transactional
     public boolean DeleteMessages(int chatMessagesId){
-        //메세지 보낸 사람과 일치한지 검사
         //메세지 삭제하기
         Optional<ChatMessagesEntity> chatMessagesEntity =
                 chatMessagesEntityRepository.findById(chatMessagesId);
-
-        chatMessagesEntityRepository.delete(chatMessagesEntity.get());
-        return true;
+        System.out.println("------------------------");
+        System.out.println(chatMessagesId);
+        System.out.println(chatMessagesEntity);
+        if(chatMessagesEntity.get().getMemberEntity().getMemberNo() ==
+                loginMember().getMemberNo()){
+                    chatMessagesEntityRepository.delete(chatMessagesEntity.get());
+                    return true;
+        }
+        return false;
     }
 
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 파일 보내기  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/

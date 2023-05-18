@@ -63,8 +63,14 @@ public class MessengerController {
 
     //3. 메세지 수정하기
     @PutMapping("/message")
-    public boolean editMessages(@RequestParam int chatMessagesId,@RequestParam String content){
-        return messengerService.editMessages(chatMessagesId, content);
+    public boolean editMessages(@RequestBody ChatMessagesDto chatMessagesDto){
+        return messengerService.editMessages(chatMessagesDto);
+    }
+
+    //3-1. 하나의 메세지 가져오기
+    @GetMapping("/oneMessage")
+    public ChatMessagesDto oneMessage(@RequestParam int chatMessagesId){
+        return messengerService.oneMessage(chatMessagesId);
     }
 
     //4. 메세지 삭제하기
