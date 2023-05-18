@@ -27,6 +27,8 @@ import MemberList from './member/MemberList';
 import AddrMain from './AddressBook/AddrMain'
 
 
+import Apaper from './Approval/Apaper';
+
 //----------------------- 이경석 ---------------------------------//
 import Messenger from './messenger/messenger';
 
@@ -79,6 +81,9 @@ function App() {
                 <Route path="/member/memberlist" element={<MemberList />} />
                 <Route path="/member/addressbook" element={<AddrMain />} />
                 <Route path="/member/addpart" element={<AddPart />} />
+
+
+                <Route path="/apaper" element={<Apaper />} />
 
                 {/* 이경석 */}
                 <Route path="/messenger" element={<Messenger />} />
