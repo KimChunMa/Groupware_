@@ -39,33 +39,60 @@ export default function Messenger(props){
 
     // 1-1.채팅방만들시 사용할 제목
     const [title, setTitle] = useState("");
+    // 1-2. 채팅방 이미지
+    let chat_fileForm = useRef(null); // Form
+    // 1-3. input file 작동용
+    let chat_fileInputClick= useRef(null); // input file
 
-    // 1-2.채팅방 배열
+    // 2-1.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
 
-    //1-3. 클릭한 채팅방 번호
+    //2-2. 클릭한 채팅방 번호
     const [roomId , setRoomId] = useState(0);
 
     //3. 수정+삭제할 채팅방 번호
     const [editId, setEditId] = useState(0);
 
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 함수 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 1-1. 채팅방 만들기
         //1) 방만드는 아이콘 클릭시 모달나오게하기
     const create_chat = () => { setModal(true);}
         //2) TextField 값 가져오기
     const titleChange = (event) => { setTitle(event.target.value); }
-        //3) 전달하기
+
+        //3. 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
+    const fileUpload = () => {chat_fileInputClick.current.click();};
+
+        //4) 전달하기
     const create = () => {
         let ChatRoomsDto = {name:title , memberNo: member.memberNo}
-        axios.post("/chat" ,  ChatRoomsDto )
-            .then(r => {
-                if(r.data == true) {
-                alert("방 생성 완료!");setModal(false);
-                document.querySelector('#title_input').value ="";
-                printChat();
-                }else{alert("오류가 발생하였습니다.");}
-            })
+         if(title == ""){
+            alert("채팅방 제목을 설정하셔야합니다!"); return;
+         }
+         else if(chat_fileInputClick.current.value != ''){ //첨부파일 존재시
+            let formData = new FormData( chat_fileForm.current )
+            formData.set('name',title); formData.set('memberNo', member.memberNo );
+            console.log(formData)
+            axios.post("/chat/file", formData)
+                 .then(r => {
+                    if(r.data == true) {
+                    alert("방 생성 완료!");setModal(false);
+                    document.querySelector('#title_input').value ="";
+                    printChat(); chat_fileInputClick.current.value='';
+                    }else{alert("오류가 발생하였습니다.");}
+                 })
+         }
+         else{axios.post("/chat" ,  ChatRoomsDto ) //첨부파일 존재하지 않을시
+                    .then(r => {
+                        if(r.data == true) {
+                        alert("방 생성 완료!");setModal(false);
+                        document.querySelector('#title_input').value ="";
+                        printChat();
+                        }else{alert("오류가 발생하였습니다.");}
+                    })
+        }
     }
+
     //3) 모달 나가기
     const closeModal = () => {setModal(false); document.querySelector('.modal_wrap2').style.display = 'none';}
 
@@ -83,27 +110,24 @@ export default function Messenger(props){
     //2-3. 채팅방 클릭시 채팅방번호 수정후 ChatRoom에게 전달
     const clickRooms = (chatRoomId)=> { setRoomId(chatRoomId);  }
 
-	//3. 채팅방 우클릭시 메뉴 보이기
+	//3. 채팅방 우클릭시 수정,삭제창 보이게
      const show_menu=(e,chatRoomId)=>{
         e.preventDefault(); //기존 우클릭 이벤트 제거
+        //현재 우클릭한 채팅방을 제외한 나머지 모두 none
         document.querySelectorAll('.chat_menu').forEach((o)=>{  o.style.display='none'; })
-        //document.querySelect('.#popMenu').style.display = 'block';
-        let x = e.pageX + 'px'; // 현재 마우스의 X좌표
-        let y = e.pageY + 'px'; // 현재 마우스의 Y좌표
-
+        let x = e.pageX + 'px'; /* 현재 마우스의 X좌표 */ let y = e.pageY + 'px'; // 현재 마우스의 Y좌표
         const chat_menu = document.querySelector('.num_'+chatRoomId);
         chat_menu.style.left = x; chat_menu.style.top = y; chat_menu.style.display = 'block';
-        setEditId(chatRoomId)
+        setEditId(chatRoomId); //어떤 채팅방을 클릭했는지 알려주기
      }
 
-    //3-1. 아무곳이나 클릭시 메뉴 숨기기
+    //3-1. 아무곳이나 클릭시 우클릭 메뉴 숨기기
      const hide_menu = ((e) => {
          document.querySelectorAll('.chat_menu').forEach((o)=>{  o.style.display='none'; })
      });
 
      //3-2. 수정 클릭시 수정팝업창
-     const edit_modal = ((chatRoomId)=>{
-          setEditId(chatRoomId)
+     const edit_chat = ((chatRoomId)=>{
           document.querySelector('.modal_wrap2').style.display = 'block';
      })
 
@@ -128,15 +152,15 @@ export default function Messenger(props){
         <div className="wrap">
         {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ left ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */}
             <div className="left">
-                {/* 왼쪽 상단 부분*/}
+                {/* 왼쪽 상단 부분 = 헤더 */}
                 <div className="header">
-                    <div className="order_chat">채팅 ▼</div>
+                    <div className="order_chat"></div>
                     <div className="create_chat" onClick={create_chat}>
                         <FontAwesomeIcon icon={faComments} size="2x" />
                     </div> {/*방만들기 아이콘*/}
                 </div>  {/* header e */}
 
-                {/*왼쪽 중단 부분*/}
+                {/*왼쪽 중단 부분 = 채팅방 */}
                 <div className="left_content">
 
                     {chatRooms.map((o)=>(
@@ -155,10 +179,11 @@ export default function Messenger(props){
                             <div className="chat_room_right">
                                 <div className="msg_date"> {o.cdate} </div>
                             </div>
-
+                            {/* 우클릭시 채팅방 수정 삭제 리스트 */}
                             <ul className={"chat_menu num_"+o.chatRoomId}>
-                              <li onClick={(e)=> edit_modal(o.chatRoomId)}> 채팅방 수정  </li>
-                              <li onClick={(e)=> del_chat(o.chatRoomId)}> 채팅방 삭제 {o.chatRoomId} </li>
+                              <li> {o.name} </li>
+                              <li onClick={(e)=> edit_chat(o.chatRoomId)}> 채팅방 수정  </li>
+                              <li onClick={(e)=> del_chat(o.chatRoomId)}> 채팅방 삭제 </li>
                             </ul>
 
                         </div>
@@ -168,7 +193,7 @@ export default function Messenger(props){
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
 
             {/* 클릭한 채팅방 Id, 멤버 정보, 채팅방 배열[클릭한 채팅-1] {배열은 0부터 아이디는 1부터/ 초기는 채팅방 안뜨게 0} */}
-            <ChatRoom roomId={roomId} member={member} chatRooms={chatRooms[roomId-1]}  />
+            <ChatRoom roomId={roomId} member={member} chatRooms={chatRooms[roomId-1]}   />
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
@@ -184,6 +209,18 @@ export default function Messenger(props){
                     <div className="modal_content">
                          <TextField onChange={titleChange} id="title_input" label="채팅방 제목" variant="standard"  />
                     </div>
+
+                    <h3 className="modal_title">
+                        채팅방 이미지
+                    </h3>
+
+                    <div className="file">
+                      <div className="btn-upload" onClick={fileUpload}>파일 </div>
+                    </div>
+
+                    <form ref={chat_fileForm}>
+                        <input  ref={chat_fileInputClick} type="file" name="files" id="file" />
+                    </form>
 
                     <div className="modal_btns">
                         <button  onClick={create}  className="modal_check" type="button">방 생성하기</button>

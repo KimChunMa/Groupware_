@@ -48,6 +48,15 @@ public class MessengerController {
         return messengerService.deletChat(chatRoomId);
     }
 
+    // ------------------------------------- 채팅방 파일 -----------------------------
+
+    @PostMapping("/file")
+    public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
+        return messengerService.createChat(chatRoomsDto);
+    }
+
+
+
     //------------------------------------- 메세지 보내기 ----------------------------------
     //1. 메세지 보내기
     @PostMapping("/message")
@@ -63,8 +72,14 @@ public class MessengerController {
 
     //3. 메세지 수정하기
     @PutMapping("/message")
-    public boolean editMessages(@RequestParam int chatMessagesId,@RequestParam String content){
-        return messengerService.editMessages(chatMessagesId, content);
+    public boolean editMessages(@RequestBody ChatMessagesDto chatMessagesDto){
+        return messengerService.editMessages(chatMessagesDto);
+    }
+
+    //3-1. 하나의 메세지 가져오기
+    @GetMapping("/oneMessage")
+    public ChatMessagesDto oneMessage(@RequestParam int chatMessagesId){
+        return messengerService.oneMessage(chatMessagesId);
     }
 
     //4. 메세지 삭제하기
@@ -75,19 +90,19 @@ public class MessengerController {
         return messengerService.DeleteMessages(chatMessagesId);
     }
 
-    /* -------------------------------- 파일 ----------------------------*/
+    /* -------------------------------- 메세지 파일 ----------------------------*/
 
     //1. 파일 보내기
     @PostMapping("/fileUpload") //chat 관련 첨부파일 업로드
     public boolean fileUpload(ChatMessagesDto chatMessagesDto){
-        return messengerService.fileUpload(chatMessagesDto);
+      return messengerService.fileUpload(chatMessagesDto);
     }
-/*
-    @GetMapping("/filedownload") //char 관련 첨부파일 다운로드
-    public void filedownload( @RequestParam("uuidFile") String filepath ){
-        System.out.println("uuidFile : " + filepath);
-        fileService.filedownload(filepath);
+
+    @GetMapping("/fileDownload") //char 관련 첨부파일 다운로드
+    public void fileDownload( @RequestParam("uuidFile") String uuidFile ){
+        System.out.println("uuidFile : " + uuidFile);
+        messengerService.fileDownload(uuidFile);
     }
-*/
+
 
 }

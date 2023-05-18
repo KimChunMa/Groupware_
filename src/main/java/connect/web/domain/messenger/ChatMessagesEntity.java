@@ -35,8 +35,6 @@ public class ChatMessagesEntity extends BaseTime {  // 메세지 생성날짜를
     @Column(nullable = true)
     private String msgType; // 파일 타입
 
-    @Column(nullable = true)
-    private String filePath; //파일 경로
 
     private String originalFilename; //실제 순수 파일명
     private String uuidFile; //식별된 파일명
@@ -52,7 +50,6 @@ public class ChatMessagesEntity extends BaseTime {  // 메세지 생성날짜를
                 .memberNo(this.memberEntity.getMemberNo())
                 .chatRoomId(this.chatRoomsEntity.getChatRoomId())
                 .msgType(this.msgType)
-                .filePath(this.filePath)
                 .cdate( //현재 시간
                         this.cdate.toLocalTime().format(DateTimeFormatter.ofPattern(("a HH:mm")))
                 )
