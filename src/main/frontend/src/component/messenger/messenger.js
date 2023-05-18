@@ -40,9 +40,9 @@ export default function Messenger(props){
     // 1-1.채팅방만들시 사용할 제목
     const [title, setTitle] = useState("");
     // 1-2. 채팅방 이미지
-    let fileForm = useRef(null); // Form
+    let chat_fileForm = useRef(null); // Form
     // 1-3. input file 작동용
-    let fileInputClick= useRef(null); // input file
+    let chat_fileInputClick= useRef(null); // input file
 
     // 2-1.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
@@ -61,19 +61,36 @@ export default function Messenger(props){
     const titleChange = (event) => { setTitle(event.target.value); }
 
         //3. 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
-    const fileUpload = () => {fileInputClick.current.click();};
+    const fileUpload = () => {chat_fileInputClick.current.click();};
 
         //4) 전달하기
     const create = () => {
         let ChatRoomsDto = {name:title , memberNo: member.memberNo}
-        axios.post("/chat" ,  ChatRoomsDto )
-            .then(r => {
-                if(r.data == true) {
-                alert("방 생성 완료!");setModal(false);
-                document.querySelector('#title_input').value ="";
-                printChat();
-                }else{alert("오류가 발생하였습니다.");}
-            })
+         if(title == ""){
+            alert("채팅방 제목을 설정하셔야합니다!"); return;
+         }
+         else if(chat_fileInputClick.current.value != ''){ //첨부파일 존재시
+            let formData = new FormData( chat_fileForm.current )
+            formData.set('name',title); formData.set('memberNo', member.memberNo );
+            console.log(formData)
+            axios.post("/chat/file", formData)
+                 .then(r => {
+                    if(r.data == true) {
+                    alert("방 생성 완료!");setModal(false);
+                    document.querySelector('#title_input').value ="";
+                    printChat(); chat_fileInputClick.current.value='';
+                    }else{alert("오류가 발생하였습니다.");}
+                 })
+         }
+         else{axios.post("/chat" ,  ChatRoomsDto ) //첨부파일 존재하지 않을시
+                    .then(r => {
+                        if(r.data == true) {
+                        alert("방 생성 완료!");setModal(false);
+                        document.querySelector('#title_input').value ="";
+                        printChat();
+                        }else{alert("오류가 발생하였습니다.");}
+                    })
+        }
     }
 
     //3) 모달 나가기
@@ -194,21 +211,15 @@ export default function Messenger(props){
                     </div>
 
                     <h3 className="modal_title">
-                        초대할 사람 이름
-                    </h3>
-                    <div className="modal_content">
-                         <TextField onChange={titleChange} id="title_input" label="채팅방 제목" variant="standard"  />
-                    </div>
-
-                    <h3 className="modal_title">
                         채팅방 이미지
                     </h3>
 
                     <div className="file">
                       <div className="btn-upload" onClick={fileUpload}>파일 </div>
                     </div>
-                    <form ref={fileForm}>
-                        <input  ref={fileInputClick} type="file" name="files" id="file" multiple={true}   />
+
+                    <form ref={chat_fileForm}>
+                        <input  ref={chat_fileInputClick} type="file" name="files" id="file" />
                     </form>
 
                     <div className="modal_btns">

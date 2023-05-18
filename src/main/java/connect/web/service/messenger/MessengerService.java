@@ -44,6 +44,9 @@ public class MessengerService {
     @Autowired
     private HttpServletResponse response; // 응답 객체
 
+    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
+
+
 
     /* ---------------------- 0. 로그인 검사 ------------------------- */
     public MemberDto loginMember(){
@@ -131,6 +134,10 @@ public class MessengerService {
         }
         return false;
     }
+    //---------------------------- 채팅방 파일----------------------------
+    public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
+        return true;
+    }
 
     //---------------------------- 메세지 보내기 -------------------------
     //1. 메세지 보내기
@@ -202,8 +209,6 @@ public class MessengerService {
     }
 
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 파일 보내기  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
-    //첨부파일 저장할 경로 [1. 배포 전 2.배포 후]
-    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
 
     @Transactional
     //1.파일 전송하기

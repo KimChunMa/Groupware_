@@ -48,6 +48,15 @@ public class MessengerController {
         return messengerService.deletChat(chatRoomId);
     }
 
+    // ------------------------------------- 채팅방 파일 -----------------------------
+
+    @PostMapping("/file")
+    public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
+        return messengerService.createChat(chatRoomsDto);
+    }
+
+
+
     //------------------------------------- 메세지 보내기 ----------------------------------
     //1. 메세지 보내기
     @PostMapping("/message")
@@ -81,7 +90,7 @@ public class MessengerController {
         return messengerService.DeleteMessages(chatMessagesId);
     }
 
-    /* -------------------------------- 파일 ----------------------------*/
+    /* -------------------------------- 메세지 파일 ----------------------------*/
 
     //1. 파일 보내기
     @PostMapping("/fileUpload") //chat 관련 첨부파일 업로드

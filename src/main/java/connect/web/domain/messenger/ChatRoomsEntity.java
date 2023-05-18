@@ -41,7 +41,7 @@ public class ChatRoomsEntity extends BaseTime { // 채팅방 생성날짜를 전
 
     private String originalFilename; //실제 순수 파일명
     private String uuidFile; //식별된 파일명
-
+    private String sizeKb; // 용량
     public ChatRoomsDto toDto(){
         return ChatRoomsDto.builder()
                 .chatRoomId(this.chatRoomId)

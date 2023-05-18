@@ -50,9 +50,9 @@ export default function Messenger(props){
          chatMessagesDto.content = '';
 
         if(fileInputClick.current.value != ''){//첨부파일 존재시
-        let formData = new FormData( fileForm.current )
-        formData.set( 'chatRoomId' , props.roomId ); formData.set( 'memberNo' , member.memberNo )
-             axios.post('/chat/fileUpload' , formData )
+            let formData = new FormData( fileForm.current )
+            formData.set( 'chatRoomId' , props.roomId ); formData.set( 'memberNo' , member.memberNo )
+            axios.post('/chat/fileUpload' , formData )
                              //메세지 출력 함수 (채팅방 ID) ; 파일창 초기화
                   .then(r=> {printMessages ( props.roomId ); fileInputClick.current.value=''; })
         }
