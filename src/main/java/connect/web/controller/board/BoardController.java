@@ -67,11 +67,17 @@ public class BoardController {
         return result;
     }
 
-/*    // 8. 댓글 작성
+    // 8. 댓글 작성
     @PostMapping("/reply")
     public boolean postReply(@RequestBody ReplyDto replyDto){ log.info("postReply : " +replyDto);
         boolean result = boardService.postReply(replyDto);
         return true;
-    }*/
+    }
+
+    // 9. 댓글 출력
+    @GetMapping("/reply")
+    public boolean getReply(){log.info("getReply : ");
+        return true;
+    }
 
 }

@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom'; // HTTP 경로 상의 매개변수 �
 // mui Container
 import Container from '@mui/material/Container';
 
+import ReplyList from './ReplyList'
 export default function View(props) {
 
     const params = useParams();
@@ -38,6 +39,19 @@ export default function View(props) {
     // 3. 수정 페이지 이동
     const onUpdate =()=>{ window.location.href="/update?boardNo="+board.boardNo }
 
+    // 4. 댓글 작성
+    const onReplyWrite=(replyContent) =>{
+        let info = {replyContent : replyContent , boardNo : board.boardNo}; console.log(info);
+        axios.post("/board/reply" , info)
+            .then((r)=>{
+                if(r.data==true){
+                    alert('댓글작성 완료'); getBoard();
+                }else{
+                    alert('댓글작성 실패')
+                }
+            })
+    }
+
     // 게시물 수정 삭제 버튼박스
        const btnBox =
                     login != null && login.memberNo == board.memberNo
@@ -58,6 +72,7 @@ return (
             <p>{board.boardContent}</p>
             {btnBox}
         </div>
+        <ReplyList onReplyWrite={onReplyWrite} />
     </Container>
 );
 }

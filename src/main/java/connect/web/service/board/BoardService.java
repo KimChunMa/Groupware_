@@ -134,7 +134,7 @@ public class BoardService {
         return false;
     }
 
-/*    // 8. [김동혁] 댓글작성
+    // 8. [김동혁] 댓글작성
     @Autowired
     private ReplyEntityRepository replyEntityRepository;
     @Transactional
@@ -149,7 +149,17 @@ public class BoardService {
         // 댓글 작성
         ReplyEntity replyEntity = replyEntityRepository.save(replyDto.toEntity());
         if (replyEntity.getReplyNo()<1){return false;}
-        //
-    }*/
+        // 댓글과 회원의 양방향관계
+        replyEntity.setMemberEntity(memberEntity);
+        memberEntity.getReplyEntityList().add(replyEntity);
+        // 댓글과 게시물의 양방향관계
+        replyEntity.setBoardEntity(optionalBoardEntity.get());
+        boardEntity.getReplyEntityList().add(replyEntity);
+        return true;
+    }
+    @Transactional
+    public boolean getReply(){ // 게시물 출력 시 대체
+        return true;
+    }
 }
 

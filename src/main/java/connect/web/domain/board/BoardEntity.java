@@ -9,6 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity @Table(name="board")
@@ -30,6 +32,10 @@ public class BoardEntity extends BaseTime {
     @JoinColumn(name="partNo")
     @ToString.Exclude
     private PartEntity partEntity;
+
+    @OneToMany(mappedBy = "boardEntity")
+    @Builder.Default
+    private List<ReplyEntity> replyEntityList = new ArrayList<>();
 
     public BoardDto toDto() {
         return BoardDto.builder()
