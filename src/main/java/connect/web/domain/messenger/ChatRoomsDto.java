@@ -13,9 +13,18 @@ public class ChatRoomsDto {
     private String cdate; // 채팅방 생성 날짜
     private int memberNo; //방주인
 
+    private String originalFilename; //실제 순수 파일명
+    private String uuidFile; //식별된 파일명
+    private String sizeKb; // 용량
+    private List<MultipartFile> files;    //첨부파일 입력용
+
+
+
     public ChatRoomsEntity toEntity(){
         return ChatRoomsEntity.builder()
                 .name(this.name)
+                .originalFilename(this.originalFilename)
+                .uuidFile(this.uuidFile)
                 .build();
     }
 }

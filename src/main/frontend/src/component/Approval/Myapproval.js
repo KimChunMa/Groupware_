@@ -34,21 +34,28 @@ export default function Myapproval(props) {
         //결제상태확인하기
         const getUserState = ( state ) => {
                 console.log( state );
+                console.log( state );
                 if(state == '0'){
-                    return '대기중'
+                    return '주임결제대기중'
                 }else if(state == '1'){
-                    return '대기중'
+                    return '대리결제대기중'
                 }else if(state == '2'){
-                    return'대기중'
+                    return'과장결제대기중'
                 }else if(state == '3'){
-                    return'대기중'
+                    return'차장결제대기중'
                 }else if(state == '4'){
-                    return'결제완료'
+                    return'팀장결제대기중'
+                }else if(state == '5'){
+                    return'부장결제대기중'
+                }else if(state == '6'){
+                    return'최종결제대기중'
+                }else if(state == '7'){
+                    return'최종결제완료'
+
                 }else if(state == '9'){
                     return'반려'
                 }
          }
-
 
 
 
@@ -73,8 +80,8 @@ export default function Myapproval(props) {
                                   key={row.approvalNo}
                                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                   <TableCell align="center" scope="row"> {row.approvalNo} </TableCell>
-                                  <TableCell align="center"> {row.partName}</TableCell> {/*수정필요 계속 null값이 뜸 [ 2023- 05 -15] */}
-                                  <TableCell align="center"> <a href={"/approval/view/"+row.approvalNo}> {row.approvalTitle} </a> </TableCell>
+                                  <TableCell align="center"> {row.partName}</TableCell>
+                                  <TableCell align="center"> <a href={"/approval/viewB/"+row.approvalNo}> {row.approvalTitle} </a> </TableCell>
                                   <TableCell align="center">{row.approvalWriter}</TableCell>
                                   <TableCell align="center">{row.approvalData}</TableCell>
                                   <TableCell align="center">{ getUserState(row.approvalStatus) } </TableCell>

@@ -33,21 +33,19 @@ public class MessengerService {
     ChatRoomsEntityRepository chatRoomsEntityRepository;
     @Autowired //채팅방 회원체크
     ChatParticipantsEntityRepository chatParticipantsEntityRepository;
-
     @Autowired //메세지
     ChatMessagesEntityRepository chatMessagesEntityRepository;
     @Autowired // 회원
     MemberEntityRepository memberEntityRepository;
-
     @Autowired //회원 소켓 전용
     HttpServletRequest request;
-
     @Autowired //메세지 소켓전용
     ChattingHandler chattingHandler;
-
-
     @Autowired
     private HttpServletResponse response; // 응답 객체
+
+    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
+
 
 
     /* ---------------------- 0. 로그인 검사 ------------------------- */
@@ -130,13 +128,15 @@ public class MessengerService {
         ChatRoomsEntity chatRoomsEntity = chatRoomsEntityRepository.findById(chatRoomId).get();
 
         if(memberEntity.getMemberNo() == chatRoomsEntity.getMemberEntity().getMemberNo()) {
-            System.out.println("------------------ 일치함");
-            System.out.println(chatRoomsEntity);
             //삭제
             chatRoomsEntityRepository.delete(chatRoomsEntity);
             return true;
         }
         return false;
+    }
+    //---------------------------- 채팅방 파일----------------------------
+    public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
+        return true;
     }
 
     //---------------------------- 메세지 보내기 -------------------------
@@ -164,51 +164,54 @@ public class MessengerService {
     //2. 메세지 출력
     @Transactional
     public List<ChatMessagesDto> printMessages(int chatRoomId){
-        System.out.println("-----------------------------");
-        System.out.println(chatRoomId);
         //현재 채팅방에 속한 메세지 가져오기
         List<ChatMessagesEntity> chatMessagesEntityList =
                 chatMessagesEntityRepository.findAllByChatRoomId(chatRoomId);
 
-        //속한 메세지 전체 dto 변환
+        //채팅방에 속한 메세지 전체 dto 변환
         List<ChatMessagesDto> chatMessagesDtoList = new ArrayList<>();
-
-        chatMessagesEntityList.forEach((o)->{
-            chatMessagesDtoList.add(o.toDto());
-        });
+        chatMessagesEntityList.forEach((o)->{chatMessagesDtoList.add(o.toDto());});
         return chatMessagesDtoList;
     }
 
     //3. 메세지 수정하기
     @Transactional
-    public boolean editMessages(int chatMessagesId, String content){
-        //메세지 보낸 사람과 일치한지 검사
-
+    public boolean editMessages( ChatMessagesDto chatMessagesDto){
         //메세지 수정하기
         Optional<ChatMessagesEntity> chatMessagesEntity =
-            chatMessagesEntityRepository.findById(chatMessagesId);
-        chatMessagesEntity.get().setContent(content);
-
+            chatMessagesEntityRepository.findById(chatMessagesDto.getChatMessagesId());
+        chatMessagesEntity.get().setContent(chatMessagesDto.getContent());
         return true;
     }
+
+    //3-1. 개개인의 메세지 가져오기
+    @Transactional
+    public ChatMessagesDto oneMessage(int chatMessagesId){
+        return chatMessagesEntityRepository.findById(chatMessagesId).get().toDto();
+    }
+
 
     //4. 삭제하기
     @Transactional
     public boolean DeleteMessages(int chatMessagesId){
-        //메세지 보낸 사람과 일치한지 검사
         //메세지 삭제하기
         Optional<ChatMessagesEntity> chatMessagesEntity =
                 chatMessagesEntityRepository.findById(chatMessagesId);
-
-        chatMessagesEntityRepository.delete(chatMessagesEntity.get());
-        return true;
+        System.out.println("------------------------");
+        System.out.println(chatMessagesId);
+        System.out.println(chatMessagesEntity);
+        if(chatMessagesEntity.get().getMemberEntity().getMemberNo() ==
+                loginMember().getMemberNo()){
+                    chatMessagesEntityRepository.delete(chatMessagesEntity.get());
+                    return true;
+        }
+        return false;
     }
 
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 파일 보내기  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
-    //첨부파일 저장할 경로 [1. 배포 전 2.배포 후]
-    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
 
-    //파일 전송하기
+    @Transactional
+    //1.파일 전송하기
     public boolean fileUpload( ChatMessagesDto chatMessagesDto){
 
         if(chatMessagesDto.getFiles().size() != 0 ){ // 첨부파일 존재시
@@ -225,10 +228,14 @@ public class MessengerService {
                 String extension = file.getOriginalFilename().substring(
                         file.getOriginalFilename().lastIndexOf(".") + 1);
 
-                chatMessagesEntityRepository.save(
-                        ChatMessagesEntity.builder().originalFilename(file.getOriginalFilename())
-                                .uuidFile(fileName).msgType(extension).build()
-                );
+                //5. 여러 파일이 있을경우 하나씩 메세지를 저장하는 형식. {파일크기,파일의 원본이름, 수정된이름, 채팅방,멤버 넣는중}
+                chatMessagesDto.setSizeKb(file.getSize()/1024 + "kb");
+                chatMessagesDto.setOriginalFilename(file.getOriginalFilename());
+                chatMessagesDto.setUuidFile(fileName); chatMessagesDto.setMsgType(extension);
+                ChatMessagesEntity chatMessagesEntity = chatMessagesDto.toEntity();
+                chatMessagesEntity.setChatRoomsEntity( chatRoomsEntityRepository.findById(chatMessagesDto.getChatRoomId()).get());
+                chatMessagesEntity.setMemberEntity(memberEntityRepository.findById(chatMessagesDto.getMemberNo()).get());
+                chatMessagesEntityRepository.save( chatMessagesEntity );
             });
             return true;
         }
@@ -236,15 +243,18 @@ public class MessengerService {
     }
 
 
-    public void filedownload( String uuidFile ){ // spring 다운로드 관한 API 없음
+    //2. 파일 다운로드 하기
+    public void fileDownload( String uuidFile ){ // spring 다운로드 관한 API 없음
         String pathFile = path + uuidFile; // 경로+uuid파일명 : 실제 파일이 존재하는 위치
         try {
             // 1. 다운로드 형식 구성
             response.setHeader(  "Content-Disposition", // 헤더 구성 [ 브라우저 다운로드 형식 ]
                     "attchment;filename = " + URLEncoder.encode( uuidFile.split("_")[1], "UTF-8") // 다운로드시 표시될 이름
             );
+
             //2. 다운로드 스트림 구성
             File file = new File( pathFile ); // 다운로드할 파일의 경로에서 파일객체화
+
             // 3. 입력 스트림 [  서버가 먼저 다운로드 할 파일의 바이트 읽어오기 = 대상 : 클라이언트가 요청한 파일 ]
             BufferedInputStream fin = new BufferedInputStream( new FileInputStream(file) );
             byte[] bytes = new byte[ (int) file.length() ]; // 파일의 길이[용량=바이트단위] 만큼 바이트 배열 선언

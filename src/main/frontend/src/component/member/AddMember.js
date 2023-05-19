@@ -60,8 +60,6 @@ export default function AddMember( props ) {
     }
 
 
-
-
     const handleChange = (event: SelectChangeEvent) => {
         console.log(event.target.value);
         setRank(event.target.value);

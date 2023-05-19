@@ -30,4 +30,15 @@ public class AddressBookEntity {
     @ToString.Exclude
     private MemberEntity memberEntity;
 
+    public AddressBookDto toDto() {
+        return AddressBookDto.builder()
+                .addrNo( this.addrNo )
+                .addrName( this.addrName )
+                .addrPhone( this.addrPhone )
+                .addrEmail( this.addrEmail )
+                .groupNo( this.getAddressGroupEntity().getGroupNo() )
+                .memberNo( this.getMemberEntity().getMemberNo() )
+                .build();
+    }
+
 }

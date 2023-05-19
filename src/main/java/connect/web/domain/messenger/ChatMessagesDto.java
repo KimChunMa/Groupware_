@@ -22,7 +22,6 @@ public class ChatMessagesDto {
     private int memberNo; // 회원 번호
 
     private String msgType; // 메세지 타입
-    private String filePath;// 파일 경로
     private String originalFilename; //실제 순수 파일명
     private String uuidFile; //식별된 파일명
     private String sizeKb; // 용량
@@ -34,7 +33,6 @@ public class ChatMessagesDto {
         return ChatMessagesEntity.builder()
                 .content(this.content)
                 .msgType(this.msgType)
-                .filePath(this.filePath)
                 .originalFilename(this.originalFilename)
                 .uuidFile(this.uuidFile)
                 .sizeKb(this.sizeKb)

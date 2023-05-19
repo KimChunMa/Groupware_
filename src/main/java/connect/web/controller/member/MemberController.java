@@ -37,8 +37,9 @@ public class MemberController {
 
 
     // 4. 멤버 수정하기
-    @PutMapping("")
-    public boolean updateMember( MemberDto memberDto ){
+    @PostMapping("/update")
+    public byte updateMember( MemberDto memberDto ){
+        log.info( "put controller : " + memberDto );
         return memberService.updateMember(memberDto);
     }
 }

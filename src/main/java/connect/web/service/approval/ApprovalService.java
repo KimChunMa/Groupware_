@@ -6,6 +6,8 @@ import connect.web.domain.approval.ApprovalEntity;
 import connect.web.domain.approval.ApprovalEntityRepository;
 import connect.web.domain.member.MemberEntity;
 import connect.web.domain.member.MemberEntityRepository;
+import connect.web.domain.member.PartEntity;
+import connect.web.domain.member.PartEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +31,15 @@ public class ApprovalService {
     @Autowired
     private MemberEntityRepository memberEntityRepository;
 
+    //부서
+    @Autowired
+    private PartEntityRepository partEntityRepository;
+
+
     @Autowired
     HttpServletRequest request;
 
+    //로그인세션
     public MemberEntity getMember(){
         String memberId =(String)request.getSession().getAttribute("login");
         log.info("로그인세션확인");
@@ -64,13 +72,54 @@ public class ApprovalService {
             log.info("엔티티화되었는지");
             log.info(approvalEntity+"");
 
+
             approvalEntity.setMemberEntity(memberEntity);
             log.info("memberentity도 approvalentity에 저장되었는지");
             log.info(approvalEntity+"");
             log.info(approvalEntity.getMemberEntity().getMemberId()+"");
 
 
+            int memberRank = getMember().getMemberRank(); //세션의 회원의 랭크 찾았음
+
+            String status = "0";
+
+            if(memberRank ==1){         //사원의경우
+                status = "0" ;
+            }else if(memberRank==2){    //주임
+                status = "1" ;
+            }else if(memberRank==3){    //대리
+                status = "2" ;
+            }else if(memberRank==4){    //과장
+                status = "3" ;
+            }else if(memberRank==5){    //차장
+                status = "4" ;
+            }else if(memberRank==6){    //부장
+                status = "5" ;
+            }else if(memberRank==7){    //팀장
+                status = "6" ;
+            }else if(memberRank==9){    //사장
+                status = "7" ;
+            }
+
+/*            if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능]즉 approval_status값이 0일경우에만 보이는 것임
+                    status = "0" ;
+
+
+            }else if( memberRank == 4){ //과장일경우 [대리가 승인한 경우의 서류 열람가능]
+                status = "1" ;
+
+            }else if( memberRank == 6){ //팀장일경우 [과장이 승인한 경우의 서류 열람가능]
+                status= "2";
+
+            }else if( memberRank == 9){ //사장일경우  즉 최종결제완료됨
+                status="3";
+
+            }*/
+
+
             ApprovalEntity approvalEntity2 = approvalEntityRepository.save(approvalEntity);
+            approvalEntity2.setApprovalStatus(status);
+
             log.info("memberentity2도 approvalentity에 저장되었는지");
             log.info(approvalEntity2+"");
 
@@ -139,7 +188,26 @@ public class ApprovalService {
 
         String status = "0";
 
-        if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능] 즉 approval_status값이 0일경우에만 보이는 것임
+        if(memberRank ==1){         //사원의경우
+            status = "-1" ;
+        }else if(memberRank==2){    //주임
+            status = "0" ;
+        }else if(memberRank==3){    //대리
+            status = "1" ;
+        }else if(memberRank==4){    //과장
+            status = "2" ;
+        }else if(memberRank==5){    //차장
+            status = "3" ;
+        }else if(memberRank==6){    //부장
+            status = "4" ;
+        }else if(memberRank==7){    //팀장
+            status = "5" ;
+        }else if(memberRank==9){    //사장
+            status = "6" ;
+        }
+
+
+/*        if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능] 즉 approval_status값이 0일경우에만 보이는 것임
             status = "0" ;
 
 
@@ -152,14 +220,17 @@ public class ApprovalService {
         }else if( memberRank == 9){ //사장일경우  즉 최종결제완료됨
             status="3";
 
-        }
+        }*/
+
+/*
+        //partName 뽑아내기위한 작업 [2023-05-16]
+        int memberNo = getMember().getMemberNo();
+        log.info(memberNo+"");
+        Optional<PartEntity> optionalPartEntity  = partEntityRepository.findPartName(memberNo);*/
+
 
         List<ApprovalEntity> approvalEntityList = approvalEntityRepository.findByWatch( status );
         //String statuss = (approvalEntityRepository.findByStatus(5)); // 멤버 pk를이용한  approval_status 찾음
-        log.info("과장님 서류상태확인:::");
-        log.info(approvalEntityList.toString());
-        log.info(approvalEntityList+"");
-
 
         approvalEntityList.forEach((o)->{
             list.add(o.approvalDto());
