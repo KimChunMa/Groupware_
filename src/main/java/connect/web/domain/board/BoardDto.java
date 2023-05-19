@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class BoardDto {
     private int boardNo;
@@ -18,6 +21,8 @@ public class BoardDto {
     private String memberName;
     private int partNo;
     private String partName;
+
+    List<ReplyDto> replyDtoList = new ArrayList<>();
 
     public PartEntity toPartEntity(){
         return PartEntity.builder().partName(this.partName).build();

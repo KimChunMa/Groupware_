@@ -96,19 +96,26 @@ public class BoardService {
         String ip = request.getRemoteAddr();
         Object o = request.getSession().getAttribute(ip+boardNo);
         Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardNo);
+        BoardEntity boardEntity = optionalBoardEntity.get();
+        BoardDto boardDto = boardEntity.toDto();
         if(o==null&& optionalBoardEntity.isPresent()){
-            BoardEntity boardEntity = optionalBoardEntity.get();
-            BoardDto boardDto = boardEntity.toDto();
             request.getSession().setAttribute(ip+boardNo,1);
             request.getSession().setMaxInactiveInterval(60*60*24);
             boardEntity.setBoardView(boardEntity.getBoardView()+1);
-            return boardDto;
-        } else if (o!=null && optionalBoardEntity.isPresent()) {
-            BoardEntity boardEntity = optionalBoardEntity.get();
-            BoardDto boardDto = boardEntity.toDto();
-            return boardDto;
-        }
-        return null;
+        } else if (o!=null && optionalBoardEntity.isPresent()) {}
+        // 게시물 반환 되기전에 댓글 목록도 추가하자
+        // 1. 해당하는 게시물의 모든 댓글 호출
+        List<ReplyDto> list = new ArrayList<>();
+        boardEntity.getReplyEntityList().forEach((r)->{
+            list.add(r.todto());
+        });
+        BoardDto boardDto1 = boardEntity.toDto();
+        boardDto1.setReplyDtoList(list);
+        return boardDto1;
+        // 2. 엔티티 리스트  -> dto 리스트
+
+        // 3. dto 리스트를 boardDto에 담자
+
     }
 
     // 6. [김동혁] 개별 게시물 삭제
@@ -138,7 +145,7 @@ public class BoardService {
     @Autowired
     private ReplyEntityRepository replyEntityRepository;
     @Transactional
-    public boolean postReply(@RequestBody ReplyDto replyDto){ log.info("postReply : " + replyDto);
+    public boolean postReply(ReplyDto replyDto){ log.info("postReply : " + replyDto);
         // 로그인 확인
         String o = (String) request.getSession().getAttribute("login");
         MemberEntity memberEntity = memberEntityRepository.findByMemberId(o).get();

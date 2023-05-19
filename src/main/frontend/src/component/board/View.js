@@ -8,7 +8,7 @@ import ReplyList from './ReplyList'
 export default function View(props) {
 
     const params = useParams();
-    const [board , setBoard] = useState({});
+    const [board , setBoard] = useState({ replyDtoList : [] });
 
     const [login , setLogin] = useState(JSON.parse(sessionStorage.getItem('login_token') ) )
 
@@ -59,6 +59,8 @@ export default function View(props) {
                             <button onClick={onUpdate} >수정</button> </div>
                     : <div> </div>
 
+console.log(board);
+
 return (
     <Container>
         <div>
@@ -72,7 +74,8 @@ return (
             <p>{board.boardContent}</p>
             {btnBox}
         </div>
-        <ReplyList onReplyWrite={onReplyWrite} />
+        <ReplyList onReplyWrite={onReplyWrite}
+         replies = { board.replyDtoList} />
     </Container>
 );
 }
