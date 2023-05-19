@@ -45,7 +45,9 @@ public class MessengerService {
     private HttpServletResponse response; // 응답 객체
 
     //저장경로
-    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
+    String path = "C:\\Connect_Project\\build\\resources\\main\\static\\static\\media\\" ;
+    //"C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
+
 
 
 
