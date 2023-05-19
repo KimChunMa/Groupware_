@@ -2,6 +2,7 @@ import React , { useState , useEffect , useRef } from 'react';
 import axios from 'axios';
 import '../css/messenger/messenger.css';
 import ChatRoom from './ChatRoom';
+import Invite from './Invite'
 /* ------------------------ mui ------------------------------*/
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -16,7 +17,7 @@ npm i @fortawesome/react-fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 //     {사용할 아이콘(카라멜)} from "@fortawesome/free-(regular, solid)-svg-icons";
 import { faComments } from "@fortawesome/free-regular-svg-icons";
-import { faPersonCirclePlus } from "@fortawesome/free-Solid-svg-icons";
+
 
 export default function Messenger(props){
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ로그인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -59,11 +60,6 @@ export default function Messenger(props){
     let chat_fileForm2 = useRef(null); // Form
     // 4-2. input file 작동용
     let chat_fileInputClick2 = useRef(null); // input file
-
-    //5.초대할 인원
-    const [ inviteMember , setInviteMember] = useState([]);
-
-
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 함수 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 1-1. 채팅방 만들기
         //1) 방만드는 아이콘 클릭시 모달나오게하기
@@ -172,12 +168,7 @@ export default function Messenger(props){
                         else{alert('오류!') } } )
      })
 
-    //5. 채팅방에 사람초대하기
-    const invite = () => {
-         document.querySelector('.modal_wrap3').style.display = 'block';
-        axios.get("/member")
-             .then(r=>{setInviteMember(r.data);})
-    }
+
 
     return(<>
     <div className="container" onClick={hide_menu}>
@@ -234,11 +225,7 @@ export default function Messenger(props){
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
-                   <div className="header flex_end">
-                        <div className="invite" onClick={invite}>
-                        <FontAwesomeIcon icon={faPersonCirclePlus} size="2x" />
-                        </div>
-                   </div>
+            <Invite/>
             </div> {/* right e */}
 
             {/* 채팅방 생성 모달 창*/}
@@ -296,26 +283,6 @@ export default function Messenger(props){
                     </div>
                 </div>
             </div> {/* modal_wrap2  e*/}
-
-            {/* 채팅방 수정 모달 창*/}
-            <div className="modal_wrap3"  >
-                <div className="modal_box">
-                    <h3 className="modal_title">
-                        초대하기
-                    </h3>
-
-
-
-                    <div className="modal_btns">
-                        <button onClick={editChat}  className="modal_check" type="button">방 수정하기</button>
-                        <button onClick={closeModal} className="modal_cencel" type="button">닫기</button>
-                    </div>
-                </div>
-            </div> {/* modal_wrap2  e*/}
-
-
-
-
         </div>  {/*wrap e */}
 	</div>  {/* container e */}
     </>)

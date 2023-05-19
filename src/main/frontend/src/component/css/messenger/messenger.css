@@ -345,6 +345,8 @@
 	display: none;
 }
 
+
+
 /*모달 상자*/
 .modal_box{
 	background-color: white;
@@ -354,11 +356,21 @@
 	border-radius: 15px;
 }
 
+.modal_wrap3{
+    width:80%;
+    left:20%;
+}
+
+.modal_box3{
+    width:80%;
+}
+
+/* 모달 제목 */
 .modal_title{
     margin-bottom:15px;
 }
 
-
+/* 모달 내용 */
 .modal_content{
     padding:20px 0px;
     margin:0px auto;
