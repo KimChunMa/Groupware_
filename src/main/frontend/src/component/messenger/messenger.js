@@ -16,6 +16,7 @@ npm i @fortawesome/react-fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 //     {사용할 아이콘(카라멜)} from "@fortawesome/free-(regular, solid)-svg-icons";
 import { faComments } from "@fortawesome/free-regular-svg-icons";
+import { faPersonCirclePlus } from "@fortawesome/free-Solid-svg-icons";
 
 export default function Messenger(props){
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ로그인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -53,6 +54,16 @@ export default function Messenger(props){
     //3. 수정+삭제할 채팅방 번호
     const [editId, setEditId] = useState(0);
 
+    //4. 수정시 채팅방 파일
+    // 4-1. 채팅방 이미지
+    let chat_fileForm2 = useRef(null); // Form
+    // 4-2. input file 작동용
+    let chat_fileInputClick2 = useRef(null); // input file
+
+    //5.초대할 인원
+    const [ inviteMember , setInviteMember] = useState([]);
+
+
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 함수 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 1-1. 채팅방 만들기
         //1) 방만드는 아이콘 클릭시 모달나오게하기
@@ -82,7 +93,7 @@ export default function Messenger(props){
                     }else{alert("오류가 발생하였습니다.");}
                  })
          }
-         else{axios.post("/chat" ,  ChatRoomsDto ) //첨부파일 존재하지 않을시
+         else{axios.post("/chat" , ChatRoomsDto ) //첨부파일 존재하지 않을시
                     .then(r => {
                         if(r.data == true) {
                         alert("방 생성 완료!");setModal(false);
@@ -94,12 +105,13 @@ export default function Messenger(props){
     }
 
     //3) 모달 나가기
-    const closeModal = () => {setModal(false); document.querySelector('.modal_wrap2').style.display = 'none';}
+    const closeModal = () => {setModal(false); document.querySelector('.modal_wrap2').style.display = 'none';
+                                               document.querySelector('.modal_wrap3').style.display = 'none'}
 
     //2. 채팅방 출력하기
     const printChat = () => {
           axios.get("/chat")
-                .then(r=> {console.log(r);
+                .then(r=> {console.log(r.data);
                 SetChatRooms([...r.data]);
                 })
     }
@@ -133,11 +145,25 @@ export default function Messenger(props){
 
      //3-3. 채팅방 이름 수정하기
      const editChat = (()=>{
+        //유효성 검사
+        if(editId == ""){alert('수정할 채팅방 이름을 입력해주세요'); return;}
+        //첨부파일 있다면
+        else if (chat_fileInputClick2.current.value != ''){
+            let formData = new FormData( chat_fileForm2.current )
+            formData.set('chatRoomId',editId); formData.set('name', title );
+            axios.put("/chat/update", formData)
+                 .then(r=> { if(r.data==true){ alert('방 이름이 변경되었습니다.'); printChat(); closeModal();}
+                            else{alert('오류!')}  })
+        }else{ // 첨부파일이 없다면
         let chatRoomsDto = {"chatRoomId":editId , "name":title  }
         axios.put("/chat", chatRoomsDto )           //send chat room        //변경시 모달창닫기, 채팅창 업뎃
              .then(r=> { if(r.data==true){ alert('방 이름이 변경되었습니다.'); printChat(); closeModal();}
                         else{alert('오류!')}  } )
+        }
      })
+
+     //3-4. 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
+     const fileUpload2 = () => {chat_fileInputClick2.current.click();};
 
      //4. 채팅방 삭제
      const del_chat = ((chatRoomId)=>{
@@ -146,6 +172,12 @@ export default function Messenger(props){
                         else{alert('오류!') } } )
      })
 
+    //5. 채팅방에 사람초대하기
+    const invite = () => {
+         document.querySelector('.modal_wrap3').style.display = 'block';
+        axios.get("/member")
+             .then(r=>{setInviteMember(r.data);})
+    }
 
     return(<>
     <div className="container" onClick={hide_menu}>
@@ -168,7 +200,12 @@ export default function Messenger(props){
                                                    onContextMenu={(e)=>show_menu(e,o.chatRoomId) }> {/* 우클릭 이벤트*/}
 
                             <div className="chat_room_left">
-                                <div className="left_content_img"> 채팅방 이미지 {o.chatRoomId} </div>
+                                <div className="left_content_img">
+                                    {o.uuidFile == null || o.uuidFile == undefined ?
+                                    <img className="chat_img" src={"http://localhost:8080/static/media/default.png"}/> :
+                                    <img className="chat_img" src={"http://localhost:8080/static/media/" +o.uuidFile}/>
+                                    }
+                                </div>
 
                                 <div className="msg">
                                     <div className="chat_name">  {o.name} </div>
@@ -197,7 +234,11 @@ export default function Messenger(props){
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
-                오른쪽
+                   <div className="header flex_end">
+                        <div className="invite" onClick={invite}>
+                        <FontAwesomeIcon icon={faPersonCirclePlus} size="2x" />
+                        </div>
+                   </div>
             </div> {/* right e */}
 
             {/* 채팅방 생성 모달 창*/}
@@ -240,12 +281,39 @@ export default function Messenger(props){
                          <TextField onChange={titleChange} id="title_input" label="채팅방 제목" variant="standard"  />
                     </div>
 
+                    <div className="file">
+                      <div className="btn-upload" onClick={fileUpload2}>파일 </div>
+                    </div>
+
+                    <form ref={chat_fileForm2}>
+                        <input  ref={chat_fileInputClick2} type="file" name="files" id="file" />
+                    </form>
+
+
                     <div className="modal_btns">
                         <button onClick={editChat}  className="modal_check" type="button">방 수정하기</button>
                         <button onClick={closeModal} className="modal_cencel" type="button">닫기</button>
                     </div>
                 </div>
             </div> {/* modal_wrap2  e*/}
+
+            {/* 채팅방 수정 모달 창*/}
+            <div className="modal_wrap3"  >
+                <div className="modal_box">
+                    <h3 className="modal_title">
+                        초대하기
+                    </h3>
+
+
+
+                    <div className="modal_btns">
+                        <button onClick={editChat}  className="modal_check" type="button">방 수정하기</button>
+                        <button onClick={closeModal} className="modal_cencel" type="button">닫기</button>
+                    </div>
+                </div>
+            </div> {/* modal_wrap2  e*/}
+
+
 
 
         </div>  {/*wrap e */}

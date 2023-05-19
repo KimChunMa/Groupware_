@@ -50,12 +50,16 @@ public class MessengerController {
 
     // ------------------------------------- 채팅방 파일 -----------------------------
 
+    //1. 채팅있는 파일창 생성하기
     @PostMapping("/file")
     public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
         return messengerService.CreateChat_file(chatRoomsDto);
     }
 
-
+    @PutMapping("/update")
+    public boolean edit_file (ChatRoomsDto chatRoomsDto){
+        return messengerService.edit_file(chatRoomsDto);
+    }
 
     //------------------------------------- 메세지 보내기 ----------------------------------
     //1. 메세지 보내기
@@ -91,13 +95,13 @@ public class MessengerController {
     }
 
     /* -------------------------------- 메세지 파일 ----------------------------*/
-
-    //1. 파일 보내기
+    //1. 파일 보내기 (메세지)
     @PostMapping("/fileUpload") //chat 관련 첨부파일 업로드
     public boolean fileUpload(ChatMessagesDto chatMessagesDto){
       return messengerService.fileUpload(chatMessagesDto);
     }
 
+    //2. 파일 다운로드하기
     @GetMapping("/fileDownload") //char 관련 첨부파일 다운로드
     public void fileDownload( @RequestParam("uuidFile") String uuidFile ){
         System.out.println("uuidFile : " + uuidFile);

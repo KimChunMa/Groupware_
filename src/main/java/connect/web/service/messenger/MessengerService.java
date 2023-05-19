@@ -135,7 +135,8 @@ public class MessengerService {
         }
         return false;
     }
-    //---------------------------- 채팅방 파일----------------------------
+    //---------------------------- 채팅방 파일 있을시----------------------------
+    //1-1. 채팅방 생성하기
     public boolean CreateChat_file (ChatRoomsDto chatRoomsDto){
         if(chatRoomsDto.getFiles().getSize()>0){
             //1. 만약 동일한 파일명이 생긴다면, 덮어씌울수 있으니[=식별불가능]
@@ -145,15 +146,55 @@ public class MessengerService {
             File fileSave = new File(path+fileName);
             //3. 업로드 // multipartFile.transferTo(저장할 file 클래스의 객체)
             try{chatRoomsDto.getFiles().transferTo(fileSave);}catch(Exception e){log.info("file upload fail : " + e);}
+
+            //4. dto->entity
             ChatRoomsEntity chatRoomsEntity = chatRoomsDto.toEntity();
             chatRoomsEntity.setOriginalFilename(chatRoomsDto.getFiles().getOriginalFilename());
             chatRoomsEntity.setUuidFile(fileName);
-            chatRoomsEntity.setMemberEntity(memberEntityRepository.findById(chatRoomsDto.getMemberNo()).get());
+            chatRoomsEntity.setSizeKb(chatRoomsDto.getFiles().getSize()/1024 + "kb");
+
+            //5. chatRooms <- member
+            MemberEntity memberEntity = memberEntityRepository.findById(chatRoomsDto.getMemberNo()).get();
+            chatRoomsEntity.setMemberEntity(memberEntity);
             chatRoomsEntityRepository.save(chatRoomsEntity);
+
+            //6. chatParticipants 설정
+            ChatParticipantsEntity chatParticipantsEntity = new ChatParticipantsEntity();
+            chatParticipantsEntity.setMemberEntity(memberEntity);
+            chatParticipantsEntity.setChatRoomsEntity(chatRoomsEntity);
+            chatParticipantsEntityRepository.save(chatParticipantsEntity);
             return true;
         }
         return false;
     }
+
+    //1-2. 채팅방 수정하기
+    @Transactional
+    public boolean edit_file (ChatRoomsDto chatRoomsDto){
+        if(chatRoomsDto.getFiles().getSize()>0){
+            //0. 기존의 파일 삭제
+            ChatRoomsEntity chatRoomsEntity = chatRoomsEntityRepository.findById(chatRoomsDto.getChatRoomId()).get();
+            File fileDelete = new File(path+chatRoomsEntity.getUuidFile());
+            fileDelete.delete();
+
+            //1. 파일 저장
+            //1-1. 만약 동일한 파일명이 생긴다면, 덮어씌울수 있으니[=식별불가능]
+            String fileName = UUID.randomUUID().toString()
+                    +"_"+chatRoomsDto.getFiles().getOriginalFilename();
+            //1-2. 경로 + 파일명 조합해서 file 클래스 생성
+            File fileSave = new File(path+fileName);
+            //1-3. 업로드 // multipartFile.transferTo(저장할 file 클래스의 객체)
+            try{chatRoomsDto.getFiles().transferTo(fileSave);}catch(Exception e){log.info("file upload fail : " + e);}
+
+            chatRoomsEntity.setOriginalFilename(chatRoomsDto.getFiles().getOriginalFilename());
+            chatRoomsEntity.setUuidFile(fileName);
+            chatRoomsEntity.setSizeKb(chatRoomsDto.getFiles().getSize()/1024 + "kb");
+            chatRoomsEntity.setName(chatRoomsDto.getName());
+            return true;
+        }
+        return false;
+    }
+
 
     //---------------------------- 메세지 보내기 -------------------------
     //1. 메세지 보내기
@@ -169,7 +210,6 @@ public class MessengerService {
         //chatMessages <- chatRooms
         chatMessagesEntity.setChatRoomsEntity(chatRoomsEntity);
         chatMessagesEntityRepository.save(chatMessagesEntity);
-
         try { // 메시지가 도착한 방번호 전송 [ 해당 방번호를 최신화 할려고 ]
             chattingHandler.handleMessage(null, new TextMessage(String.valueOf(messagesDto.getChatRoomId())) );
         }
@@ -229,7 +269,6 @@ public class MessengerService {
     @Transactional
     //1.파일 전송하기
     public boolean fileUpload( ChatMessagesDto chatMessagesDto){
-
         if(chatMessagesDto.getFiles().size() != 0 ){ // 첨부파일 존재시
             chatMessagesDto.getFiles().forEach((file) -> {
                 //1. 만약 동일한 파일명이 생긴다면, 덮어씌울수 있으니[=식별불가능]
