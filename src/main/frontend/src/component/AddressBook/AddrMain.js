@@ -15,6 +15,9 @@ export default function AddrMain( props ) {
 
     const [ selectedId, setSelectedId ] = useState(null);
 
+    // 등록된 그룹리스트 및 그룹에 등록된 주소록 가져와 담을 변수
+    const [ addrGroupList , setAddrGroupList ] = useState([]);
+
     const getId = ( selectedId ) => {
         setSelectedId( selectedId );
     }
@@ -38,6 +41,15 @@ export default function AddrMain( props ) {
         }, 3000);
     }
 
+    const groupGet = async () => {
+      try {
+        const response = await axios.get("/addressgroup");
+        console.log(response);
+        setAddrGroupList(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     return (<>
         { /* showAlert 상태변수값이 true 인 경우에만 해당 코드 렌더링 */ }
@@ -56,13 +68,22 @@ export default function AddrMain( props ) {
                             getId={ getId }
                             alertSet={ alertSet }
                             failAlert={ failAlert }
+                            groupGet={ groupGet }
+                            addrGroupList={ addrGroupList }
                         />
                     </div>
                     <div className="addr-addressbook">
-                        <AddAddressBook selectedId={ selectedId } />
+                        <AddAddressBook
+                            addrGroupList={ addrGroupList }
+                            selectedId={ selectedId }
+                            alertSet={ alertSet }
+                            failAlert={ failAlert }
+                            groupGet={ groupGet }
+                        />
                     </div>
                 </div>
             </div>
         </Container>
     </>)
 }
+

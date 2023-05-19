@@ -16,13 +16,14 @@ public class AddressBookController {
     @Autowired AddressBookService addressBookService;
 
     @PostMapping("")
-    public boolean addAddressBook( @RequestBody AddressBookDto addressBookDto ){
+    public byte addAddressBook( AddressBookDto addressBookDto ){
+        log.info("Add Address Book : " + addressBookDto );
         return addressBookService.addAddressBook(addressBookDto);
     }
 
-    @GetMapping("")
-    public List<AddressBookDto> getAddressBook(){
-        return addressBookService.getAddressBook();
+    @DeleteMapping("")
+    public boolean deleteAddressBook( @RequestParam int addrNo ) {
+        return addressBookService.deleteAddressBook( addrNo );
     }
 
 

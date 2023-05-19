@@ -218,9 +218,9 @@ export default function MemberList( props ) {
                     }else if(value == 5 ){
                         return '차장';
                     }else if(value == 6) {
-                        return '부장';
-                    }else if(value == 7){
                         return '팀장';
+                    }else if(value == 7){
+                        return '부장';
                     }else if( value == 9 ){
                         return '사장';
                     }else{

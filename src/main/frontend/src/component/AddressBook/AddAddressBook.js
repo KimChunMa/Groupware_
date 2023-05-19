@@ -4,48 +4,106 @@ import axios from 'axios';
 import { Paper , Button , Box , TextField } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'firstName', headerName: 'First name', width: 150, editable: true },
-  { field: 'lastName', headerName: 'Last name', width: 150, editable: true },
-  { field: 'age', headerName: 'Age', type: 'number', width: 110, editable: true },
-  { field: 'fullName', headerName: 'Full name', width: 160 }
-];
 
-const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 }
-];
 
 export default function AddAddressBook( props ) {
 
-    const [ rowSelectionModel, setRowSelectionModel ] = React.useState([]);
-    console.log( rowSelectionModel );
+    // 테이블 구성 요소
+    const columns = [
+      { field: 'id', headerName: '번호', width: 90 },
+      { field: 'addrName', headerName: '이름', width: 100 },
+      { field: 'addrPhone', headerName: '전화번호', width: 150 },
+      { field: 'addrEmail', headerName: '이메일', width: 150 }
+    ];
 
-    console.log( props.selectedId + " 그룹으로부터 받은 선택된 그룹아이디" )
+
+    const [ rowSelectionModel, setRowSelectionModel ] = React.useState([]);
+    const [ addrBookList , setAddressBookList ] = useState([]);
+
+    console.log( rowSelectionModel );
+    console.log( props.addrGroupList );
+
+    console.log( props.selectedId + " 그룹으로부터 받은 선택된 그룹아이디" );
+
+    const addressAdd = useRef(null);
+
+    // 주소록 등록하기 메소드 ( axios )
+    const addressbookAdd = () => {
+        console.log( props.selectedId + "등록 버튼 실행");
+        console.log( addressAdd.current );
+
+        if( props.selectedId == undefined || props.selectedId == 0 ) {
+            alert("그룹을 선택해주세요, 그룹선택 후 주소록 등록이 가능합니다.")
+            return;
+        }
+
+        let formData = new FormData( addressAdd.current );
+        formData.append('groupNo' , props.selectedId );
+
+        axios.post("/addressbook" , formData ).then( r => {
+            console.log( r.data );
+            if( r.data == 0 ){
+                props.groupGet();
+                props.alertSet();
+                // 사용자 입력값 초기화
+                addressAdd.current.reset();
+            }
+        })
+    }
+
+    useEffect( () => {
+        getAddressBook();
+    } , [props.addrGroupList])
+
+    const getAddressBook = () => {
+
+        let listArray = [];
+        setAddressBookList( listArray );
+
+        props.addrGroupList.forEach( (group) => {
+            if( group.groupNo == props.selectedId ){
+                group.addressBookDtoList.forEach( (list) => {
+                    list.id = list.addrNo ;
+                    listArray.push( list );
+                    setAddressBookList( [...listArray] );
+                })
+            }
+        })
+    }
+
+    useEffect( () => {
+        console.log( "addressbook useEffect 실행" )
+        getAddressBook();
+    } , [ props.selectedId ] )
+
+    const getListTest = () => {
+        console.log( addrBookList );
+    }
+
+    const addrDelete = () => {
+        rowSelectionModel.forEach( (row) => {
+            axios.delete("/addressbook" , { params: { addrNo : row } } ).then( r => {
+                console.log( r.data );
+            })
+        })
+    }
 
     return (<>
         <Paper elevation={3} style={{ height: "100%" , marginLeft: '9px'}}>
             <h4 className="addr-add-title"> 주소록 목록 </h4>
             <div>
                 <Box sx={{ height: 400, width: '95%' , margin: '0px auto'}}>
+                    <Button onClick={ getListTest }> 수정 </Button>
                     <Button> 선택삭제 </Button>
                     <DataGrid
-                        rows={rows}
+                        rows={ addrBookList }
                         columns={columns}
                         initialState={{
-                        pagination: {
-                        paginationModel: {
-                        pageSize: 5,
-                        },
-                        },
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 5,
+                                },
+                            },
                         }}
                         pageSizeOptions={[5]}
                         checkboxSelection
@@ -56,13 +114,14 @@ export default function AddAddressBook( props ) {
                     />
                     <h4 className="add-title"> 주소록 등록 </h4>
                     <div className="add-input-box">
-                        <TextField sx={{ width: 120 }} label="이름" size="small" type="text" className="addr_name" name="addr_name" />
-                        <TextField sx={{ width: 200 }} label="전화번호" size="small" type="text" className="addr_phone" name="addr_phone" />
-                        <TextField sx={{ width: 250 }} label="이메일" size="small" type="text" className="addr_email" name="addr_email" />
-                        <Button className="addr-add-btn"> + </Button>
+                        <form ref={ addressAdd } className="addressAdd-form">
+                            <TextField sx={{ width: 150 }} label="이름" size="small" type="text" className="addr_name" name="addrName" />
+                            <TextField sx={{ width: 200 }} label="전화번호" size="small" type="text" className="addr_phone" name="addrPhone" />
+                            <TextField sx={{ width: 250 }} label="이메일" size="small" type="text" className="addr_email" name="addrEmail" />
+                            <Button className="addr-add-btn" onClick={ addressbookAdd }> + </Button>
+                        </form>
                     </div>
                 </Box>
-
             </div>
         </Paper>
     </>)

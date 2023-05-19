@@ -22,7 +22,6 @@ export default function Header( props ) {
             console.log( response.data );
 
             if (response.data !== '') {
-
                 sessionStorage.setItem( 'login_token', JSON.stringify( response.data ) );
                 setLogin(JSON.parse(sessionStorage.getItem('login_token')));
                 getProfileImg( response.data.uuidFilename );
@@ -66,7 +65,7 @@ export default function Header( props ) {
 
                 const contentType = response.headers['content-type']; // 응답받은값의 헤더에 컨텐츠타입을 호출 // 예) : 'image/png'
 
-                const imageBlob = new Blob([response.data], {type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
+                const imageBlob = new Blob([response.data], { type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
                 const imageUrl = URL.createObjectURL(imageBlob ) ;  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
                 console.log( imageUrl );
 
