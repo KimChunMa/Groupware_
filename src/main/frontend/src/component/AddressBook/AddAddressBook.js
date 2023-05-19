@@ -76,14 +76,16 @@ export default function AddAddressBook( props ) {
         getAddressBook();
     } , [ props.selectedId ] )
 
-    const getListTest = () => {
-        console.log( addrBookList );
-    }
 
+    // 선택한 주소록 삭제하기 [] 배열을 반복문 돌려 체크박스에 체크된 row 값
     const addrDelete = () => {
         rowSelectionModel.forEach( (row) => {
             axios.delete("/addressbook" , { params: { addrNo : row } } ).then( r => {
                 console.log( r.data );
+                if( r.data ){
+                    props.groupGet();
+                    props.alertSet();
+                }
             })
         })
     }
@@ -93,8 +95,8 @@ export default function AddAddressBook( props ) {
             <h4 className="addr-add-title"> 주소록 목록 </h4>
             <div>
                 <Box sx={{ height: 400, width: '95%' , margin: '0px auto'}}>
-                    <Button onClick={ getListTest }> 수정 </Button>
-                    <Button> 선택삭제 </Button>
+                    <Button> 수정 </Button>
+                    <Button onClick={ addrDelete }> 선택삭제 </Button>
                     <DataGrid
                         rows={ addrBookList }
                         columns={columns}

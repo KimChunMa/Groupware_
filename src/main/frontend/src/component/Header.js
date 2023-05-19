@@ -56,7 +56,6 @@ export default function Header( props ) {
 
         // 서버로부터 이미지를 찾아 Blob 으로 가져오기
         axios({
-
                 url: `/image/${uuidFilename}`,  // 이미지 파일 이름을 포함한 API 엔드포인트
                 method: 'GET',
                 responseType: 'arraybuffer',   // 바이너리 데이터로 받기 위해 responseType을 설정

@@ -52,10 +52,13 @@ public class AddressBookService {
 
     public boolean deleteAddressBook( int addrNo ) {
 
-        Optional<AddressBookEntity> addressBookEntity = addressBookEntityRepository.findById( addrNo );
+        Optional<AddressBookEntity> optionalAddressBookEntity = addressBookEntityRepository.findById( addrNo );
 
-        if( addressBookEntity.isPresent() ){
+        if( optionalAddressBookEntity.isPresent() ){
 
+            AddressBookEntity addressBookEntity = optionalAddressBookEntity.get();
+            addressBookEntityRepository.delete( addressBookEntity );
+            return true;
         }
 
         return false;

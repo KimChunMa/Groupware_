@@ -85,7 +85,7 @@
 }
 
 .alert-position{
-    position : absolute;
+    position : fixed;
     top : 30px;
     left : 15%;
     width: 70%;

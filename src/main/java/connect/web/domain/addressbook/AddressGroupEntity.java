@@ -26,7 +26,7 @@ public class AddressGroupEntity {
     @ToString.Exclude
     private MemberEntity memberEntity;
 
-    @OneToMany( mappedBy = "addressGroupEntity")
+    @OneToMany( mappedBy = "addressGroupEntity" , cascade = CascadeType.REMOVE )
     @Builder.Default
     private List<AddressBookEntity> addressBookEntityList = new ArrayList<>();
 
