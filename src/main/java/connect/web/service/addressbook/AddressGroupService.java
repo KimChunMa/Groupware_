@@ -31,10 +31,12 @@ public class AddressGroupService {
     public MemberEntity getMember() {
 
         String memberId = (String)request.getSession().getAttribute("login");
+        log.info ( "로그인한 세션 : "  + memberId );
 
         if( memberId != null ){
             return memberEntityRepository.findByMemberName( memberId );
         }
+
         return null;
     }
 
@@ -62,10 +64,18 @@ public class AddressGroupService {
         return 2;
     }
 
+    // 주소록 그룹 및 그룹내 주소록데이터 전달하기
     public List<AddressGroupDto> getGroup(){
 
+        int memberNo = getMember().getMemberNo();
+        log.info("세션 멤버 넘버 : " + memberNo );
+
+        if( memberNo == 0 ){
+            return null ;
+        }
+
         // 사용자가 정의한 그룹 가져오기
-        List<AddressGroupEntity> addressGroupEntityList = addressGroupEntityRepository.findGroupList( getMember().getMemberNo() );
+        List<AddressGroupEntity> addressGroupEntityList = addressGroupEntityRepository.findGroupList( memberNo );
 
         return addressGroupEntityList.stream().map(
                 o -> o.toDto()

@@ -25,7 +25,7 @@ const style = {
     bgcolor: 'background.paper',
     border: '1px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 4
 };
 export default function AddGroup( props ) {
 
@@ -38,7 +38,6 @@ export default function AddGroup( props ) {
     const [ selectedId, setSelectedId ] = useState(null);
 
     const groupName = useRef(null);
-    const [ addrGroupList , setAddrGroupList ] = useState([]);
 
     const updateName = useRef(null);
 
@@ -47,29 +46,25 @@ export default function AddGroup( props ) {
     const updateHandleClose = () => setUpdateOpen(false);
 
     useEffect( () => {
-        groupGet();
+        props.groupGet();
     } , [] )
 
 
 
     const handleClick = (event) => {
         console.log( event.target.id + " 클릭됨");
+        console.log( event.target );
         const targetId = event.target.id;
 
-        if (selectedId == targetId) {
-            setSelectedId(null);
+        if ( selectedId == targetId) {
+            setSelectedId( 0 );
+            props.getId(0);
         } else {
             setSelectedId(targetId);
             props.getId( targetId );
         }
     };
 
-    const groupGet = () => {
-        axios.get("/addressgroup").then( r => {
-            console.log( r );
-            setAddrGroupList( r.data );
-        })
-    }
 
     const groupAdd = () => {
         console.log( "groupAdd 클릭" );
@@ -79,24 +74,13 @@ export default function AddGroup( props ) {
             if( r.data == 0 ){
                 handleClose();
                 props.alertSet();
-                groupGet();
+                props.groupGet();
             }else if( r.data == 1 ){
                 props.failAlert();
             }
             // <Alert severity="success"> 성공적으로 주소록이 등록되었습니다! </Alert>
-
         })
     }
-
-    /*
-    {
-        addrGroupList.map( (g) => {
-            return (<>
-                <div className="non-click"> { g.groupName } </div>
-            </>)
-        })
-    }
-    */
 
 
     // 선택된 그룹 삭제하기
@@ -109,7 +93,7 @@ export default function AddGroup( props ) {
             axios.delete("/addressgroup" , { params : { groupNo : selectedId } } ).then( r => {
                 console.log( r.data );
                 if( r.data ){
-                    groupGet();
+                    props.groupGet();
                 }else{
                     props.failAlert();
                 }
@@ -126,12 +110,11 @@ export default function AddGroup( props ) {
             if( r.data ){
                 updateHandleClose();
                 props.alertSet();
-                groupGet();
+                props.groupGet();
             }else{
                 props.failAlert();
             }
         })
-
     }
 
 
@@ -144,7 +127,7 @@ export default function AddGroup( props ) {
             </div>
             <div className="group-List-Box">
                 {
-                    addrGroupList.map( (g) => {
+                    props.addrGroupList.map( (g) => {
                         return (<>
                             <div
                                 className={ selectedId == g.groupNo ? "clicked" : "non-clicked"}
