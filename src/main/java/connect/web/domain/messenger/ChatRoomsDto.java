@@ -18,6 +18,8 @@ public class ChatRoomsDto {
     private String sizeKb; // 용량
     private MultipartFile files;    //첨부파일 입력용
 
+    private String content; //최근메세지
+
 
 
     public ChatRoomsEntity toEntity(){

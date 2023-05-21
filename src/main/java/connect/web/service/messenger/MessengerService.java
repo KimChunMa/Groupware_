@@ -353,7 +353,6 @@ public class MessengerService {
             memberDtoList.add(o.toDto());
         });
         return memberDtoList;
-
     }
 
 }
