@@ -31,15 +31,19 @@ export default function ReplyList(props) {
         <h3> 댓글 목록 </h3>
                 {   props.replies.map( (r)=>{
                         return (<div>
-                                    <span>{r.replyContent}</span>
-                                    <span>{r.replyDate}</span>
+                                    <div>
+                                        <span>{r.memberName}</span>
+                                        <span>{r.replyDate}</span>
+                                    </div>
+                                        <span>{r.replyContent}</span>
                                     <span>{ (login != null && login.memberNo == r.memberNo) ?
                                         <>
                                             <input className={ 'replyUpdateContent'+(r.replyNo) } type="text" />
                                             <button onClick={(e)=>onDeleteHandler(e,r.replyNo)}>삭제</button>
                                             <button onClick={(e)=>onUpdateHandler(e,r.replyNo)}>수정</button>
-                                        </>
-                                     : <></> } </span>
+                                        </> :
+                                        <></> }
+                                    </span>
                                 </div>)
                     })
                 }
