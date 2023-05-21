@@ -3,6 +3,7 @@ import axios from 'axios';
 //   implementation 'org.springframework.boot:spring-boot-starter-websocket' //web 소켓 builder
 
 export default function Messenger(props){
+// ------------------------------- 변수 ---------------------------------
     //0. 로그인 객체 정보
    	const member = props.member;
     //1.메세지 보내기 DOM
@@ -19,7 +20,7 @@ export default function Messenger(props){
     //6. 메세지 수정용
     const [editMessage , setEditMessage ] = useState(false);
 
-
+//--------------------------------- 함수 --------------------------------
     //1-1. 메세지 보내기 (소켓)
     useEffect( () => {
         if(!ws.current){//만약 클라이언트소켓이 접속이 안되어 있을때
@@ -66,7 +67,6 @@ export default function Messenger(props){
         axios.get("/chat/message", {params:{"chatRoomId":chatRoomId}})
             .then(r=>{setMsgContent(r.data);  })
     }
-    console.log(msgContent)
 	//3. 메세지 우클릭시 수정,삭제창 보이게
      const show_menu2=(e,chatMessagesId)=>{
         e.preventDefault(); //기존 우클릭 이벤트 제거
@@ -106,7 +106,7 @@ export default function Messenger(props){
      //4. 메세지 삭제
      const del_message = ((chatMessagesId)=>{
         axios.delete("/chat/message", {params:{"chatMessagesId":chatMessagesId }})
-            .then(r=>{ console.log(r) ; if(r.data==true){alert('삭제 되었습니다.'); printMessages(props.roomId);}
+            .then(r=>{  if(r.data==true){alert('삭제 되었습니다.'); printMessages(props.roomId);}
                         else{alert('오류!') } } )
      })
 

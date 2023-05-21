@@ -1,13 +1,17 @@
 package connect.web.controller.messenger;
 
 import connect.web.domain.member.MemberDto;
+import connect.web.domain.member.MemberEntity;
 import connect.web.domain.messenger.ChatMessagesDto;
+import connect.web.domain.messenger.ChatParticipantsDto;
+import connect.web.domain.messenger.ChatParticipantsEntity;
 import connect.web.domain.messenger.ChatRoomsDto;
 import connect.web.service.messenger.MessengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -108,5 +112,22 @@ public class MessengerController {
         messengerService.fileDownload(uuidFile);
     }
 
+    /*---------------------------------- 채팅방 초대하기 --------------------------*/
+    //1. 초대안된 회원 목록 출력하기
+    @GetMapping("/invite")
+    public List<MemberDto>  invite_member(int chatRoomId){
+        return messengerService.invite_member(chatRoomId);
+    }
+
+    //2. 초대하기
+    @PostMapping("/invite")
+    public boolean invite(@RequestBody ChatParticipantsDto chatParticipantsDto){
+        return messengerService.invite(chatParticipantsDto);
+    }
+
+    @GetMapping("/inMember")
+    public List<MemberDto> in_Member(int chatRoomId){
+        return messengerService.in_Member(chatRoomId);
+    }
 
 }

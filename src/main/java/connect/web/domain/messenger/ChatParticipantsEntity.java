@@ -22,7 +22,6 @@ public class ChatParticipantsEntity {
     @ToString.Exclude
     private MemberEntity memberEntity; //멤버 ID
 
-
     @ManyToOne
     @JoinColumn(name="chatRoomId")
     @ToString.Exclude

@@ -79,7 +79,6 @@ export default function Messenger(props){
          else if(chat_fileInputClick.current.value != ''){ //첨부파일 존재시
             let formData = new FormData( chat_fileForm.current )
             formData.set('name',title); formData.set('memberNo', member.memberNo );
-            console.log(formData)
             axios.post("/chat/file", formData)
                  .then(r => {
                     if(r.data == true) {
@@ -107,7 +106,7 @@ export default function Messenger(props){
     //2. 채팅방 출력하기
     const printChat = () => {
           axios.get("/chat")
-                .then(r=> {console.log(r.data);
+                .then(r=> {
                 SetChatRooms([...r.data]);
                 })
     }
@@ -164,7 +163,7 @@ export default function Messenger(props){
      //4. 채팅방 삭제
      const del_chat = ((chatRoomId)=>{
         axios.delete("/chat", {params:{"chatRoomId":chatRoomId }})
-            .then(r=>{ console.log(r) ; if(r.data==true){alert('삭제 되었습니다.'); printChat();}
+            .then(r=>{  if(r.data==true){alert('삭제 되었습니다.'); printChat();}
                         else{alert('오류!') } } )
      })
 
@@ -225,7 +224,7 @@ export default function Messenger(props){
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
-            <Invite/>
+            <Invite roomId={roomId}/>
             </div> {/* right e */}
 
             {/* 채팅방 생성 모달 창*/}
