@@ -74,10 +74,18 @@ public class BoardController {
         return true;
     }
 
-    // 9. 댓글 출력
-    @GetMapping("/reply")
-    public boolean getReply(){log.info("getReply : ");
-        return true;
+    // 9. 댓글 수정
+    @PutMapping("/reply")
+    public boolean updateReply(@RequestBody ReplyDto replyDto){ log.info("putReply : " +replyDto);
+        boolean result = boardService.updateReply(replyDto);
+        return result;
+    }
+
+    // 10. 댓글 삭제
+    @DeleteMapping("/reply")
+    public boolean deleteReply(@RequestParam int replyNo){ log.info("deleteReply : " +replyNo);
+        boolean result = boardService.deleteReply(replyNo);
+        return result;
     }
 
 }

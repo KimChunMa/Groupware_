@@ -141,7 +141,7 @@ public class BoardService {
         return false;
     }
 
-    // 8. [김동혁] 댓글작성
+    // 8. [김동혁] 댓글작성 및 출력
     @Autowired
     private ReplyEntityRepository replyEntityRepository;
     @Transactional
@@ -164,9 +164,27 @@ public class BoardService {
         boardEntity.getReplyEntityList().add(replyEntity);
         return true;
     }
+
+    // 9. 댓글 수정
     @Transactional
-    public boolean getReply(){ // 게시물 출력 시 대체
-        return true;
+    public boolean updateReply(ReplyDto replyDto){
+        Optional<ReplyEntity> optionalReplyEntity = replyEntityRepository.findById(replyDto.getReplyNo());
+        if(optionalReplyEntity.isPresent()){
+            optionalReplyEntity.get().setReplyContent(replyDto.getReplyContent());
+            return true;
+        }
+        return false;
+    }
+
+    // 10. 댓글 삭제
+    @Transactional
+    public boolean deleteReply(int replyNo){ log.info("deleteReply : " +replyNo);
+        Optional<ReplyEntity> optionalReplyEntity = replyEntityRepository.findById(replyNo);
+        if (optionalReplyEntity.isPresent()){
+            replyEntityRepository.delete(optionalReplyEntity.get());
+            return true;
+        }
+        return false;
     }
 }
 

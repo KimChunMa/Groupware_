@@ -25,6 +25,8 @@ public class ReplyEntity extends BaseTime{
         return ReplyDto.builder()
                 .replyNo(this.replyNo).replyContent(this.replyContent)
                 .replyDate(this.cdate.toLocalDate().toString())
+                .memberNo(this.memberEntity.getMemberNo())
+                .memberName(this.memberEntity.getMemberName())
                 .build();
     }
 }

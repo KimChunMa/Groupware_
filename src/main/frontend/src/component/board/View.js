@@ -52,6 +52,27 @@ export default function View(props) {
             })
     }
 
+    // 5. 댓글 수정
+    const onReplyUpdate = ( replyUpdateContent,replyNo )=>{
+        let info={replyNo : replyNo , replyContent : replyUpdateContent}
+        axios.put("/board/reply" , info)
+            .then((r)=>{
+                if(r.data==true){
+                    alert('수정완료'); getBoard();
+                }else{ alert('수정 실패.') }
+            })
+    }
+
+    // 6. 댓글 삭제
+    const onReplyDelete = (replyNo)=>{
+        axios.delete("/board/reply" , {params : {"replyNo" : replyNo}})
+            .then(r=>{
+                if(r.data==true){
+                    alert('댓글 삭제 완료'); getBoard();
+                }else{alert('댓글 삭제 실패')}
+            })
+    }
+
     // 게시물 수정 삭제 버튼박스
        const btnBox =
                     login != null && login.memberNo == board.memberNo
@@ -74,7 +95,10 @@ return (
             <p>{board.boardContent}</p>
             {btnBox}
         </div>
-        <ReplyList onReplyWrite={onReplyWrite}
+        <ReplyList
+         onReplyWrite={onReplyWrite}
+         onReplyDelete={onReplyDelete}
+         onReplyUpdate={onReplyUpdate}
          replies = { board.replyDtoList} />
     </Container>
 );
