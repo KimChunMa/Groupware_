@@ -64,6 +64,21 @@ public class AddressBookService {
         return false;
     }
 
+    @Transactional
+    public boolean updateAddressBook( AddressBookDto addressBookDto ){
+
+        Optional<AddressBookEntity> optionalAddressBookEntity = addressBookEntityRepository.findById( addressBookDto.getAddrNo() );
+
+        if( optionalAddressBookEntity.isPresent() ){
+            AddressBookEntity addressBookEntity = optionalAddressBookEntity.get();
+            addressBookEntity.setAddrName( addressBookDto.getAddrName() );
+            addressBookEntity.setAddrPhone( addressBookDto.getAddrPhone() );
+            addressBookEntity.setAddrEmail( addressBookDto.getAddrEmail() );
+            return true;
+        }
+
+        return false;
+    }
 
 
 }

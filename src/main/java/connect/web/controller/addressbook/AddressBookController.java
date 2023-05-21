@@ -26,5 +26,10 @@ public class AddressBookController {
         return addressBookService.deleteAddressBook( addrNo );
     }
 
+    @PostMapping("/update")
+    public boolean updateAddressBook( AddressBookDto addressBookDto ){
+        log.info("업데이트 데이터 체크 : " + addressBookDto );
+        return addressBookService.updateAddressBook( addressBookDto );
+    }
 
 }
