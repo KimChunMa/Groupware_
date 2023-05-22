@@ -106,9 +106,7 @@ export default function Messenger(props){
     //2. 채팅방 출력하기
     const printChat = () => {
           axios.get("/chat")
-                .then(r=> { console.log(r.data)
-                SetChatRooms([...r.data]);
-                })
+                .then(r=> { SetChatRooms([...r.data]);})
     }
 
     // 2-2. 채팅방 출력하기 (처음 한번)
