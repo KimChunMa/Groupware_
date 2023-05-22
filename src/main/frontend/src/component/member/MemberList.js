@@ -3,9 +3,12 @@ import axios from 'axios';
 
 import styles from '../css/member/memberList.css';
 
+import AddPart from './AddPart';
+
+
 import {
     Container , TextField , Select , SelectChangeEvent , InputLabel ,
-    MenuItem , FormControl , Button
+    MenuItem , FormControl , Button , Paper
 } from '@mui/material';
 
 import { DataGrid } from '@mui/x-data-grid';
@@ -325,15 +328,18 @@ export default function MemberList( props ) {
 
     return(<>
         <Container>
-            <Stack direction="row" spacing={2} className="selectDeleteBox">
+
+            <h3 className="member-manage"> 직원관리 </h3>
+
               <Button
                 variant="outlined"
                 startIcon={<DeleteIcon />}
                 onClick={ onDeleteHandler }
+                className="member-delete-btn"
               >
                 선택삭제
               </Button>
-            </Stack>
+
             <div style={{ height: '100%', width: '100%' }}>
                 <DataGrid
                     rows={rows}

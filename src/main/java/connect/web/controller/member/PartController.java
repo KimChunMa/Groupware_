@@ -26,6 +26,16 @@ public class PartController {
         return partService.getPart();
     }
 
+    @PutMapping("")
+    public boolean editPart( @RequestBody PartDto partDto ){
+        return partService.editPart(partDto);
+    }
+
+    @DeleteMapping("")
+    public boolean deletePart( @RequestParam int partNo ){
+        return partService.deletePart(partNo);
+    }
+
 
 
 }

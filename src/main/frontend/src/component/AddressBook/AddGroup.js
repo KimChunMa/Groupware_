@@ -121,9 +121,9 @@ export default function AddGroup( props ) {
     return (<>
         <Paper elevation={3} style={{ height: "100%" }}>
             <div className="group-add-btnbox">
-                <Button variant="contained" size="small" className="group-addBtn" onClick={ handleOpen }> 그룹추가 </Button>
-                <Button variant="outlined" size="small" onClick={ deleteGroup }> 그룹삭제 </Button>
-                <Button className="updateBtn" size="small" onClick={ updateHandleOpen }> <EditIcon color="primary" /> </Button>
+                <Button color="success" variant="contained" size="small" className="group-addBtn" onClick={ handleOpen }> 그룹추가 </Button>
+                <Button color="success" variant="outlined" size="small" onClick={ deleteGroup }> 그룹삭제 </Button>
+                <Button color="success" className="updateBtn" size="small" onClick={ updateHandleOpen }> <EditIcon color="success" /> </Button>
             </div>
             <div className="group-List-Box">
                 {
@@ -155,8 +155,8 @@ export default function AddGroup( props ) {
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                     <TextField inputRef={ groupName } name="groupName" label="그룹명" variant="standard" style={{ margin:"20px 0px" }}/>
                     <div>
-                        <Button variant="contained" size="small" className="group-addBtn" onClick={ groupAdd }> 등록 </Button>
-                        <Button variant="outlined" size="small" onClick={ handleClose }> 취소 </Button>
+                        <Button color="success" variant="contained" size="small" className="group-addBtn" onClick={ groupAdd }> 등록 </Button>
+                        <Button color="success" variant="outlined" size="small" onClick={ handleClose }> 취소 </Button>
                     </div>
                 </Typography>
             </Box>
@@ -175,8 +175,8 @@ export default function AddGroup( props ) {
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                     <TextField inputRef={ groupName } name="groupName" label="그룹명" variant="standard" style={{ margin:"20px 0px" }}/>
                     <div>
-                        <Button variant="contained" size="small" className="group-addBtn" onClick={ updateGroup }> 수정 </Button>
-                        <Button variant="outlined" size="small" onClick={ updateHandleClose }> 취소 </Button>
+                        <Button color="success" variant="contained" size="small" className="group-addBtn" onClick={ updateGroup }> 수정 </Button>
+                        <Button color="success" variant="outlined" size="small" onClick={ updateHandleClose }> 취소 </Button>
                     </div>
                 </Typography>
             </Box>

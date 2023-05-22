@@ -4,6 +4,9 @@ import FileSaver from "file-saver";
 import styles from './css/main/header.css';
 
 import SideBar from './SideBar';
+import { Paper , Button } from "@mui/material"
+
+
 
 export default function Header( props ) {
 
@@ -75,31 +78,40 @@ export default function Header( props ) {
         });
     }
 
-
-
     return (<>
+        <Paper elevation={2} style={{ width:"100%" , height:"55px" }} className="header-top">
+            <div className="header-wrap">
+                <div className="header-left-item">
+                    <SideBar
+                        imageUrl={ imageUrl }
+                        getProfileImg={ getProfileImg }
+                        login={ login }
+                    />
+                    <span className="logo-name"> <a href="/home" className="go-home"> &lt;Connect. @ /&gt; </a> </span>
+                </div>
+                <div>
+                    <Button color="success" onClick={ logOut }> LOGOUT </Button>
+                </div>
+            </div>
+        </Paper>
+    </>);
+}
 
-        <SideBar
-            imageUrl={ imageUrl }
-            getProfileImg={ getProfileImg }
-            login={ login }
-        />
+/*
 
         <a href="/home"> HOME </a>
         <a href="/member/addmember"> 직원등록 </a>
         <a href="/member/addressbook"> 주소록 </a>
-        {/*이경석 링크용*/}
+
+        이경석 링크용
         <a href="/messenger"> 메신저 들어가기</a>
-        {/*김동혁 임시 링크용*/}
+
+        김동혁 임시 링크용
         <a href="/partBoard">   부서등록 들가기 </a>
         <a href="/list">   게시판들가기 </a>
         <a href="/approval">  서류작성 </a>
-        {/*백한결*/}
+
+        백한결
         <a href="/reportconfirm">  서류상태확인페이지 </a>
         <a href="/approval/myapproval">  내 서류상태확인 </a>
-
-        <a href="/"> LOGIN </a>
-        <button onClick={ logOut }> LOGOUT </button>
-        <button onClick={ getProfileImg }> 이미지 테스트 </button>
-    </>);
-}
+*/

@@ -36,7 +36,7 @@ export default function SideBar( props ) {
 
     const handleExpandClick = () => {
         setExpanded((oldExpanded) =>
-            oldExpanded.length === 0 ? ['1', '5', '6', '7'] : [],
+            oldExpanded.length === 0 ? ['1', '6', '10', '12'] : [],
         );
     };
 
@@ -50,6 +50,18 @@ export default function SideBar( props ) {
             case '3' : window.location.href = "/member/addpart" ;
             break ;
             case '4' : window.location.href = "/member/addmember" ;
+            break ;
+            case '5' : window.location.href = "/member/addressbook" ;
+            break ;
+            case '7' : window.location.href = "/approval" ;
+            break ;
+            case '8' : window.location.href = "/approval/myapproval" ;
+            break ;
+            case '9' : window.location.href = "/reportconfirm" ;
+            break ;
+            case '11' : window.location.href = "/messenger" ;
+            break ;
+            case '13' : window.location.href = "/list" ;
             break ;
         }
 
@@ -98,18 +110,131 @@ export default function SideBar( props ) {
                         onNodeToggle={handleToggle}
                         multiSelect
                     >
-                        <TreeItem nodeId="1" label="직원관리">
-                            <TreeItem nodeId="2" label="직원정보" onClick={ (event) => handleClick( event , "2") }/>
-                            <TreeItem nodeId="3" label="부서관리" onClick={ (event) => handleClick( event , "3") }/>
-                            <TreeItem nodeId="4" label="직원등록" onClick={ (event) => handleClick( event , "4") }/>
+                        <TreeItem
+                            nodeId="1"
+                            label={
+                                <Typography variant="body1" fontWeight="bold">
+                                    직원관리
+                                </Typography>
+                            }
+                        >
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="2"
+                                onClick={ (event) => handleClick( event , "2") }
+                                label={
+                                    <Typography variant="body2">
+                                        직원정보
+                                    </Typography>
+                                }
+                            />
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="3"
+                                onClick={ (event) => handleClick( event , "3") }
+                                label={
+                                    <Typography variant="body2">
+                                        부서관리
+                                    </Typography>
+                                }
+                            />
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="4"
+                                onClick={ (event) => handleClick( event , "4") }
+                                label={
+                                    <Typography variant="body2">
+                                      직원등록
+                                    </Typography>
+                                }
+                            />
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="5"
+                                onClick={ (event) => handleClick( event , "5") }
+                                label={
+                                    <Typography variant="body2">
+                                      주소록
+                                    </Typography>
+                                }
+                            />
                         </TreeItem>
-                        <TreeItem nodeId="5" label="Documents">
-                            <TreeItem nodeId="6" label="MUI">
-                                <TreeItem nodeId="7" label="src">
-                                    <TreeItem nodeId="8" label="index.js" />
-                                    <TreeItem nodeId="9" label="tree-view.js" />
-                                </TreeItem>
-                            </TreeItem>
+                        <TreeItem
+                            nodeId="6"
+                            label={
+                                <Typography variant="body1" fontWeight="bold">
+                                    전자결재
+                                </Typography>
+                            }
+                        >
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="7"
+                                onClick={ (event) => handleClick( event , "7") }
+                                label={
+                                    <Typography variant="body2">
+                                      결재서류작성
+                                    </Typography>
+                                }
+                            />
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="8"
+                                onClick={ (event) => handleClick( event , "8") }
+                                label={
+                                    <Typography variant="body2">
+                                      내 서류상태확인
+                                    </Typography>
+                                }
+                            />
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="9"
+                                onClick={ (event) => handleClick( event , "9") }
+                                label={
+                                    <Typography variant="body2">
+                                      결재대기서류확인
+                                    </Typography>
+                                }
+                            />
+                        </TreeItem>
+                        <TreeItem
+                            nodeId="10"
+                            label={
+                                <Typography variant="body1" fontWeight="bold">
+                                    커뮤니티
+                                </Typography>
+                            }
+                        >
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="11"
+                                onClick={ (event) => handleClick( event , "11") }
+                                label={
+                                    <Typography variant="body2">
+                                      메신저
+                                    </Typography>
+                                }
+                            />
+                        </TreeItem>
+                        <TreeItem
+                            nodeId="12"
+                            label={
+                                <Typography variant="body1" fontWeight="bold">
+                                    게시판
+                                </Typography>
+                            }
+                        >
+                            <TreeItem
+                                sx={{ margin: '0px' , paddingRight: '20px' }}
+                                nodeId="13"
+                                onClick={ (event) => handleClick( event , "13") }
+                                label={
+                                    <Typography variant="body2">
+                                      부서게시판
+                                    </Typography>
+                                }
+                            />
                         </TreeItem>
                     </TreeView>
                 </Box>

@@ -170,8 +170,8 @@ export default function AddAddressBook( props ) {
             <h4 className="addr-add-title"> 주소록 목록 </h4>
             <div>
                 <Box sx={{ height: 400, width: '95%' , margin: '0px auto'}}>
-                    <Button onClick={ handleOpen }> 수정 </Button>
-                    <Button onClick={ addrDelete }> 선택삭제 </Button>
+                    <Button onClick={ handleOpen } color="success"> 수정 </Button>
+                    <Button onClick={ addrDelete } color="success"> 선택삭제 </Button>
                     <DataGrid
                         rows={ addrBookList }
                         columns={columns}
@@ -196,7 +196,7 @@ export default function AddAddressBook( props ) {
                             <TextField sx={{ width: 150 }} label="이름" size="small" type="text" className="addr_name" name="addrName" />
                             <TextField sx={{ width: 200 }} label="전화번호" size="small" type="text" className="addr_phone" name="addrPhone" />
                             <TextField sx={{ width: 250 }} label="이메일" size="small" type="text" className="addr_email" name="addrEmail" />
-                            <Button className="addr-add-btn" onClick={ addressbookAdd }> + </Button>
+                            <Button color="success" className="addr-add-btn" onClick={ addressbookAdd }> + </Button>
                         </form>
                     </div>
                 </Box>
@@ -220,8 +220,8 @@ export default function AddAddressBook( props ) {
                     <TextField sx={{ width: 200 }} label="전화번호" size="small" type="text" className="addr_phone" name="addrPhone" value={ editData.addrPhone }/>
                     <TextField sx={{ width: 250 }} label="이메일" size="small" type="text" className="addr_email" name="addrEmail" value={ editData.addrEmail }/>
                 </form>
-                <Button onClick={ addrEdit }> 적용 </Button>
-                <Button onClick={ handleClose }> 취소 </Button>
+                <Button onClick={ addrEdit } color="success"> 적용 </Button>
+                <Button onClick={ handleClose } color="success" > 취소 </Button>
               </Typography>
             </Box>
           </Modal>
