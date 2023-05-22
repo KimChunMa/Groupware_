@@ -83,7 +83,21 @@ public class BoardService {
         // 현재 페이지번호[0시작] , 페이지당 표시할 게시물 수 (5개) , 게시물 번호 순으로 내림차순
         Page<BoardEntity> entityPage =
                 boardEntityRepository.findBySearch(pageDto.getPartNo() , pageDto.getKey() , pageDto.getKeyword() , pageable);
+
         List<BoardDto> boardDtoList = new ArrayList<>();
+
+        // 공지사항 미리 넣어두기
+        if( pageDto.getPartNo() != 1 ) {// pageDto의 부서번호가 1번이 아닌경우(공지사항이 아닌경우)
+            // 1. 모두 꺼내서 공지사항 리스트에 따로 담기
+            List<BoardEntity> boardEntityList = boardEntityRepository.findAll();
+            // 2. 공지사항만 필터
+            boardEntityList.forEach((b) -> {
+                if (b.getPartEntity().getPartNo() == 1) { // 부서번호가 1인 즉 공지사항인 애들을
+                    boardDtoList.add(b.toDto());        // 출력부에 추가로 담기
+                }
+            });
+        }
+
         entityPage.forEach((b)->{boardDtoList.add(b.toDto());});
         pageDto.setBoardDtoList(boardDtoList);
         pageDto.setTotalPage(entityPage.getTotalPages());
@@ -165,7 +179,7 @@ public class BoardService {
         return true;
     }
 
-    // 9. 댓글 수정
+    // 9. [김동혁] 댓글 수정
     @Transactional
     public boolean updateReply(ReplyDto replyDto){
         Optional<ReplyEntity> optionalReplyEntity = replyEntityRepository.findById(replyDto.getReplyNo());
@@ -176,7 +190,7 @@ public class BoardService {
         return false;
     }
 
-    // 10. 댓글 삭제
+    // 10. [김동혁] 댓글 삭제
     @Transactional
     public boolean deleteReply(int replyNo){ log.info("deleteReply : " +replyNo);
         Optional<ReplyEntity> optionalReplyEntity = replyEntityRepository.findById(replyNo);

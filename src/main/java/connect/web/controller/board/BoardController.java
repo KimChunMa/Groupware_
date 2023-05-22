@@ -46,42 +46,42 @@ public class BoardController {
         return result;
     }
 
-    // 5. 개별 출력
+    // 5. [김동혁] 개별 출력
     @GetMapping("/getboard")
     public BoardDto getboard(@RequestParam int boardNo){
         BoardDto result = boardService.getboard(boardNo);
         return result;
     }
 
-    // 6. 삭제
+    // 6. [김동혁] 삭제
     @DeleteMapping("")
     public boolean delete(@RequestParam int boardNo){
         boolean result = boardService.delete(boardNo);
         return result;
     }
 
-    // 7. 수정
+    // 7. [김동혁] 수정
     @PutMapping("")
     public boolean put(@RequestBody BoardDto boardDto){
         boolean result = boardService.update(boardDto);
         return result;
     }
 
-    // 8. 댓글 작성
+    // 8. [김동혁] 댓글 작성
     @PostMapping("/reply")
     public boolean postReply(@RequestBody ReplyDto replyDto){ log.info("postReply : " +replyDto);
         boolean result = boardService.postReply(replyDto);
         return true;
     }
 
-    // 9. 댓글 수정
+    // 9. [김동혁] 댓글 수정
     @PutMapping("/reply")
     public boolean updateReply(@RequestBody ReplyDto replyDto){ log.info("putReply : " +replyDto);
         boolean result = boardService.updateReply(replyDto);
         return result;
     }
 
-    // 10. 댓글 삭제
+    // 10. [김동혁] 댓글 삭제
     @DeleteMapping("/reply")
     public boolean deleteReply(@RequestParam int replyNo){ log.info("deleteReply : " +replyNo);
         boolean result = boardService.deleteReply(replyNo);

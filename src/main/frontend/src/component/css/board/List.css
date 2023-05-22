@@ -1,0 +1,20 @@
+.searchBox{
+        display: flex;
+        align-items: center;
+    }
+.searchBox button{
+    border-radius: 20px;
+    border-style: none;
+    padding: 10px;
+    color: white;
+    background-color: #1976d2;
+    margin-left: 5px;
+}
+.writeBtn{
+        border-radius: 20px;
+        border-style: none;
+        padding: 10px;
+        color: white;
+        background-color: #1976d2;
+        margin-left: 5px;
+}
