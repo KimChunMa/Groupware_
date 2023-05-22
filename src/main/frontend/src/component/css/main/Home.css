@@ -1,0 +1,39 @@
+.main-top-box{
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.approval-state-box{
+    display: flex;
+}
+
+.state-box-item{
+    border-right: 1px solid #e8e8e8;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+.main-box-title{
+    margin: 20px 20px;
+}
+
+.approval-text{
+    font-size : 17px;
+}
+
+.main-middle-box{
+    width: 100%;
+    display : flex;
+    margin: 40px 0px;
+}
+
+.schedule-box{
+    width:45%;
+    margin: 1%;
+}
+
+.calander-box{
+    width: 45%;
+    margin: 1%;
+}
