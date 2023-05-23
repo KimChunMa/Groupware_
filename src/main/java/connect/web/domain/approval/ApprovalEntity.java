@@ -11,7 +11,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.format.DateTimeFormatter;
-
+import java.util.Date;
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder
@@ -27,7 +27,10 @@ public class ApprovalEntity {
     @Column(nullable = false) private String approvalTitle;     //제목
     @Column(nullable = false) private String approvalContent;   //내용
     @Column @Builder.Default private String approvalStatus = "0";   //결재상태[0:대기중 1:대리승인완료 2:과장승인완료 3:팀장승인완료(최종) 9:반려]
-    @Column(nullable = false) private String approvalData;      //결재날짜
+    @Column private String approvalData;
+    /*    @Column(name = "DATE_FIELD")
+    @Temporal(TemporalType.DATE)
+    private java.util.Date approvalData;      //결재날짜*/
 
 
     @ManyToOne

@@ -75,4 +75,10 @@ public interface ApprovalEntityRepository  extends JpaRepository<ApprovalEntity,
             " from member m, part p , approval a where p.part_no =m.part_no and a.member_no = m.member_no and a.member_no = :memberNO", nativeQuery = true)
     List<ApprovalEntity> findMyapproval(@Param("memberNO")int memberNO);
 
+
+    @Modifying
+    //수락버튼 클릭시 approval_no를 인수로 받아 서류승인완료되면 1단계씩 approval_status 1씩 증가하도록
+    @Query( value = "delete from approval where approval_no = :approvalNo" ,nativeQuery = true)
+    int approvalDelete( @Param("approvalNo")int approvalNo);
+
 }

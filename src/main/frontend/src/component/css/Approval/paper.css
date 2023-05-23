@@ -74,3 +74,15 @@
     margin: 0px 30px;
     padding-top: 20px;
 }
+
+.approvalWriter, .approvalTitle {
+  border: none;
+  font-size: 20px; /* 또는 다른 원하는 크기 */
+  width: 50%
+}
+
+.approvalContent{
+   border: none;
+   font-size: 20px;
+
+}
