@@ -23,11 +23,16 @@ export default function Apaper( props ) {
                         <div className="approval-member">
                             <table className="approval-table">
                                 <tr>
-                                    <th rowSpan="2"> 결재 </th> <th> 부장 </th> <th> 이사 </th> <th> 사장 </th>
+                                    <th rowSpan="2"> 결재 </th>
+                                    <th> 부장 </th>
+                                    <th> 이사 </th>
+                                    <th> 사장 </th>
                                 </tr>
 
                                 <tr>
-                                     <td> </td> <td> </td> <td> </td>
+                                     <td> </td>
+                                     <td> </td>
+                                     <td> </td>
                                 </tr>
 
                             </table>
