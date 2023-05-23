@@ -38,32 +38,59 @@ export default function Home( props ) {
 
     }, []);
 
+    // 퇴근시간 계산
+    const [ hour , setHour ] = useState( 17 - new Date().getHours() );
+    const [ minute , setMinute ] = useState( 59 - new Date().getMinutes() );
+    const [ second , setSecond ] = useState( 60 - new Date().getSeconds() );
+
+    useEffect( () => {
+
+        const endTime = setInterval( () => {
+            setHour( 17 - new Date().getHours() );
+            setMinute( 59 - new Date().getMinutes() );
+            setSecond( 60 - new Date().getSeconds() );
+        } , 1000 );
+
+        return () => clearInterval( endTime )
+
+    } , [] )
+
+
+
 
     return (<>
         <Container>
             <div className="main-top-box">
                 <Paper elevation={1} style={{ width:"45%" , margin:"1%" }} >
                     <h4 className="main-box-title">근태정보</h4>
-                    <div>{time.toLocaleTimeString()}</div>
+                    <div className="today-date">{time.toLocaleTimeString()}</div>
+                    <div classNem="leave-work">
+                        <span className="leave-text"> 퇴근까지! </span>
+                        <span className="leave-time">
+                            [ { hour < 10 ? '0' + hour : hour } :
+                            { minute < 10 ? '0' + minute : minute } :
+                            { second < 10 ? '0' + second : second } ]
+                        </span>
+                    </div>
                 </Paper>
                 <Paper elevation={1} style={{ width:"45%", margin:"1%" }}>
                     <h4 className="main-box-title">전자결재</h4>
                     <div className="approval-state-box">
                         <div className="state-box-item">
                             <div className="approval-text">결재할 문서</div>
-                            <div>0</div>
+                            <div className="approval-value">0</div>
                         </div>
                         <div className="state-box-item">
                             <div className="approval-text">상신한 문서</div>
-                            <div>0</div>
+                            <div className="approval-value">0</div>
                         </div>
                         <div className="state-box-item">
                             <div className="approval-text">진행된 문서</div>
-                            <div>0</div>
+                            <div className="approval-value">0</div>
                         </div>
-                        <div>
+                        <div className="state-box-item-end">
                             <div className="approval-text">대기중 문서</div>
-                            <div>0</div>
+                            <div className="approval-value">0</div>
                         </div>
                     </div>
                 </Paper>
@@ -84,22 +111,22 @@ export default function Home( props ) {
                     <Card sx={{ minWidth: 275 }}>
                       <CardContent>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                          Word of the Day
+                          오늘의 일정
                         </Typography>
                         <Typography variant="h5" component="div">
-                          be{bull}nev{bull}o{bull}lent
+                          등록 된 일정이 없습니다.
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                          adjective
+                          -
                         </Typography>
                         <Typography variant="body2">
-                          well meaning and kindly.
+                          금일 등록 된 일정이 없습니다.
                           <br />
                           {'"a benevolent smile"'}
                         </Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size="small">Learn More</Button>
+                        <Button size="small"> 더보기 </Button>
                       </CardActions>
                     </Card>
                 </div>

@@ -34,7 +34,7 @@ export default function Header( props ) {
         }
     }
 
-
+    let session = JSON.parse(sessionStorage.getItem('login_token'))
 
     // 로그아웃
     const logOut = () => {

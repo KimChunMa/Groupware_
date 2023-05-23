@@ -10,8 +10,13 @@
 
 .state-box-item{
     border-right: 1px solid #e8e8e8;
-    padding-right: 10px;
-    margin-right: 10px;
+    padding: 0px 19px;
+    margin : 20px 0px;
+}
+
+.state-box-item-end{
+    margin : 20px 0px;
+    padding: 0px 19px;
 }
 
 .main-box-title{
@@ -37,3 +42,22 @@
     width: 45%;
     margin: 1%;
 }
+
+.approval-value{
+    text-align : center;
+}
+
+.today-date{
+    margin-left : 20px;
+    margin-bottom : 20px;
+}
+
+.leave-time{
+    font-size : 25px;
+    font-weight : bold;
+}
+
+.leave-text{
+    margin-left: 20px;
+}
+
