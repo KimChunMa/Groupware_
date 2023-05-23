@@ -45,6 +45,8 @@ export default function Messenger(props){
     let chat_fileForm = useRef(null); // Form
     // 1-3. input file 작동용
     let chat_fileInputClick= useRef(null); // input file
+    // 1-4. 채팅방 이미지 미리보기
+    const [imageSrc, setImageSrc] = useState('');
 
     // 2-1.채팅방 배열
     const [chatRooms , SetChatRooms] = useState([]);
@@ -165,7 +167,24 @@ export default function Messenger(props){
                         else{alert('오류!') } } )
      })
 
+    //채팅방 이미지 미리보기
+    const encodeFileToBase64 = (fileBlob) => {
 
+        const reader = new FileReader();
+        reader.readAsDataURL(fileBlob);
+
+        return new Promise( (resolve) => {
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                resolve();
+            };
+        });
+    };
+
+    const handleImageUpload = (e) => {
+        console.log("이미지업로드");
+        encodeFileToBase64(e.target.files[0]);
+    }
 
     return(<>
     <div className="container" onClick={hide_menu}>
@@ -190,8 +209,8 @@ export default function Messenger(props){
                             <div className="chat_room_left">
                                 <div className="left_content_img">
                                     {o.uuidFile == null || o.uuidFile == undefined ?
-                                    <img className="chat_img" src={"http://localhost:8080/static/media/default.png"}/> :
-                                    <img className="chat_img" src={"http://localhost:8080/static/media/" +o.uuidFile}/>
+                                    <img className="chat_img" src={"http://localhost:80/static/media/default.png"}/> :
+                                    <img className="chat_img" src={"http://localhost:80/static/media/" +o.uuidFile}/>
                                     }
                                 </div>
 
@@ -244,8 +263,12 @@ export default function Messenger(props){
                     </div>
 
                     <form ref={chat_fileForm}>
-                        <input  ref={chat_fileInputClick} type="file" name="files" id="file" />
+                        <input  ref={chat_fileInputClick} type="file" name="files" id="file" onChange={ handleImageUpload } />
                     </form>
+
+                    <div className="preview">
+                        { imageSrc && <img src={imageSrc} alt="preview-img" /> }
+                    </div>
 
                     <div className="modal_btns">
                         <button  onClick={create}  className="modal_check" type="button">방 생성하기</button>
@@ -270,8 +293,12 @@ export default function Messenger(props){
                     </div>
 
                     <form ref={chat_fileForm2}>
-                        <input  ref={chat_fileInputClick2} type="file" name="files" id="file" />
+                        <input  ref={chat_fileInputClick2} type="file" name="files" id="file" onChange={ handleImageUpload } />
                     </form>
+
+                    <div className="preview">
+                        { imageSrc && <img src={imageSrc} alt="preview-img" /> }
+                    </div>
 
 
                     <div className="modal_btns">
