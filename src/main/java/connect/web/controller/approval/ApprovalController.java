@@ -89,6 +89,17 @@ public class ApprovalController {
         return result;
     }
 
+    /*내가쓴 게시물 삭제부분*/
+    @DeleteMapping("/delete")
+    public int delete(@RequestParam int approvalNo){
+        log.info("s delete::::approvalNo:::"+approvalNo);
+        int result = approvalService.delete(approvalNo);
+        log.info("s delete result::::: "+result);
+        return result;
+    }
+
+
+
 /*
     //맴버랭크 빼내기 함수
     @GetMapping("/getUserRank")

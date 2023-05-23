@@ -11,6 +11,7 @@ import connect.web.domain.member.PartEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -262,6 +263,17 @@ public class ApprovalService {
         }else{
             return null;
         }
+    }
+
+    /*내가쓴 게시물 삭제*/
+    @Transactional
+    public int delete(int approvalNo){
+
+        log.info("s accept::::approvalNo:::"+approvalNo);
+
+        int result = approvalEntityRepository.approvalDelete(approvalNo);
+
+        return result;
     }
 
 

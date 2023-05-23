@@ -17,6 +17,7 @@ export default function Myapproval(props) {
 
         const [ myrows,setMyrows ] = useState([]);
 
+
         //내가 쓴 서류 결제상태 출력 [2023-05-15 월 작업 ]
         const getMyprint = () => {
              axios.get('/approval/getMyprint').then(r => {

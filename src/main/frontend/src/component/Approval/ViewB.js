@@ -1,18 +1,29 @@
 import React , { useState , useEffect } from 'react';
 import axios from 'axios';
-import {useParams}from 'react-router-dom';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import {useParams}from 'react-router-dom';
+import styles from '../css/Approval/paper.css';
 
-import Container from '@mui/material/Container';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+import {
+    Paper , Container
+} from '@mui/material'
+
+
 
 export default function ViewA(props){
-    /*결제전  서류  내용 페이지*/
+    /*결제전  서류  내용 마이 페이지*/
     const params = useParams();
     console.log(params);
     console.log(params.approvalNo);
 
     //해당게시물의 서류내용출력 [2023-05-18]
     const [approval , setApproval] = useState({});
+
 
     //1.해당게시물의 서류내용출력 [2023-05-18]
     const getPrint = ()=>{
@@ -21,6 +32,7 @@ export default function ViewA(props){
                 console.log(r);
                 console.log(r.data);
                 setApproval(r.data);
+
             })
 
     }
@@ -52,35 +64,96 @@ export default function ViewA(props){
 
             }
 
+    /*삭제버튼 클릭시[2023-05-23]*/
+    const Noapproval = () =>{
+        console.log("삭제버튼");
+
+        let deleteConfirm = window.confirm("선택된 결제서류가 삭제됩니다, 삭제하시겠습니까?");
+        axios.delete('/approval/delete',{ params :{approvalNo:params.approvalNo} })
+            .then( (r) =>{
+                console.log(r);
+                console.log(r.data);
+                if(r.data == 1){
+                    alert('삭제성공')
+                    window.location.href='/home';
+                }else{
+                    alert('삭제실패')
+                }
+            })
+
+    }
+
+
+
+
     return(<>
         <Container>
-                 <h3> MY서류상세내용확인</h3>
-            <div>
-                 작성일: {approval.approvalData}
-            </div>
+            <Paper elevation={3} className="approval-wrap">
+            <Container>
+                 <div className="main-title">
+                    <h3> {approval.approvalTitle} </h3>
+                 </div>
+                    <div className="top-title">
+                        <div className="approval-member">
+                            <table className="approval-table">
+                                <tr>
+                                    <th rowSpan="2"> 결재 </th> <th> 부장 </th> <th> 이사 </th> <th> 사장 </th>
+                                </tr>
 
-            <div>
-                작성자: {approval.approvalWriter}
-            </div>
+                                <tr>
+                                     <td> </td> <td> </td> <td> </td>
+                                </tr>
+                            </table>
+                        </div>
+                  </div>
 
-            <div>
-                 작성제목: {approval.approvalTitle}
-            </div>
+                        <div className="acontent-box">
+                            <table className="acontent">
+                                <tr>
+                                    <th className="apart">부서</th>
+                                        <td> {approval.partName} </td>
+                                    <th className="apart">직급</th>
+                                        <td> { abc(approval.memberRank) }</td>
+                                </tr>
 
-            <div>
-                 작성내용: {approval.approvalContent}
-            </div>
+                                <tr>
+                                    <th className="apart">성명</th>
+                                        <td id="approvalWriter"> {approval.approvalWriter} </td>
+                                    <th className="apart">비상연락망</th>
+                                        <td> sdfsdf </td>
+                                </tr>
 
-            <div>
-                 직위:  { abc(approval.memberRank) }
-            </div>
+                                <tr>
+                                    <th className="apart">구분</th> <td colSpan="3">
+                                         {approval.approvalTitle} </td>
+                                </tr>
 
-            <div>
-                 부서명: {approval.partName}
-            </div>
+                                <tr>
+                                    <th className="apart">휴가기간</th>
+                                    <td colSpan="3" className="approvalData" id="approvalData">
+                                            {approval.approvalData}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th className="adetail">세부사항</th>
+                                        <td colSpan="3">
+                                           {approval.approvalContent}
+                                        </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div className="acomment">
+                            <h3> 위와 같이 휴가를 신청하오니 허락하여 주시기 바랍니다. </h3>
+                        </div>
+                        <div className="adate">
+                            <h3> 2023년&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5월&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25일 </h3>
+                                <Button onClick={ Noapproval }> 삭제하기 </Button>
+                        </div>
+                </Container>
+            </Paper>
         </Container>
-
-
     </>)
 
 }
