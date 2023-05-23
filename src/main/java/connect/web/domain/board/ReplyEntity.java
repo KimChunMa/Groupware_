@@ -21,4 +21,12 @@ public class ReplyEntity extends BaseTime{
     @ManyToOne @JoinColumn(name="boardNo") @ToString.Exclude
     private BoardEntity boardEntity;
 
+    public ReplyDto todto(){
+        return ReplyDto.builder()
+                .replyNo(this.replyNo).replyContent(this.replyContent)
+                .replyDate(this.cdate.toLocalDate().toString())
+                .memberNo(this.memberEntity.getMemberNo())
+                .memberName(this.memberEntity.getMemberName())
+                .build();
+    }
 }

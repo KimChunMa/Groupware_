@@ -83,7 +83,21 @@ public class BoardService {
         // 현재 페이지번호[0시작] , 페이지당 표시할 게시물 수 (5개) , 게시물 번호 순으로 내림차순
         Page<BoardEntity> entityPage =
                 boardEntityRepository.findBySearch(pageDto.getPartNo() , pageDto.getKey() , pageDto.getKeyword() , pageable);
+
         List<BoardDto> boardDtoList = new ArrayList<>();
+
+        // 공지사항 미리 넣어두기
+        if( pageDto.getPartNo() != 1 ) {// pageDto의 부서번호가 1번이 아닌경우(공지사항이 아닌경우)
+            // 1. 모두 꺼내서 공지사항 리스트에 따로 담기
+            List<BoardEntity> boardEntityList = boardEntityRepository.findAll();
+            // 2. 공지사항만 필터
+            boardEntityList.forEach((b) -> {
+                if (b.getPartEntity().getPartNo() == 1) { // 부서번호가 1인 즉 공지사항인 애들을
+                    boardDtoList.add(b.toDto());        // 출력부에 추가로 담기
+                }
+            });
+        }
+
         entityPage.forEach((b)->{boardDtoList.add(b.toDto());});
         pageDto.setBoardDtoList(boardDtoList);
         pageDto.setTotalPage(entityPage.getTotalPages());
@@ -96,19 +110,26 @@ public class BoardService {
         String ip = request.getRemoteAddr();
         Object o = request.getSession().getAttribute(ip+boardNo);
         Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardNo);
+        BoardEntity boardEntity = optionalBoardEntity.get();
+        BoardDto boardDto = boardEntity.toDto();
         if(o==null&& optionalBoardEntity.isPresent()){
-            BoardEntity boardEntity = optionalBoardEntity.get();
-            BoardDto boardDto = boardEntity.toDto();
             request.getSession().setAttribute(ip+boardNo,1);
             request.getSession().setMaxInactiveInterval(60*60*24);
             boardEntity.setBoardView(boardEntity.getBoardView()+1);
-            return boardDto;
-        } else if (o!=null && optionalBoardEntity.isPresent()) {
-            BoardEntity boardEntity = optionalBoardEntity.get();
-            BoardDto boardDto = boardEntity.toDto();
-            return boardDto;
-        }
-        return null;
+        } else if (o!=null && optionalBoardEntity.isPresent()) {}
+        // 게시물 반환 되기전에 댓글 목록도 추가하자
+        // 1. 해당하는 게시물의 모든 댓글 호출
+        List<ReplyDto> list = new ArrayList<>();
+        boardEntity.getReplyEntityList().forEach((r)->{
+            list.add(r.todto());
+        });
+        BoardDto boardDto1 = boardEntity.toDto();
+        boardDto1.setReplyDtoList(list);
+        return boardDto1;
+        // 2. 엔티티 리스트  -> dto 리스트
+
+        // 3. dto 리스트를 boardDto에 담자
+
     }
 
     // 6. [김동혁] 개별 게시물 삭제
@@ -134,11 +155,11 @@ public class BoardService {
         return false;
     }
 
-    // 8. [김동혁] 댓글작성
+    // 8. [김동혁] 댓글작성 및 출력
     @Autowired
     private ReplyEntityRepository replyEntityRepository;
     @Transactional
-    public boolean postReply(@RequestBody ReplyDto replyDto){ log.info("postReply : " + replyDto);
+    public boolean postReply(ReplyDto replyDto){ log.info("postReply : " + replyDto);
         // 로그인 확인
         String o = (String) request.getSession().getAttribute("login");
         MemberEntity memberEntity = memberEntityRepository.findByMemberId(o).get();
@@ -157,9 +178,27 @@ public class BoardService {
         boardEntity.getReplyEntityList().add(replyEntity);
         return true;
     }
+
+    // 9. [김동혁] 댓글 수정
     @Transactional
-    public boolean getReply(){ // 게시물 출력 시 대체
-        return true;
+    public boolean updateReply(ReplyDto replyDto){
+        Optional<ReplyEntity> optionalReplyEntity = replyEntityRepository.findById(replyDto.getReplyNo());
+        if(optionalReplyEntity.isPresent()){
+            optionalReplyEntity.get().setReplyContent(replyDto.getReplyContent());
+            return true;
+        }
+        return false;
+    }
+
+    // 10. [김동혁] 댓글 삭제
+    @Transactional
+    public boolean deleteReply(int replyNo){ log.info("deleteReply : " +replyNo);
+        Optional<ReplyEntity> optionalReplyEntity = replyEntityRepository.findById(replyNo);
+        if (optionalReplyEntity.isPresent()){
+            replyEntityRepository.delete(optionalReplyEntity.get());
+            return true;
+        }
+        return false;
     }
 }
 

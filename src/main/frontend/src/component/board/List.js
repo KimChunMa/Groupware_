@@ -16,6 +16,8 @@ import Pagination from '@mui/material/Pagination';
 
 import PartList from './PartList';
 
+import styles from '../css/board/List.css'
+
 export default function List(props) {
 
     // 게시물들의 정보 변수
@@ -94,7 +96,7 @@ export default function List(props) {
                 <Pagination count={totalPage} color="primary" onChange={selectPage} />
             </div>
             <div>
-                <a href="/write"><button variant="outlined">게시물 작성</button></a>
+                <a href="/write"><button className="writeBtn" variant="outlined">게시물 작성</button></a>
             </div>
         </div>
     </Container>
