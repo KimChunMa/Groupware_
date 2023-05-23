@@ -45,11 +45,9 @@ public class MessengerService {
     private HttpServletResponse response; // 응답 객체
 
     //저장경로
-    String path = "C:\\Connect_Project\\build\\resources\\main\\static\\static\\media\\" ;
+    String path = "C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
     //"C:\\Users\\504\\Desktop\\Connect_Project\\build\\resources\\main\\static\\static\\media\\";
-
-
-
+    //"C:\\Connect_Project\\build\\resources\\main\\static\\static\\media\\"
 
     /* ---------------------- 0. 로그인 검사 ------------------------- */
     public MemberDto loginMember(){
@@ -323,4 +321,38 @@ public class MessengerService {
             fin.close(); fout.close(); // 스트림 닫기
         }catch(Exception e){ log.info("file download fail : "+e );}
     }
+
+    //-------------------------------- 초대하기 -------------------------------
+    //1. 초대안된 멤버 출력
+    @Transactional
+    public List<MemberDto>  invite_member(int chatRoomId){
+        List<MemberEntity> memberEntityList = memberEntityRepository.findAllByNotInChatRoomId(chatRoomId);
+        List<MemberDto> memberDtoList = new ArrayList<>();
+        memberEntityList.forEach((o)->{
+            memberDtoList.add(o.toDto());
+        });
+        return memberDtoList;
+    }
+
+    //2. 초대하기 함수
+    @Transactional
+    public boolean invite(ChatParticipantsDto chatParticipantsDto){
+        ChatParticipantsEntity chatParticipantsEntity = new ChatParticipantsEntity();
+        chatParticipantsEntity.setMemberEntity( memberEntityRepository.findById(chatParticipantsDto.getMemberNo()).get() );
+        chatParticipantsEntity.setChatRoomsEntity( chatRoomsEntityRepository.findById(chatParticipantsDto.getChatRoomId()).get() );
+        chatParticipantsEntityRepository.save(chatParticipantsEntity);
+        return true;
+    }
+
+    //3.초대된 멤버 출력
+    @Transactional
+    public List<MemberDto> in_Member(int chatRoomId){
+        List<MemberEntity> memberEntityList = memberEntityRepository.findAllByInChatRoomId(chatRoomId);
+        List<MemberDto> memberDtoList = new ArrayList<>();
+        memberEntityList.forEach((o)->{
+            memberDtoList.add(o.toDto());
+        });
+        return memberDtoList;
+    }
+
 }

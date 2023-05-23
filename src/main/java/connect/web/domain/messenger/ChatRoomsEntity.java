@@ -39,8 +39,11 @@ public class ChatRoomsEntity extends BaseTime { // 채팅방 생성날짜를 전
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<ChatMessagesEntity> chatMessagesEntityList = new ArrayList<>();
 
+    @Column(nullable = true)
     private String originalFilename; //실제 순수 파일명
+    @Column(nullable = true)
     private String uuidFile; //식별된 파일명
+    @Column(nullable = true)
     private String sizeKb; // 용량
     public ChatRoomsDto toDto(){
         return ChatRoomsDto.builder()

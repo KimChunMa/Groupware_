@@ -3,6 +3,7 @@ import axios from 'axios';
 //   implementation 'org.springframework.boot:spring-boot-starter-websocket' //web 소켓 builder
 
 export default function Messenger(props){
+// ------------------------------- 변수 ---------------------------------
     //0. 로그인 객체 정보
    	const member = props.member;
     //1.메세지 보내기 DOM
@@ -20,6 +21,13 @@ export default function Messenger(props){
     const [editMessage , setEditMessage ] = useState(false);
 
 
+    // 채팅방 회원
+    const [inMember , setInMember] = useState([]);
+    // 멤버 이미지
+    const [ imageUrl , setImageUrl ] = useState("");
+
+//--------------------------------- 함수 --------------------------------
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 메세지 보내기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     //1-1. 메세지 보내기 (소켓)
     useEffect( () => {
         if(!ws.current){//만약 클라이언트소켓이 접속이 안되어 있을때
@@ -58,15 +66,18 @@ export default function Messenger(props){
         }
     }
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 메세지 출력하기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+
     //2-2. 채팅방 클릭시+입력받을시 메세지 출력
     useEffect(()=>{ printMessages(props.roomId); },[props.roomId])
 
     //2-3. 메세지 출력하기
     const printMessages = ( chatRoomId) => {
         axios.get("/chat/message", {params:{"chatRoomId":chatRoomId}})
-            .then(r=>{setMsgContent(r.data);  })
+            .then(r=>{setMsgContent(r.data); in_Member(chatRoomId);  })
     }
-    console.log(msgContent)
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 메세지 수정,삭제 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	//3. 메세지 우클릭시 수정,삭제창 보이게
      const show_menu2=(e,chatMessagesId)=>{
         e.preventDefault(); //기존 우클릭 이벤트 제거
@@ -106,7 +117,7 @@ export default function Messenger(props){
      //4. 메세지 삭제
      const del_message = ((chatMessagesId)=>{
         axios.delete("/chat/message", {params:{"chatMessagesId":chatMessagesId }})
-            .then(r=>{ console.log(r) ; if(r.data==true){alert('삭제 되었습니다.'); printMessages(props.roomId);}
+            .then(r=>{  if(r.data==true){alert('삭제 되었습니다.'); printMessages(props.roomId);}
                         else{alert('오류!') } } )
      })
 
@@ -120,6 +131,47 @@ export default function Messenger(props){
     //5. 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
     const fileUpload = () => {fileInputClick.current.click();};
 
+
+    /* --------------------------------- 채팅방 회원 이미지 출력 ---------------------------------------------------*/
+    //1. 현재 DB에 초대된 멤버 불러오기
+    const in_Member = (chatRoomId) => {
+        axios.get("/chat/inMember", {params:{chatRoomId:chatRoomId}})
+             .then(r=>{ setInMember(r.data);  })
+    }
+
+    //2. 멤버별 이미지 불러오기
+    useEffect ( () => {memberImg()} , [inMember]);
+
+    const memberImg = () => {
+        inMember.forEach((o)=>{
+            getProfileImg(o);
+        })
+    }
+
+    // 프로필 이미지 가져오기
+    const getProfileImg = ( inMember ) => {
+        if( inMember.uuidFilename == null ){inMember.uuidFilename = 'default.png' ;}
+
+        // 서버로부터 이미지를 찾아 Blob 으로 가져오기
+        axios({
+                url: `/image/${inMember.uuidFilename}`,  // 이미지 파일 이름을 포함한 API 엔드포인트
+                method: 'GET',
+                responseType: 'arraybuffer',   // 바이너리 데이터로 받기 위해 responseType을 설정
+
+            }).then(response => {
+
+                const contentType = response.headers['content-type']; // 응답받은값의 헤더에 컨텐츠타입을 호출 // 예) : 'image/png'
+
+                const imageBlob = new Blob([response.data], { type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
+                const imageUrl = URL.createObjectURL(imageBlob ) ;  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
+                console.log( imageUrl );
+
+                setImageUrl( imageUrl ); // 상태변수에 Blob 경로 대입
+                inMember.uuidFilename = imageUrl
+        }).catch(error => {
+            console.error(error);
+        });
+    }
 
 
     return (<>
@@ -141,9 +193,20 @@ export default function Messenger(props){
                                 if(o.memberNo != member.memberNo ){
                                         return(<>
                                             <div className="your_message messagebox">
-                                                    <div className="profile_img"> img </div>
+                                                <div className="profile">
                                                     <div className="message_name"> {o.memberName} </div>
-
+                                                    <div className="profile_img">
+                                                        {/*채팅방 회원 전체조회후 일치시 이미지 출력*/}
+                                                        { inMember.map((member)=>{
+                                                            if(o.memberNo == member.memberNo){
+                                                                return(<>
+                                                                    <img src={""+member.uuidFilename}/>
+                                                                </>)
+                                                            }
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div> {/* profile e*/}
                                                 {o.msgType == 'msg' ?
                                                 <div className="message"> {o.content} </div> :
                                                 <div className="message">
@@ -180,9 +243,19 @@ export default function Messenger(props){
                                                     </span>
                                                 </div>
                                                 }
-
-                                                 <div className="profile_img"> img </div>
-                                                 <div className="message_name"> {o.memberName} </div>
+                                                 <div className="profile">
+                                                     <div className="message_name"> {o.memberName} </div>
+                                                     <div className="profile_img">
+                                                        { inMember.map((member)=>{
+                                                            if(o.memberNo == member.memberNo){
+                                                                return(<>
+                                                                    <img src={""+member.uuidFilename}/>
+                                                                </>)
+                                                            }
+                                                            })
+                                                        }
+                                                     </div>
+                                                 </div>
                                              </div>
 
                                              {/* 우클릭시 채팅방 수정 삭제 리스트가 보입니다.*/}
