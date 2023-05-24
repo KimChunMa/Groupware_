@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 
+import styles from '../css/board/List.css'
+
 export default function ReplyList(props) {
 
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
@@ -27,7 +29,15 @@ export default function ReplyList(props) {
     }
 
     return (<>
-        <input className="replyContent" type="text"/> <button onClick={onWriteHandler}> 댓글작성 </button>
+    <div className="replyContainer">
+        <div className="replyInput">
+            <div className="replyContent">
+                <textarea className="replyContentInput" type="text"/>
+            </div>
+            <div>
+                <button className="viewReplyBtn" onClick={onWriteHandler}> 댓글작성 </button>
+            </div>
+        </div>
         <h3> 댓글 목록 </h3>
                 {   props.replies.map( (r)=>{
                         return (<div>
@@ -47,5 +57,6 @@ export default function ReplyList(props) {
                                 </div>)
                     })
                 }
+        </div>
     </>)
 }
