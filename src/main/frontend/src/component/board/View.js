@@ -5,6 +5,9 @@ import {useParams} from 'react-router-dom'; // HTTP 경로 상의 매개변수 �
 import Container from '@mui/material/Container';
 
 import ReplyList from './ReplyList'
+
+import styles from '../css/board/List.css'
+
 export default function View(props) {
 
     const params = useParams();
@@ -76,25 +79,35 @@ export default function View(props) {
     // 게시물 수정 삭제 버튼박스
        const btnBox =
                     login != null && login.memberNo == board.memberNo
-                    ? <div> <button onClick={ onDelete }>삭제</button>
-                            <button onClick={onUpdate} >수정</button> </div>
+                    ? <div> <button className="viewBtn" onClick={ onDelete }>삭제</button>
+                            <button className="onUpdate viewBtn" onClick={onUpdate} >수정</button> </div>
                     : <div> </div>
 
 console.log(board);
 
 return (
     <Container>
-        <div>
-            작성자: {board.memberName}
-            조회수: {board.boardView}
+        <div className="viewHeader">
+            <div>
+                <h3 className="viewTitle">{board.boardTitle}</h3>
+            </div>
+            <div className="viewHeaderRight">
+                <div>
+                    작성자 : {board.memberName}
+                </div>
+                <div className="viewHeaderView">
+                    조회수 : {board.boardView}
+                </div>
+            </div>
         </div>
-        <div>
-            <h3>{board.boardTitle}</h3>
+        <div className="viewContent">
+            <div className="viewContentContent">
+                {board.boardContent}
+            </div>
         </div>
-        <div>
-            <p>{board.boardContent}</p>
-            {btnBox}
-        </div>
+            <div className="viewBtnBox">
+                {btnBox}
+            </div>
         <ReplyList
          onReplyWrite={onReplyWrite}
          onReplyDelete={onReplyDelete}

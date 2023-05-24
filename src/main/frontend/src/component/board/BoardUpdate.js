@@ -40,20 +40,29 @@ export default function BoardUpdate(props) {
 
     // 수정 함수
     const onUpdate = ()=>{
-    axios.put("/board" , board)
+    let info = {
+        boardNo : board.boardNo,
+        boardTitle : document.querySelector('#boardTitle').value,
+        boardContent : document.querySelector("#boardContent").value,
+        partNo : partNo
+    }
+    axios.put("/board" , info)
         .then(r=>{
             alert('수정 성공')
             window.location.href="/view/"+board.boardNo
         })
     }
 
+    // 취소시 본인 게시물로 돌아오기
+    const onCancel = ()=>{ window.location.href="/view/"+board.boardNo }
+
     return (<>
          <Container>
-             <PartList partChange={  partChange } />
+             <PartList partChange={ partChange } />
              <TextField fullWidth value={ board.boardTitle } onChange={ inputTitle } className="boardTitle"     id="boardTitle"  label="제목" variant="standard" />
              <TextField fullWidth value={ board.boardContent } onChange={ inputContent } className="boardContent"   id="boardContent" label="내용" multiline rows={10} variant="standard" />
              <Button variant="outlined" onClick={  onUpdate }> 수정 </Button>
-             <Button variant="outlined"> 취소 </Button>
+             <Button variant="outlined" onClick={  onCancel }> 취소 </Button>
          </Container>
     </>)
 }
