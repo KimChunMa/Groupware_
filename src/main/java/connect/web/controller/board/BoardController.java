@@ -63,6 +63,7 @@ public class BoardController {
     // 7. [김동혁] 수정
     @PutMapping("")
     public boolean put(@RequestBody BoardDto boardDto){
+        log.info("수정할 값 : " +boardDto);
         boolean result = boardService.update(boardDto);
         return result;
     }

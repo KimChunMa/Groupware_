@@ -146,8 +146,15 @@ public class BoardService {
     @Transactional
     public boolean update(BoardDto boardDto){ // 1. boarddto 인수로 받아와서
         Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(boardDto.getBoardNo());
+        log.info("확인1 : "+ optionalBoardEntity);
         if(optionalBoardEntity.isPresent()){
+            log.info("확인2 : "+ optionalBoardEntity);
             BoardEntity boardEntity = optionalBoardEntity.get();
+            // 1. 수정할 엔티티 찾기
+            Optional<PartEntity> optionalPartEntity = partEntityRepository.findById(boardDto.getPartNo());
+            log.info("확인3 : "+ optionalPartEntity);
+            // 2 . 찾은 엔티티 수정하기
+            boardEntity.setPartEntity(optionalPartEntity.get());
             boardEntity.setBoardTitle(boardDto.getBoardTitle());
             boardEntity.setBoardContent(boardDto.getBoardContent());
             return true;
