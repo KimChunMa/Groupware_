@@ -70,10 +70,11 @@ export default function Invite(props){
         rowSelectionModel.forEach(r => {
             let chatParticipantsDto= {memberNo:r, chatRoomId:props.roomId }
             axios.post("/chat/invite", chatParticipantsDto )
-                .then(r=>{alert('초대가 완료되었습니다!'); closeModal(); //모달 닫기
+                .then(r=>{ closeModal(); //모달 닫기
                 in_Member();
                 })
         })
+        alert('초대가 완료되었습니다!');
         }
     }
     //5) 모달 나가기
