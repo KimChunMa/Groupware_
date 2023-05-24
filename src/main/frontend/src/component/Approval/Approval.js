@@ -13,18 +13,25 @@ import {
     Paper , Container
 } from '@mui/material'
 
+import CheckIcon from '@mui/icons-material/Check';
+
 /*휴가계작성 페이지*/
 export default function Approval( props ){
 
+
+    const [value,setValue] = useState({});
+
+
+    let dateTime = value["$y"] + "-" + (value["$M"]+1) + "-" + value["$D"] ;
+
     //let [list,setList] = useState([]);
     //휴가게 쓰기
-
     const setApproval = () => {
         let info = {
             approvalWriter: session.memberName,
             approvalTitle: document.querySelector('#approvalTitle').value,
             approvalContent: document.querySelector('#approvalContent').value,
-            approvalData: document.querySelector('#approvalData').value
+            approvalData: dateTime
         }
 
         console.log( info );
@@ -66,7 +73,6 @@ export default function Approval( props ){
                     }
          }
 
-
     return(<>
         <Container>
             <Paper elevation={3} className="approval-wrap">
@@ -77,13 +83,28 @@ export default function Approval( props ){
                         <div className="top-title">
                             <div className="approval-member">
                                 <table className="approval-table">
-                                    <tr>
-                                        <th rowSpan="2"> 결재 </th> <th> 부장 </th> <th> 이사 </th> <th> 사장 </th>
-                                    </tr>
+                                <tr>
+                                    <th rowSpan="2"> 결재 </th>
+                                    <th> 주임 </th>
+                                    <th> 대리 </th>
+                                    <th> 과장 </th>
+                                    <th> 부장 </th>
+                                    <th> 차장 </th>
+                                    <th> 팀장 </th>
+                                    <th> 부장 </th>
+                                    <th> 이사 </th>
+                                </tr>
 
-                                    <tr>
-                                         <td> </td> <td> </td> <td> </td>
-                                    </tr>
+                                <tr>
+                                     <td>  </td>
+                                     <td>  </td>
+                                     <td>  </td>
+                                     <td>  </td>
+                                     <td>  </td>
+                                     <td>  </td>
+                                     <td>  </td>
+                                     <td>  </td>
+                                </tr>
                                 </table>
                             </div>
                         </div>
@@ -107,7 +128,10 @@ export default function Approval( props ){
                                     <th className="apart">휴가기간</th>
                                     <td colSpan="3" className="approvalData" id="approvalData">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                          <DatePicker />
+                                          <DatePicker
+                                          value={value}
+                                          onChange={(newValue) => setValue(newValue)}
+                                          />
                                         </LocalizationProvider>
                                     </td>
                                 </tr>
@@ -162,10 +186,10 @@ export default function Approval( props ){
 </Container>
 
 
-                                        <span className="wave"> ~ </span>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                      <DatePicker />
-                                    </LocalizationProvider>
+        <span className="wave"> ~ </span>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker />
+    </LocalizationProvider>
 
 
 */

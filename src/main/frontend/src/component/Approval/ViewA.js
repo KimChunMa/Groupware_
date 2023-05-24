@@ -13,6 +13,8 @@ import {
     Paper , Container
 } from '@mui/material'
 
+import CheckIcon from '@mui/icons-material/Check';
+
 export default function ViewA(props){
     /*결제전  서류  내용 페이지*/
     const params = useParams();
@@ -90,6 +92,58 @@ export default function ViewA(props){
                 }
 
             }
+/*
+    *//*직위별 결제창*//*
+    const def = (value) =>{
+             if( value == 1 ){
+                     return '사원';
+                 }else if(value == 2) {
+                     return '주임';
+                 }else if(value == 3) {
+                     return '대리';
+                 }else if(value == 4 ){
+                     return '과장';
+                 }else if(value == 5 ){
+                     return '차장';
+                 }else if(value == 6) {
+                     return '팀장';
+                 }else if(value == 7){
+                     return '부장';
+                 }else if( value == 9 ){
+                     return '사장';
+                 }else{
+                     return '슈퍼관리자'
+                 }
+    }*/
+
+
+
+{/*
+    const def = (value) =>{
+             if( value == 1 ){
+                     return '사원';
+                 }else if(value == 2) {
+                     return '주임';
+                 }else if(value == 3) {
+                     return '대리';
+                 }else if(value == 4 ){
+                     return '과장';
+                 }else if(value == 5 ){
+                     return '차장';
+                 }else if(value == 6) {
+                     return '팀장';
+                 }else if(value == 7){
+                     return '부장';
+                 }else if( value == 9 ){
+                     return '사장';
+                 }else{
+                     return '슈퍼관리자'
+                 }
+    }
+
+
+*/}
+
 
 
     /*서류결제 전 상세내용확인 */
@@ -104,11 +158,24 @@ export default function ViewA(props){
                         <div className="approval-member">
                             <table className="approval-table">
                                 <tr>
-                                    <th rowSpan="2"> 결재 </th> <th> 부장 </th> <th> 이사 </th> <th> 사장 </th>
+                                    <th rowSpan="2"> 결재 </th>
+                                    <th> 주임 </th>
+                                    <th> 대리 </th>
+                                    <th> 과장 </th>
+                                    <th> 차장 </th>
+                                    <th> 팀장 </th>
+                                    <th> 부장 </th>
+                                    <th> 이사 </th>
                                 </tr>
 
                                 <tr>
-                                     <td> {} </td> <td> </td> <td> </td>
+                                     <td>  { approval.approvalStatus > 0 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 1 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 2 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 3 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 4 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 5 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 6 ? <CheckIcon/> : "" } </td>
                                 </tr>
                             </table>
                         </div>

@@ -102,22 +102,6 @@ public class ApprovalService {
                 status = "7" ;
             }
 
-/*            if(memberRank == 3){ //대리일경우 [사원의 서류 열람 가능]즉 approval_status값이 0일경우에만 보이는 것임
-                    status = "0" ;
-
-
-            }else if( memberRank == 4){ //과장일경우 [대리가 승인한 경우의 서류 열람가능]
-                status = "1" ;
-
-            }else if( memberRank == 6){ //팀장일경우 [과장이 승인한 경우의 서류 열람가능]
-                status= "2";
-
-            }else if( memberRank == 9){ //사장일경우  즉 최종결제완료됨
-                status="3";
-
-            }*/
-
-
             ApprovalEntity approvalEntity2 = approvalEntityRepository.save(approvalEntity);
             approvalEntity2.setApprovalStatus(status);
 
@@ -151,6 +135,8 @@ public class ApprovalService {
         if(optionalApprovalEntity.isPresent() ){
             ApprovalEntity approvalEntity = optionalApprovalEntity.get();
             ApprovalDto approvalDto = approvalEntity.approvalDto();
+            int partNo= approvalDto.getPartNo();
+
             return approvalDto;
         }
         return null;

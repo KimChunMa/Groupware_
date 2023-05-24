@@ -13,6 +13,7 @@ import {
     Paper , Container
 } from '@mui/material'
 
+import CheckIcon from '@mui/icons-material/Check';
 
 
 export default function ViewA(props){
@@ -64,6 +65,7 @@ export default function ViewA(props){
 
             }
 
+
     /*삭제버튼 클릭시[2023-05-23]*/
     const Noapproval = () =>{
         console.log("삭제버튼");
@@ -85,7 +87,6 @@ export default function ViewA(props){
 
 
 
-
     return(<>
         <Container>
             <Paper elevation={3} className="approval-wrap">
@@ -97,11 +98,24 @@ export default function ViewA(props){
                         <div className="approval-member">
                             <table className="approval-table">
                                 <tr>
-                                    <th rowSpan="2"> 결재 </th> <th> 부장 </th> <th> 이사 </th> <th> 사장 </th>
+                                    <th rowSpan="2"> 결재 </th>
+                                    <th> 주임 </th>
+                                    <th> 대리 </th>
+                                    <th> 과장 </th>
+                                    <th> 차장 </th>
+                                    <th> 팀장 </th>
+                                    <th> 부장 </th>
+                                    <th> 이사 </th>
                                 </tr>
 
                                 <tr>
-                                     <td> </td> <td> </td> <td> </td>
+                                     <td>  { approval.approvalStatus > 0 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 1 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 2 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 3 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 4 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 5 ? <CheckIcon/> : "" } </td>
+                                     <td>  { approval.approvalStatus > 6 ? <CheckIcon/> : "" } </td>
                                 </tr>
                             </table>
                         </div>
