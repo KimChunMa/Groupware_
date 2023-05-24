@@ -23,6 +23,7 @@ export default function AddMember( props ) {
     const [imageSrc, setImageSrc] = useState('');
 
     let memberInfo = useRef(null);
+    let memberIdRef = useRef(null);
 
 
     const getPart = () => {
@@ -38,9 +39,6 @@ export default function AddMember( props ) {
     useEffect( () => {
         getPart();
     } , [] )
-
-
-
 
 
     const addMember = () => {
@@ -91,6 +89,17 @@ export default function AddMember( props ) {
         encodeFileToBase64(e.target.files[0]);
     }
 
+    // ********************************************** 유효성검사
+    // 멤버 아이디 중복검사
+
+    let checkArray = [ false , false , false , false , false , false , false ]
+
+
+    const memberIdChangeHandler = () => {
+        console.log( memberIdRef.current.value );
+
+    }
+
     return (<>
         <Container className="addMember-wrap">
             <form ref={ memberInfo }>
@@ -137,7 +146,7 @@ export default function AddMember( props ) {
                         </FormControl>
                     </div>
                     <div className="addMember-itemBox">
-                        <TextField label="아이디" type="text" className="input_id" name="memberId" />
+                        <TextField label="아이디" type="text" className="input_id" name="memberId" inputRef={ memberIdRef } onchange={ memberIdChangeHandler }/>
                         <TextField label="패스워드" type="password" className="input_pwd" name="memberPwd" />
                     </div>
                     <div className="addMember-itemBox">
