@@ -355,4 +355,16 @@ public class MessengerService {
         return memberDtoList;
     }
 
+    /*------------------------------------ 나가기 ----------------------------------------*/
+    @Transactional
+    public boolean leave_chat(int chatRoomId){
+         ChatParticipantsEntity chatParticipantsEntity = chatParticipantsEntityRepository.findByChatRoomIdAndMemberNo(
+                chatRoomId,loginMember().getMemberNo());
+         if(chatParticipantsEntity != null){
+             chatParticipantsEntityRepository.delete(chatParticipantsEntity);
+             return true;
+         }
+    return false;
+    }
+
 }

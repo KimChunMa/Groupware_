@@ -164,7 +164,6 @@ export default function Messenger(props){
 
                 const imageBlob = new Blob([response.data], { type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
                 const imageUrl = URL.createObjectURL(imageBlob ) ;  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
-                console.log( imageUrl );
 
                 setImageUrl( imageUrl ); // 상태변수에 Blob 경로 대입
                 inMember.uuidFilename = imageUrl

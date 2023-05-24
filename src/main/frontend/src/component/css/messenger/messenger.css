@@ -393,11 +393,16 @@
 
 .right_bottom{
     background-color: #8dc7f7;
-    width: 100%;
     padding: 10px;
-    bottom: -650px;
+    width: 100%;
+    display:flex;
+    justify-content: flex-end;
+    height: 50px;
 }
 
+.leave_icon{
+    margin-right: 25px;
+}
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방만들기 모달 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 /*모달 배경*/

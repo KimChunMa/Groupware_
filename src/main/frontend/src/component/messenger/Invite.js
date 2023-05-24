@@ -123,7 +123,14 @@ export default function Invite(props){
 
     //채팅방 나가기
     const chat_leave = () => {
-        console.log('채팅방나가기')
+       axios.delete("/chat/leave", {params:{chatRoomId:props.roomId}})
+            .then((r)=>{
+                if(r.data==true){
+                    alert('채팅방을 나가셨습니다!');
+                    window.location.reload(); //새로고침
+                }
+            else{alert('오류!')}}
+            )
     }
 
     return(<>
@@ -150,7 +157,11 @@ export default function Invite(props){
               </div>
 
               <div className="right_bottom">
-                 <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={chat_leave}/>
+                 { props.roomId == 0 ? '':
+                     <div className="leave_icon">
+                        <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={chat_leave}/>
+                     </div>
+                  }
               </div>
 
               {/* 채팅방 초대 모달 창*/}
