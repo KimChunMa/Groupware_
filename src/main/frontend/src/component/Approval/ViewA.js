@@ -162,7 +162,6 @@ export default function ViewA(props){
                                     <th> 주임 </th>
                                     <th> 대리 </th>
                                     <th> 과장 </th>
-                                    <th> 부장 </th>
                                     <th> 차장 </th>
                                     <th> 팀장 </th>
                                     <th> 부장 </th>
@@ -177,7 +176,6 @@ export default function ViewA(props){
                                      <td>  { approval.approvalStatus > 4 ? <CheckIcon/> : "" } </td>
                                      <td>  { approval.approvalStatus > 5 ? <CheckIcon/> : "" } </td>
                                      <td>  { approval.approvalStatus > 6 ? <CheckIcon/> : "" } </td>
-                                     <td>  { approval.approvalStatus > 7 ? <CheckIcon/> : "" } </td>
                                 </tr>
                             </table>
                         </div>

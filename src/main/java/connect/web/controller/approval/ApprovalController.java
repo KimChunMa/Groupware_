@@ -33,17 +33,22 @@ public class ApprovalController {
         return result;
     }
 
+    //해당게시물출력 [2023-05-15]
+    @GetMapping("/getPrint")
+    public ApprovalDto print(@RequestParam int approvalNo){
+        ApprovalDto result = approvalService.print(approvalNo);
+        return result;
+    }
 
 
 
-   //STATUS 상태에따른 서류 [2023-05-11 월 작업 ]
+    //STATUS 상태에따른 서류 [2023-05-11 월 작업 ]
     @GetMapping("/getUserRank")
     public List<ApprovalDto> approvalDtoList( ){
         List<ApprovalDto> result = approvalService.approvalDtoList();
         log.info("c status에 따른 게시물출력 result:::"+result);
         return result;
     }
-
 
     //해당게시물출력 [2023-05-15]
 /*    @GetMapping("/getPrint")
@@ -54,12 +59,7 @@ public class ApprovalController {
         return result;
     }*/
 
-    //해당게시물출력 [2023-05-15]
-    @GetMapping("/getPrint")
-    public ApprovalDto print(@RequestParam int approvalNo){
-        ApprovalDto result = approvalService.print(approvalNo);
-        return result;
-    }
+
 
     /*수락버튼클릭 [2023-05-12]*/
     @GetMapping("/getAccept")

@@ -18,6 +18,12 @@ import CheckIcon from '@mui/icons-material/Check';
 /*휴가계작성 페이지*/
 export default function Approval( props ){
 
+
+    const [value,setValue] = useState({});
+
+
+    let dateTime = value["$y"] + "-" + (value["$M"]+1) + "-" + value["$D"] ;
+
     //let [list,setList] = useState([]);
     //휴가게 쓰기
     const setApproval = () => {
@@ -25,7 +31,7 @@ export default function Approval( props ){
             approvalWriter: session.memberName,
             approvalTitle: document.querySelector('#approvalTitle').value,
             approvalContent: document.querySelector('#approvalContent').value,
-            approvalData: document.querySelector('#approvalData').value
+            approvalData: dateTime
         }
 
         console.log( info );
@@ -122,7 +128,10 @@ export default function Approval( props ){
                                     <th className="apart">휴가기간</th>
                                     <td colSpan="3" className="approvalData" id="approvalData">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                          <DatePicker />
+                                          <DatePicker
+                                          value={value}
+                                          onChange={(newValue) => setValue(newValue)}
+                                          />
                                         </LocalizationProvider>
                                     </td>
                                 </tr>

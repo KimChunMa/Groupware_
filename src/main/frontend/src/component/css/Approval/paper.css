@@ -19,7 +19,9 @@
 }
 .approval-table{
     width : 100%;
+
 }
+
 .approval-table , .approval-table th , .approval-table td {
     border: solid 1px black;
     border-collapse: collapse;
