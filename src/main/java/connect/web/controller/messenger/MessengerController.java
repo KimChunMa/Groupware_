@@ -124,10 +124,12 @@ public class MessengerController {
     public boolean invite(@RequestBody ChatParticipantsDto chatParticipantsDto){
         return messengerService.invite(chatParticipantsDto);
     }
-
+    //3. 초대한 회원 출력
     @GetMapping("/inMember")
     public List<MemberDto> in_Member(int chatRoomId){
         return messengerService.in_Member(chatRoomId);
     }
 
+    @DeleteMapping("/leave")
+    public boolean leave_chat(@RequestParam int chatRoomId){return messengerService.leave_chat(chatRoomId);}
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonCirclePlus } from "@fortawesome/free-Solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-Solid-svg-icons";
 export default function Invite(props){
 
 /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 전역 변수 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
@@ -69,9 +70,11 @@ export default function Invite(props){
         rowSelectionModel.forEach(r => {
             let chatParticipantsDto= {memberNo:r, chatRoomId:props.roomId }
             axios.post("/chat/invite", chatParticipantsDto )
-                .then(r=>{alert('초대가 완료되었습니다!'); closeModal(); //모달 닫기
+                .then(r=>{ closeModal(); //모달 닫기
+                in_Member();
                 })
         })
+        alert('초대가 완료되었습니다!');
         }
     }
     //5) 모달 나가기
@@ -111,16 +114,25 @@ export default function Invite(props){
 
                 const imageBlob = new Blob([response.data], { type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
                 const imageUrl = URL.createObjectURL(imageBlob ) ;  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
-                console.log( imageUrl );
+
 
                 setImageUrl( imageUrl ); // 상태변수에 Blob 경로 대입
                 inMember.uuidFilename = imageUrl
         }).catch(error => {
-            console.error(error);
         });
     }
 
-    console.log(inMember)
+    //채팅방 나가기
+    const chat_leave = () => {
+       axios.delete("/chat/leave", {params:{chatRoomId:props.roomId}})
+            .then((r)=>{
+                if(r.data==true){
+                    alert('채팅방을 나가셨습니다!');
+                    window.location.reload(); //새로고침
+                }
+            else{alert('오류!')}}
+            )
+    }
 
     return(<>
               <div className="header flex_end">
@@ -143,6 +155,14 @@ export default function Invite(props){
                       ))
 
                     }
+              </div>
+
+              <div className="right_bottom">
+                 { props.roomId == 0 ? '':
+                     <div className="leave_icon">
+                        <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={chat_leave}/>
+                     </div>
+                  }
               </div>
 
               {/* 채팅방 초대 모달 창*/}

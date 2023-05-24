@@ -31,7 +31,7 @@ export default function Messenger(props){
     //1-1. 메세지 보내기 (소켓)
     useEffect( () => {
         if(!ws.current){//만약 클라이언트소켓이 접속이 안되어 있을때
-             ws.current = new WebSocket("ws://localhost:8080/chat2");
+             ws.current = new WebSocket("ws://localhost:80/chat2");
              ws.current.onopen = () => {}
              //4. 나갈때
              ws.current.onclose = (e) => {}
@@ -164,7 +164,6 @@ export default function Messenger(props){
 
                 const imageBlob = new Blob([response.data], { type: contentType });  // 바이너리 데이터를 Blob 객체로 변환
                 const imageUrl = URL.createObjectURL(imageBlob ) ;  // Blob URL을 생성하여 이미지를 렌더링할 수 있는 URL을 만듦
-                console.log( imageUrl );
 
                 setImageUrl( imageUrl ); // 상태변수에 Blob 경로 대입
                 inMember.uuidFilename = imageUrl
@@ -211,7 +210,7 @@ export default function Messenger(props){
                                                 <div className="message"> {o.content} </div> :
                                                 <div className="message">
                                                     <div className="message_img">
-                                                        <img src={"http://localhost:8080/static/media/"+o.uuidFile}/>
+                                                        <img src={"http://localhost:80/static/media/"+o.uuidFile}/>
                                                     </div>
                                                     <span className="img_name"> {o.originalFilename} </span>
                                                     <span className="img_downLoad">
@@ -235,7 +234,7 @@ export default function Messenger(props){
                                                 <div className="message" onContextMenu={(e)=>show_menu2(e,o.chatMessagesId)} //우클릭 이벤트
                                                 >
                                                     <div className="message_img">
-                                                        <img src={"http://localhost:8080/static/media/"+o.uuidFile}/>
+                                                        <img src={"http://localhost:80/static/media/"+o.uuidFile}/>
                                                     </div>
                                                     <span className="img_name"> {o.originalFilename} </span>
                                                     <span className="img_downLoad">

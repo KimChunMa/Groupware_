@@ -10,4 +10,7 @@ import java.util.List;
 public interface ChatParticipantsEntityRepository extends JpaRepository<ChatParticipantsEntity, Integer> {
     @Query(value =  " select *  from chat_participants where member_no = :memberNo ", nativeQuery = true)
     List<ChatParticipantsEntity> findByMemberNo(int memberNo);
+
+    @Query(value =  " select *  from chat_participants where chat_room_id= :chatRoomId  and member_no = :memberNo ", nativeQuery = true)
+    ChatParticipantsEntity findByChatRoomIdAndMemberNo(int chatRoomId, int memberNo);
 }

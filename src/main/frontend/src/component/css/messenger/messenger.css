@@ -359,6 +359,7 @@
 .right_content{
     display:flex;
     flex-direction:column;
+    height: 600px;
 }
 
 /* 회원하나당*/
@@ -390,6 +391,18 @@
   width: 45%;
 }
 
+.right_bottom{
+    background-color: #8dc7f7;
+    padding: 10px;
+    width: 100%;
+    display:flex;
+    justify-content: flex-end;
+    height: 50px;
+}
+
+.leave_icon{
+    margin-right: 25px;
+}
 
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방만들기 모달 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 /*모달 배경*/
@@ -456,4 +469,8 @@
     height:26px;
     border-radius:10px;
     border: 1px solid rgb(77,77,77);
+}
+
+.preview img{
+      height: 100%;
 }
