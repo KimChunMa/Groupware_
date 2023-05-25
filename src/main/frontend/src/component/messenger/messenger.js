@@ -54,6 +54,9 @@ export default function Messenger(props){
     //2-2. 클릭한 채팅방 번호
     const [roomId , setRoomId] = useState(0);
 
+    //2-3. 클릭한 채팅방 배열
+    const [nowRoom, setNowRoom] = useState();
+
     //3. 수정+삭제할 채팅방 번호
     const [editId, setEditId] = useState(0);
 
@@ -186,6 +189,17 @@ export default function Messenger(props){
         encodeFileToBase64(e.target.files[0]);
     }
 
+    //클릭한 채팅방
+    const now_chat = () => {
+        chatRooms.forEach((o)=>{
+            if(o.chatRoomId == roomId){
+                setNowRoom(o);
+            }
+        })
+    }
+
+    useEffect (()=>{now_chat()},[roomId])
+
     return(<>
     <div className="container" onClick={hide_menu}>
         <div className="wrap">
@@ -236,12 +250,12 @@ export default function Messenger(props){
             </div> {/* left e */}
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중앙 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
 
-            {/* 클릭한 채팅방 Id, 멤버 정보, 채팅방 배열[클릭한 채팅-1] {배열은 0부터 아이디는 1부터/ 초기는 채팅방 안뜨게 0} */}
-            <ChatRoom roomId={roomId} member={member} chatRooms={chatRooms[roomId-1]}   />
+            {/* 클릭한 채팅방 Id, 멤버 정보, 현재 채팅객체  */}
+            <ChatRoom roomId={roomId} member={member} nowRoom={nowRoom}    />
 
             {/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 오른쪽 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/}
             <div className="right">
-            <Invite roomId={roomId}/>
+            <Invite roomId={roomId} nowRoom={nowRoom} member={member} />
             </div> {/* right e */}
 
             {/* 채팅방 생성 모달 창*/}

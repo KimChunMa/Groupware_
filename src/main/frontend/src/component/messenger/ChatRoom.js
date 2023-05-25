@@ -179,8 +179,8 @@ export default function Messenger(props){
                     {/*  --------------------- 채팅방 이름 ------------------------ */}
                     <div className="header">
                         <span className="chat_name center_chat_name"> {/* 부모의 클릭한 채팅방 배열을 가져옴 */}
-                            {props.chatRooms != undefined || props.chatRooms != null ?
-                             props.chatRooms.name : '' }
+                            {props.nowRoom != undefined || props.nowRoom != null ?
+                             props.nowRoom.name : '' }
                         </span>
                     </div>
 

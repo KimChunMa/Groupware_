@@ -4,6 +4,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonCirclePlus } from "@fortawesome/free-Solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-Solid-svg-icons";
+import { faPersonCircleXmark } from "@fortawesome/free-Solid-svg-icons";
+
 export default function Invite(props){
 
 /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 전역 변수 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
@@ -134,6 +136,21 @@ export default function Invite(props){
             )
     }
 
+
+    //강퇴
+    const kick = (memberNo) => {
+        console.log(props.roomId + " "+ memberNo)
+        axios.delete("/chat/kick",{params:{chatRoomId:props.roomId , memberNo:memberNo}})
+            .then((r)=>{
+                if(r.data == true){
+                alert('강퇴하셨습니다!');in_Member();
+                }
+            })
+
+    }
+
+
+
     return(<>
               <div className="header flex_end">
                    { props.roomId == 0 ? '':
@@ -150,10 +167,13 @@ export default function Invite(props){
                                  <img src={""+o.uuidFilename}/>
                             </div>
                             <div className="member_name">{o.memberName}</div>
-                            <div className="member_No">{o.memberNo}</div>
+                            { props.nowRoom.memberNo != props.member.memberNo ? '' :
+                            <div className="member_No" onClick={(e)=>kick(o.memberNo)}  >
+                            <FontAwesomeIcon icon={faPersonCircleXmark} size="2x"/>
+                            </div>
+                            }
                         </div>
                       ))
-
                     }
               </div>
 

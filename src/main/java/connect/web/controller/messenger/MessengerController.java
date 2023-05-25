@@ -130,6 +130,12 @@ public class MessengerController {
         return messengerService.in_Member(chatRoomId);
     }
 
+    //4. 채팅방 떠나기
     @DeleteMapping("/leave")
     public boolean leave_chat(@RequestParam int chatRoomId){return messengerService.leave_chat(chatRoomId);}
+
+    //5. 채팅방 강퇴하기
+    @DeleteMapping("/kick")
+    public boolean kick(@RequestParam int chatRoomId, @RequestParam int memberNo ){return messengerService.kick(chatRoomId,memberNo);}
+
 }

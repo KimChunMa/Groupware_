@@ -404,6 +404,9 @@
     margin-right: 25px;
 }
 
+.member_No{
+    cursor:pointer;
+}
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 방만들기 모달 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 /*모달 배경*/
 .modal_wrap , .modal_wrap2, .modal_wrap3{
