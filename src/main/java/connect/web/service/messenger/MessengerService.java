@@ -93,14 +93,14 @@ public class MessengerService {
         List<ChatParticipantsEntity> chatParticipantsEntityList =
                 chatParticipantsEntityRepository.findByMemberNo(memberEntity.getMemberNo());
 
+        List<ChatRoomsEntity> chatRoomsEntityLst = chatRoomsEntityRepository.findByabc(memberEntity.getMemberNo());
         // 채팅방 리스트
         List<ChatRoomsDto> chatRoomsDtoList = new ArrayList<>();
 
-        // chatParticipantsEntityList 과 ChatRooms의 memberNo 일치하는것 찾기
-        chatParticipantsEntityList.forEach( (o)-> {
-            chatRoomsDtoList.add(chatRoomsEntityRepository.findByChatRoomId(o.getChatRoomsEntity()
-                    .getChatRoomId()).toDto());
+        chatRoomsEntityLst.forEach((o)->{
+            chatRoomsDtoList.add(o.toDto());
         });
+
         return chatRoomsDtoList;
     }
 

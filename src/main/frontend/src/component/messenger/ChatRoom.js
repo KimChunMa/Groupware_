@@ -38,7 +38,7 @@ export default function Messenger(props){
              //5. 오류
              ws.current.onerror = (e) => {}
              //6. 받을때 메세지 업데이트
-             ws.current.onmessage = (e) => {printMessages(  e.data)}
+             ws.current.onmessage = (e) => {printMessages( e.data)}
         }
     })
 
