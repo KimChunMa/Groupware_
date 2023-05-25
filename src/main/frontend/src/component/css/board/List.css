@@ -61,15 +61,24 @@
     font-weight: bold;
     color: white;
 }
+.reply{
+     border-bottom: 1px solid #e8e8e8;
+     padding: 10px 0px 14px 0px;
+}
+.replyHeader{
+     display:flex;
+     justify-content:space-between;
+     align-items:center;
+ }
 .replyInput{
     display: flex;
     margin: 20px 0px;
     padding-bottom: 20px;
 }
-.replyContent{
+.replyContentArea{
     width: 100%;
 }
-.replyContentInput{
+.replyContent{
     width: 100%;
     height: 30px;
     resize: none;
@@ -85,5 +94,44 @@
     color: #fff;
     font-weight: 700;
     padding: 13px;
-    width: 110%;
+    width: 96%;
+    margin-left: 10px;
+}
+
+.replyWriter{
+    font-weight:bold;
+    font-size:15px;
+}
+.replyUpDel{
+    font-size: 25px;
+    margin-right: 10px;
+    color:#8d8b8b;
+    font-weight:bold;
+    border-style: none;
+    background-color:white;
+}
+.replyDetail{
+    margin: 10px 0;
+    font-size: 20px;
+}
+.upDelBox{
+    display: flex;
+    align-items: center;
+}
+
+.replyUpdateContent{
+    height:28px;
+}
+.replyUpDelBtn{
+    background-color: #548235;
+    border-radius: 20px;
+    border-style: none;
+    color: #fff;
+    margin-left: 5px;
+    padding:5px;
+}
+
+.replyDate{
+    margin: 5px 0;
+    font-size: 12px;
 }
