@@ -22,16 +22,14 @@ public class ChattingHandler extends TextWebSocketHandler {
 
     @Override  //클라이언트 접속시
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("-------------------------------------");
+
         log.info("afterConnectionEstablished"+session);
         memberList.add(session); //접속시 리스트에 저장 [다른세션과 통신하기 위함]
-        System.out.println("-------------------------------------");
-        System.out.println(memberList);
     }
 
     @Override //클라이언트에게 메세지 받음
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("-------------------------------------");
+
         log.info("handleTextMessage"+session); log.info("handleTextMessage"+message);
         for(WebSocketSession gotMessages : memberList){
             gotMessages.sendMessage(message); //?
@@ -45,7 +43,6 @@ public class ChattingHandler extends TextWebSocketHandler {
 
     @Override // 클라이언트가 서버소켓으로 부터 나갔을 때
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("-------------------------------------");
         log.info("afterConnectionClosed"+session);
         memberList.remove(session);
     }
