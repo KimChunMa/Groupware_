@@ -31,7 +31,7 @@ export default function Messenger(props){
     //1-1. 메세지 보내기 (소켓)
     useEffect( () => {
         if(!ws.current){//만약 클라이언트소켓이 접속이 안되어 있을때
-             ws.current = new WebSocket("ws://localhost:80/chat2");
+             ws.current = new WebSocket("ws://192.168.17.34:80/chat2");
              ws.current.onopen = () => {}
              //4. 나갈때
              ws.current.onclose = (e) => {}
@@ -210,7 +210,7 @@ export default function Messenger(props){
                                                 <div className="message"> {o.content} </div> :
                                                 <div className="message">
                                                     <div className="message_img">
-                                                        <img src={"http://localhost:80/static/media/"+o.uuidFile}/>
+                                                        <img src={"http://192.168.17.34:80/static/media/"+o.uuidFile}/>
                                                     </div>
                                                     <span className="img_name"> {o.originalFilename} </span>
                                                     <span className="img_downLoad">
@@ -234,7 +234,7 @@ export default function Messenger(props){
                                                 <div className="message" onContextMenu={(e)=>show_menu2(e,o.chatMessagesId)} //우클릭 이벤트
                                                 >
                                                     <div className="message_img">
-                                                        <img src={"http://localhost:80/static/media/"+o.uuidFile}/>
+                                                        <img src={"http://192.168.17.34:80/static/media/"+o.uuidFile}/>
                                                     </div>
                                                     <span className="img_name"> {o.originalFilename} </span>
                                                     <span className="img_downLoad">

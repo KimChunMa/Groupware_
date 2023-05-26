@@ -223,8 +223,8 @@ export default function Messenger(props){
                             <div className="chat_room_left">
                                 <div className="left_content_img">
                                     {o.uuidFile == null || o.uuidFile == undefined ?
-                                    <img className="chat_img" src={"http://localhost:80/static/media/default.png"}/> :
-                                    <img className="chat_img" src={"http://localhost:80/static/media/" +o.uuidFile}/>
+                                    <img className="chat_img" src={"http://192.168.17.34:80/static/media/default.png"}/> :
+                                    <img className="chat_img" src={"http://192.168.17.34:80/static/media/" +o.uuidFile}/>
                                     }
                                 </div>
 
